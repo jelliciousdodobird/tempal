@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-}
+  images: {
+    domains: ["temtem-api.mael.tech"],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
