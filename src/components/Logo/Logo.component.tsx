@@ -9,7 +9,7 @@ const Logo = () => {
   return (
     <WelcomeMessage>
       <T>
-        Tat<X>eru</X>
+        TATERU<X>.gg</X>
       </T>
     </WelcomeMessage>
   );

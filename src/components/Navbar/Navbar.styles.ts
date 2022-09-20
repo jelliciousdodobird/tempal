@@ -2,14 +2,19 @@ import styled from "@emotion/styled";
 
 // import
 import { contentCenter } from "../../styles/content-centerer";
-
-// icons:
+import { changeColorOpacity } from "../../styles/theme/Theme.utils";
 
 export const Container = styled.nav`
+  position: relative;
+
   height: 5rem;
 
-  background-color: ${({ theme }) => theme.colors.background.D20};
-  background-color: transparent;
+  background-color: ${({ theme }) =>
+    changeColorOpacity(theme.colors.surface[5], 0.95)};
+
+  backdrop-filter: blur(5px);
+
+  border-bottom: 1px solid ${({ theme }) => theme.colors.surface[7]};
 
   display: flex;
   justify-content: center;

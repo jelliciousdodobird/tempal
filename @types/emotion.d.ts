@@ -20,6 +20,7 @@ declare module "@emotion/react" {
   }
 
   export interface Breakpoints {
+    xxs: number;
     xs: number;
     s: number;
     m: number;
@@ -46,6 +47,34 @@ declare module "@emotion/react" {
     _50: string;
   }
 
+  export type ColorSpread = [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string
+  ];
+
+  // export type ColorSpread = {
+  //   0: string;
+  //   1: string;
+  //   2: string;
+  //   3: string;
+  //   4: string;
+  //   5: string;
+  //   6: string;
+  //   7: string;
+  //   8: string;
+  //   9: string;
+  //   10: string;
+  // };
+
   /** MainColor is a type that says you must provide atleast a "main" property for your color */
   export type MainColor = Partial<Color> & Pick<Color, "B00">;
 
@@ -55,20 +84,62 @@ declare module "@emotion/react" {
     font: Font;
     breakpoints: Breakpoints;
     colors: {
-      primary: Color;
-      secondary: Color;
-      background: Color;
-      surface: Color;
+      focal: ColorSpread;
+      onFocal: ColorSpread;
 
-      onPrimary: Color;
-      onSecondary: Color;
-      onBackground: Color;
-      onSurface: Color;
+      subfocal: ColorSpread;
+      onSubfocal: ColorSpread;
 
-      info: Color;
-      success: Color;
-      caution: Color;
-      danger: Color;
+      surface: ColorSpread;
+      onSurface: ColorSpread;
+
+      hypoface: ColorSpread;
+      onHypoface: ColorSpread;
+
+      // highlight: ColorSpread;
+
+      // brand: {
+      //   primary: ColorSpread;
+      //   secondary: ColorSpread;
+      // };
+
+      // onBrand: {
+      //   primary: ColorSpread;
+      //   secondary: ColorSpread;
+      // };
+
+      // surface: {
+      //   primary: ColorSpread;
+      //   secondary: ColorSpread;
+      // };
+
+      // onSurface: {
+      //   primary: ColorSpread;
+      //   secondary: ColorSpread;
+      // };
+
+      // highlight: {
+      //   red: ColorSpread;
+      //   orange: ColorSpread;
+      //   yellow: ColorSpread;
+      //   green: ColorSpread;
+      //   blue: ColorSpread;
+      //   purple: ColorSpread;
+      // };
+      // primary: Color;
+      // secondary: Color;
+      // background: Color;
+      // surface: Color;
+
+      // onPrimary: Color;
+      // onSecondary: Color;
+      // onBackground: Color;
+      // onSurface: Color;
+
+      // info: Color;
+      // success: Color;
+      // caution: Color;
+      // danger: Color;
     };
     shadows: Shadow;
   }

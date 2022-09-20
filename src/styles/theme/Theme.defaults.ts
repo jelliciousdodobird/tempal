@@ -19,9 +19,10 @@ export const DEFAULT_FONT: Font = {
 };
 
 export const DEFAULT_BREAKPOINTS: Breakpoints = {
-  xs: 350,
-  s: 550,
-  m: 1366,
+  xxs: 320,
+  xs: 480,
+  s: 768,
+  m: 1024,
   l: 1920,
   xl: 2560,
   xxl: 4096,

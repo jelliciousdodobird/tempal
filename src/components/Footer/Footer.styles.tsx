@@ -1,10 +1,16 @@
 import styled from "@emotion/styled";
 import { contentCenter } from "../../styles/content-centerer";
 
+// background: ${({ theme }) => theme.colors.surface.primary[4]};
+
 export const Container = styled.footer`
   height: 5rem;
   /* padding: 1rem 0; */
-  background-color: ${({ theme }) => theme.colors.background.D10};
+
+  background: ${({ theme }) => theme.colors.surface[5]};
+  /* background: ${({ theme }) => theme.colors.onHypoface[10]}; */
+  border-top: 1px solid ${({ theme }) => theme.colors.surface[7]};
+
   /* background-color: transparent; */
 
   display: flex;

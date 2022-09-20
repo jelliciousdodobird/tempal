@@ -48,16 +48,6 @@ const PageContainer = styled.main`
   align-items: stretch;
 `;
 
-const T = styled.div`
-  width: 100%;
-  padding: 8px;
-
-  background-color: ${({ theme }) => theme.colors.background.D20};
-
-  display: flex;
-  justify-content: center;
-`;
-
 type Props = {
   children: ReactNode;
 };

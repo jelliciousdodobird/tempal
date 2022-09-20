@@ -123,3 +123,6 @@ export const mergeProps = <T>(oldValue: T, newValue: Partial<T>): T => {
   const b = deepCopy(newValue);
   return { ...a, ...b };
 };
+
+export const zeroPad = (num: number, zeroes: number) =>
+  String(num).padStart(zeroes, "0");

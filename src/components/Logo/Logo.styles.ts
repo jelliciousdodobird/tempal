@@ -39,7 +39,7 @@ const animatedText = keyframes`
 `;
 
 export const T = styled.span`
-  line-height: 10px;
+  /* line-height: 10px; */
   font-size: inherit;
   font-weight: 700;
 
@@ -63,8 +63,8 @@ export const T = styled.span`
 // exclude the gradient:
 export const X = styled.span`
   font-size: inherit;
-  font-weight: 400;
-  letter-spacing: -2px;
+  font-weight: 500;
+  /* letter-spacing: -2px; */
 
-  color: #fff;
+  /* color: ${({ theme }) => theme.colors.hypoface[10]}; */
 `;
