@@ -1,7 +1,8 @@
 import type { AppProps } from "next/app";
 import type { NextPage } from "next/types";
 import { ReactElement, ReactNode, useState } from "react";
-import { ThemeControllerProvider } from "../styles/theme/Theme.context";
+
+import "../styles/global-styles.css";
 
 import { DefaultLayout } from "../components/Layouts/DefaultLayout";
 import {
@@ -9,6 +10,8 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import { ThemeProvider } from "next-themes";
+import { darkTheme, lightTheme } from "../styles/themes.css";
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -30,9 +33,14 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <ThemeControllerProvider>
+        <ThemeProvider
+          attribute="class"
+          value={{ light: lightTheme, dark: darkTheme }}
+          enableSystem={false}
+          defaultTheme="dark"
+        >
           {getLayout(<Component {...pageProps} />)}
-        </ThemeControllerProvider>
+        </ThemeProvider>
       </Hydrate>
     </QueryClientProvider>
   );

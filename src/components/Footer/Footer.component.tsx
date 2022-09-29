@@ -1,10 +1,15 @@
-import { Container, Content, List, Item } from "./Footer.styles";
+import { container, content, list, item } from "./Footer.css";
+import { ReactNode } from "react";
 
-const Footer = () => {
+const Item = ({ children }: { children: ReactNode }) => (
+  <li className={item}>{children}</li>
+);
+
+export const Footer = () => {
   return (
-    <Container>
-      <Content>
-        <List>
+    <div className={container}>
+      <div className={content}>
+        <ul className={list}>
           <Item>Contact</Item>
           <Item>Discord</Item>
 
@@ -13,10 +18,8 @@ const Footer = () => {
 
           <Item>Privacy</Item>
           <Item>Terms </Item>
-        </List>
-      </Content>
-    </Container>
+        </ul>
+      </div>
+    </div>
   );
 };
-
-export default Footer;

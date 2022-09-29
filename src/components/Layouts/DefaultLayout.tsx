@@ -1,52 +1,13 @@
-import styled from "@emotion/styled";
 import { ReactNode } from "react";
-import { Footer } from "../Footer";
-import { Navbar } from "../Navbar";
+import { Footer } from "../Footer/Footer.component";
+import { Navbar } from "../Navbar/Navbar/Navbar.component";
 
-const AppContainer = styled.div`
-  /* border: 2px dashed red; */
-  position: relative;
-
-  /* background-color: #222; */
-
-  flex: 1; /* stretches to fill the height */
-
-  display: flex;
-  flex-direction: column;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.s}px) {
-    flex-direction: column;
-  }
-`;
-
-const Header = styled.header`
-  z-index: 10;
-
-  position: sticky;
-  top: 0;
-`;
-
-const NotificationContainer = styled.div`
-  z-index: 2;
-
-  position: relative;
-  top: ${({ theme }) => theme.dimensions.mainNav.maxHeight}px;
-
-  width: 100%;
-`;
-
-const PageContainer = styled.main`
-  /* border: 2px dashed green; */
-
-  z-index: 1;
-  position: relative;
-
-  flex: 1; /* stretches to fill the height */
-
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-`;
+import {
+  appContainer,
+  header,
+  notificationContainer,
+  pageContainer,
+} from "./Layout.css";
 
 type Props = {
   children: ReactNode;
@@ -54,15 +15,15 @@ type Props = {
 
 export const DefaultLayout = ({ children }: Props) => {
   return (
-    <AppContainer id="app">
-      <Header>
-        {/* <T>Test notification</T> */}
-        <NotificationContainer id="main-notification" />
+    <div className={appContainer} id="app">
+      <header className={header}>
+        <div className={notificationContainer} id="main-notification" />
         <Navbar />
-      </Header>
-      {/* <SparklingStars /> */}
-      <PageContainer id="page-container">{children}</PageContainer>
+      </header>
+      <main className={pageContainer} id="page-container">
+        {children}
+      </main>
       <Footer />
-    </AppContainer>
+    </div>
   );
 };

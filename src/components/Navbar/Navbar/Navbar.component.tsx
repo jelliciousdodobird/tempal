@@ -1,13 +1,13 @@
-import { Logo } from "../Logo";
-import { Container, List, StretchedItem, Item } from "./Navbar.styles";
-import { NavbarItem } from "./NavbarItem";
+import { Logo } from "../../Logo/Logo.component";
+import { NavbarItem } from "../NavbarItem/NavbarItem.component";
+import { container, item, list, stretchedItem } from "./Navbar.css";
 
 export const links = [
   // { name: "Home", link: "/", order: 0, color: "#428ae8", icon: MdMap },
-  { name: "Jot", link: "/jot", order: 0, color: "#19b28e" },
+  { name: "Tems", link: "/tems", order: 0, color: "#19b28e" },
   {
-    name: "Register",
-    link: "/register",
+    name: "Theme",
+    link: "/theme",
     order: 1,
     color: "#fee257",
     // icon: RiAuctionFill,
@@ -21,14 +21,13 @@ export const links = [
   },
 ];
 
-const Navbar = () => {
+export const Navbar = () => {
   return (
-    <Container>
-      <List>
-        <StretchedItem>{<Logo />}</StretchedItem>
-
+    <div className={container}>
+      <ul className={list}>
+        <li className={stretchedItem}>{<Logo />}</li>
         {links.map((link) => (
-          <Item key={link.name}>
+          <li className={item} key={link.name}>
             <NavbarItem
               key={link.name}
               name={link.name}
@@ -36,11 +35,9 @@ const Navbar = () => {
               // icon={link.icon}
               link={link.link}
             />
-          </Item>
+          </li>
         ))}
-      </List>
-    </Container>
+      </ul>
+    </div>
   );
 };
-
-export default Navbar;

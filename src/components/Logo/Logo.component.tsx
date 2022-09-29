@@ -3,16 +3,14 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import Head from "next/head";
 import Image from "next/image";
-import { WelcomeMessage, T, X } from "./Logo.styles";
+import { animatedText, h1, x } from "./Logo.css";
 
-const Logo = () => {
+export const Logo = () => {
   return (
-    <WelcomeMessage>
-      <T>
-        TATERU<X>.gg</X>
-      </T>
-    </WelcomeMessage>
+    <h1 className={h1}>
+      <span className={animatedText}>
+        TATERU<span className={x}>.gg</span>
+      </span>
+    </h1>
   );
 };
-
-export default Logo;
