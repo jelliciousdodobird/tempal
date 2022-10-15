@@ -7,7 +7,7 @@ import { theme, lightTheme, darkTheme } from "../../styles/themes.css";
 
 export const baseElementType = style({
   padding: "3px 6px",
-  borderRadius: "3px",
+  borderRadius: "5px",
 
   textTransform: "capitalize",
   fontWeight: 600,
@@ -27,14 +27,15 @@ export const container = style({
   position: "relative",
 
   width: "100%",
-  minHeight: "25rem",
-  maxHeight: "25rem",
+  minHeight: "22rem",
+  maxHeight: "22rem",
 
   marginTop: "4rem",
 
   display: "flex",
   flexDirection: "column",
-  alignItems: "center",
+  // alignItems: "center",
+  // gap: "1rem",
 });
 
 export const cardBackground = style({
@@ -45,7 +46,6 @@ export const cardBackground = style({
 
   height: "100%",
   width: "100%",
-  padding: "3px",
 
   display: "flex",
   justifyContent: "center",
@@ -57,7 +57,7 @@ export const backgroundImageContainer = style([
     // border: "1px dashed red",
     position: "relative",
 
-    borderRadius: "5px",
+    borderRadius: "12px",
     overflow: "hidden",
 
     background: hsla(theme.colors.surface[6]),
@@ -100,9 +100,9 @@ export const specieImageContainer = style({
   // outline: "1px solid red",
   position: "absolute",
   bottom: 0,
-  left: 0,
   right: 0,
-  margin: "0 auto", // centers a position: absolute element
+  // right: 0,
+  // margin: "0 auto", // centers a position: absolute element
 
   width: 128,
   height: 128,
@@ -119,26 +119,45 @@ export const specieImage = style({
   objectFit: "contain",
 });
 
-const edgeSize = 60;
+export const contentContainer = style({
+  // border: "1px solid red",
 
+  position: "relative",
+  padding: "1.5rem",
+  height: "100%",
+
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "1rem",
+});
+
+const edgeSize = 50;
 export const headerContent = style({
   // outline: "1px dashed gold",
   position: "relative",
 
+  // padding: "0 1.5rem",
+  // paddingTop: "1.5rem",
   width: "100%",
   height: edgeSize,
   maxHeight: edgeSize,
   minHeight: edgeSize,
 
   display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  gap: 5,
 });
 
 export const cardTitle = style([
   // flexCenter,
   {
-    width: "100%",
+    position: "absolute",
+    top: "-3.5rem",
+    left: "-1rem",
+
+    // width: "100%",
     gap: "0.5rem",
 
     display: "flex",
@@ -150,7 +169,7 @@ export const nameTextStyle = style([
   {
     userSelect: "none",
     fontWeight: 700,
-    fontSize: "14px",
+    fontSize: "18px",
     whiteSpace: "nowrap",
   },
 ]);
@@ -161,7 +180,7 @@ export const numberTextStyle = style([
     userSelect: "none",
     fontFamily: "Fira Code",
     fontWeight: 600,
-    fontSize: "14px",
+    fontSize: "18px",
     color: hsla(theme.colors.onSurface[5], 0.4),
 
     selectors: {
@@ -175,6 +194,11 @@ export const numberTextStyle = style([
   },
 ]);
 
+export const elementRow = style({
+  display: "flex",
+  gap: 5,
+});
+
 export const lumaImgIcon = style({
   ":hover": {
     cursor: "pointer",
@@ -183,15 +207,32 @@ export const lumaImgIcon = style({
 });
 
 export const mainContent = style({
-  //  border: "1px dashed blue",
+  // border: "1px dashed blue",
 
-  padding: "0 2rem",
+  padding: "0.5rem",
+  paddingTop: "0.5rem",
+  // paddingBottom: "1.5rem",
+
+  borderRadius: 16,
+
+  // backgroundColor: "hsla(0, 0%, 100%, 0.8)",
+  // backgroundColor: hsla("0, 0%, 80%"),
+  // backgroundColor: hsla(theme.colors.onSurface[0]),
+  backgroundColor: "#fff",
   width: "100%",
   flex: 1,
 
   display: "flex",
   flexDirection: "column",
-  justifyContent: "space-evenly",
+  justifyContent: "space-between",
+
+  // flexDirection: "column",
+  // justifyContent: "space-evenly",
+});
+
+export const tabContent = style({
+  padding: "1rem",
+  display: "flex",
 });
 
 export const shadow = "0px 0px 1px rgba(0, 0, 0, 1)";
@@ -361,3 +402,76 @@ export const statValue = style([
     },
   },
 ]);
+
+export const listContainer = style({
+  borderBottom: `1px solid ${hsla(theme.colors.surface[0], 0.05)}`,
+
+  padding: "0 0.5rem",
+  paddingBottom: "0.5rem",
+
+  display: "flex",
+  // justifyContent: "space-between",
+  // justifyContent: "",
+  gap: "1rem",
+});
+
+export const listItem = style([
+  flexCenter,
+  {
+    position: "relative",
+
+    // border: "1px solid red",
+    height: 28,
+    // padding: "0 6px",
+  },
+]);
+
+export const baseItemButton = style({
+  zIndex: 1,
+  position: "relative",
+
+  cursor: "pointer",
+
+  fontSize: 12,
+  // textTransform: "uppercase",
+  color: hsla(theme.colors.surface[5]),
+
+  backgroundColor: "transparent",
+
+  // padding: "0 3px",
+  width: "100%",
+  height: "100%",
+
+  transition: "color 200ms linear",
+});
+
+export const itemButton = styleVariants({
+  default: [
+    baseItemButton,
+    {
+      fontWeight: 600,
+      // color: hsla(theme.colors.surface[0], 0.5)
+      color: hsla(theme.colors.surface[5], 0.5),
+    },
+  ],
+  selected: [
+    baseItemButton,
+    { fontWeight: 700, color: hsla(theme.colors.surface[5], 1) },
+  ],
+});
+
+export const tab = style({
+  zIndex: 0,
+  position: "absolute",
+  bottom: -8,
+  isolation: "isolate",
+  // bottom: 0,
+
+  // borderRadius: 10,
+
+  height: 3,
+  width: "100%",
+  // height: "100%",
+  // width: "100%",
+  backgroundColor: hsla(theme.colors.secondary[8]),
+});

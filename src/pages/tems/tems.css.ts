@@ -32,15 +32,8 @@ export const list = style({
   width: "100%",
 
   display: "grid",
-  gridTemplateColumns: "repeat(auto-fit, minmax(224px, 1fr))",
+  gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
   gap: "1.5rem",
-
-  "@media": {
-    [`(max-width: 480px)`]: {
-      justifyContent: "center",
-      gridTemplateColumns: "repeat(auto-fit, minmax(224px, 260px))",
-    },
-  },
 });
 
 export const header = style({
