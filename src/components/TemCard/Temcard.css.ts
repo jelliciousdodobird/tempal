@@ -66,12 +66,8 @@ export const backgroundImageContainer = style([
     height: "100%",
 
     selectors: {
-      [`${darkTheme} &`]: {
-        // boxShadow: "rgba(0, 0, 0, 0.15) 0px 10px 50px",
-        // boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.20)",
-      },
       [`${lightTheme} &`]: {
-        // border: `1px solid ${hsla(theme.colors.antiSurface[5], 0.2)}`,
+        background: hsla(theme.colors.onAntiSurface[0]),
       },
     },
   },
@@ -137,8 +133,6 @@ export const headerContent = style({
   // outline: "1px dashed gold",
   position: "relative",
 
-  // padding: "0 1.5rem",
-  // paddingTop: "1.5rem",
   width: "100%",
   height: edgeSize,
   maxHeight: edgeSize,
@@ -210,24 +204,14 @@ export const mainContent = style({
   // border: "1px dashed blue",
 
   padding: "0.5rem",
-  paddingTop: "0.5rem",
-  // paddingBottom: "1.5rem",
-
   borderRadius: 16,
-
-  // backgroundColor: "hsla(0, 0%, 100%, 0.8)",
-  // backgroundColor: hsla("0, 0%, 80%"),
-  // backgroundColor: hsla(theme.colors.onSurface[0]),
-  backgroundColor: "#fff",
+  backgroundColor: "hsl(0, 0%, 100%)",
   width: "100%",
   flex: 1,
 
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
-
-  // flexDirection: "column",
-  // justifyContent: "space-evenly",
 });
 
 export const tabContent = style({
@@ -335,24 +319,17 @@ export const statLineContainer = style({
 
 export const maxStatLine = style({
   position: "relative",
-  boxShadow: "inset 0px 0px 0px 1px hsl(0, 0%, 100%, 0.1)",
+  // boxShadow: `inset 0px 0px 0px 1px hsl(0, 0%, 100%, 0.1)`,
+  boxShadow: `inset 0px 0px 0px 1px ${hsla(theme.colors.white[2])}`,
   width: "100%",
-
-  selectors: {
-    [`${lightTheme} &`]: {
-      boxShadow: "inset 0px 0px 0px 1px hsl(0, 0%, 0%, 0.15)",
-    },
-  },
 });
-
-// width: ${ ({ fillPercentage }) => fillPercentage }%,
 
 export const statLine = style({
   // border: "1px dashed red",
   borderRadius: 12,
 
   height: 3,
-  backgroundColor: "gold",
+  backgroundColor: hsla(theme.colors.caution[3]),
 
   fontSize: 10,
   fontWeight: 700,
@@ -373,15 +350,9 @@ export const statLabel = style([
   statFont,
   {
     width: 50,
-    color: hsla("0, 0%, 100%", 0.4),
+    // color: hsla("0, 0%, 100%", 0.4),
+    color: hsla(theme.colors.white[10]),
     fontWeight: 500,
-
-    selectors: {
-      [`${lightTheme} &`]: {
-        color: hsla("0, 0%, 0%", 0.5),
-        fontWeight: 700,
-      },
-    },
   },
 ]);
 
@@ -390,55 +361,40 @@ export const statValue = style([
   {
     width: 50,
     paddingRight: 10,
-    color: "white",
+    color: hsla(theme.colors.black[7]),
 
     display: "flex",
     justifyContent: "flex-end",
-
-    selectors: {
-      [`${lightTheme} &`]: {
-        color: hsla("0, 0%, 0%", 1),
-      },
-    },
   },
 ]);
 
 export const listContainer = style({
-  borderBottom: `1px solid ${hsla(theme.colors.surface[0], 0.05)}`,
+  borderBottom: `1px solid ${hsla(theme.colors.white[2])}`,
 
   padding: "0 0.5rem",
   paddingBottom: "0.5rem",
 
   display: "flex",
-  // justifyContent: "space-between",
-  // justifyContent: "",
   gap: "1rem",
 });
 
 export const listItem = style([
   flexCenter,
   {
-    position: "relative",
-
     // border: "1px solid red",
+
+    position: "relative",
     height: 28,
-    // padding: "0 6px",
   },
 ]);
 
 export const baseItemButton = style({
-  zIndex: 1,
-  position: "relative",
-
   cursor: "pointer",
 
   fontSize: 12,
-  // textTransform: "uppercase",
-  color: hsla(theme.colors.surface[5]),
 
   backgroundColor: "transparent",
 
-  // padding: "0 3px",
   width: "100%",
   height: "100%",
 
@@ -449,29 +405,24 @@ export const itemButton = styleVariants({
   default: [
     baseItemButton,
     {
-      fontWeight: 600,
-      // color: hsla(theme.colors.surface[0], 0.5)
-      color: hsla(theme.colors.surface[5], 0.5),
+      fontWeight: 500,
+      color: hsla(theme.colors.black[10]),
     },
   ],
   selected: [
     baseItemButton,
-    { fontWeight: 700, color: hsla(theme.colors.surface[5], 1) },
+    {
+      fontWeight: 700,
+      color: hsla(theme.colors.black[0]),
+    },
   ],
 });
 
 export const tab = style({
-  zIndex: 0,
   position: "absolute",
   bottom: -8,
-  isolation: "isolate",
-  // bottom: 0,
-
-  // borderRadius: 10,
 
   height: 3,
   width: "100%",
-  // height: "100%",
-  // width: "100%",
-  backgroundColor: hsla(theme.colors.secondary[8]),
+  backgroundColor: hsla(theme.colors.black[5]),
 });

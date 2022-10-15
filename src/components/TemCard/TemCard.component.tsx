@@ -77,9 +77,7 @@ export const TemCard = ({
 }: TemCardProps) => {
   const [showLuma, setShowLuma] = useState(false);
   const [hovering, setHovering] = useState(false);
-  const [tabKey, setTabKey] = useState("stats");
-
-  const tab_uid = `${name}-tab`;
+  const [tabSelected, setTabSelected] = useState("stats");
 
   const maxStat = 125;
   const type1 = (types[0] ? types[0].toLowerCase() : "neutral") as TemType;
@@ -159,7 +157,11 @@ export const TemCard = ({
         </div>
 
         <div className={mainContent}>
-          <Tabs uid={name} tabSelected={tabKey} setTabSelected={setTabKey} />
+          <Tabs
+            uid={name}
+            tabSelected={tabSelected}
+            setTabSelected={setTabSelected}
+          />
 
           <div className={tabContent}>
             <div className={statsContainer}>

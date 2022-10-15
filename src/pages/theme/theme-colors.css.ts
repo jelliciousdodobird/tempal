@@ -50,6 +50,14 @@ const onColorMap: Record<ColorKey, ColorKey> = {
 
   antiSurface: "onAntiSurface",
   onAntiSurface: "onAntiSurface",
+
+  black: "black",
+  white: "white",
+
+  positive: "positive",
+  negative: "negative",
+  caution: "caution",
+  filler: "filler",
 };
 
 export const coloredSquares = Object.entries(theme.colors).map(

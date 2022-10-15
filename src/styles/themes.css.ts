@@ -40,7 +40,7 @@ const darkColors: ColorTheme = {
   primary: ccs("hsl(200, 70%, 60%)"),
   onPrimary: repeat("hsl(0, 0%, 100%)"),
 
-  secondary: ccs("hsl(0, 60%, 50%)"),
+  secondary: ccs("hsl(5, 65%, 50%)"),
   onSecondary: repeat("hsl(0, 0%, 100%)"),
 
   surface: ccs("hsl(0, 0%, 15%)"),
@@ -48,13 +48,21 @@ const darkColors: ColorTheme = {
 
   antiSurface: ccs("hsl(0, 0%, 85%)"),
   onAntiSurface: ccs("hsl(0, 0%, 0%)"),
+
+  black: ccs("hsl(0, 0%, 15%)"),
+  white: reverse(ccs("hsl(0, 0%, 85%)")),
+
+  positive: ccs("hsl(146, 83%, 44%)"),
+  negative: ccs("hsl(0, 100%, 64%)"),
+  caution: ccs("hsl(44, 100%, 58%)"),
+  filler: ccs("hsl(199, 100%, 56%)"),
 };
 
 const lightColors: ColorTheme = {
   primary: ccs("hsl(200, 70%, 60%)"),
   onPrimary: repeat("hsl(0, 0%, 100%)"),
 
-  secondary: ccs("hsl(0, 60%, 50%)"),
+  secondary: ccs("hsl(5, 65%, 50%)"),
   onSecondary: repeat("hsl(0, 0%, 100%)"),
 
   surface: reverse(ccs("hsl(0, 0%, 100%)")),
@@ -62,6 +70,14 @@ const lightColors: ColorTheme = {
 
   antiSurface: ccs("hsl(0, 0%, 0%)"),
   onAntiSurface: ccs("hsl(0, 0%, 85%)"),
+
+  black: ccs("hsl(0, 0%, 15%)"),
+  white: reverse(ccs("hsl(0, 0%, 85%)")),
+
+  positive: ccs("hsl(146, 83%, 44%)"),
+  negative: ccs("hsl(0, 100%, 64%)"),
+  caution: ccs("hsl(44, 100%, 58%)"),
+  filler: ccs("hsl(199, 100%, 56%)"),
 };
 
 // createThemeContract's type checking is not as strict as desired

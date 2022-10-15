@@ -17,4 +17,12 @@ export type ColorTheme = {
 
   antiSurface: ColorSpread;
   onAntiSurface: ColorSpread;
+
+  black: ColorSpread;
+  white: ColorSpread;
+
+  positive: ColorSpread;
+  negative: ColorSpread;
+  caution: ColorSpread;
+  filler: ColorSpread;
 };
