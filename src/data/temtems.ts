@@ -253,7 +253,7 @@ export const temTypeColorMap: TemTypeColor = {
   },
   toxic: {
     base: "hsl(300, 3%, 35%)",
-    dark: "hsl(300, 3%, 5%)",
+    dark: "hsl(300, 0%, 0%)",
     light: "hsl(300, 3%, 35%)",
   },
 };

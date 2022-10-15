@@ -136,10 +136,12 @@ export const headerContent = style({
 });
 
 export const cardTitle = style([
-  flexCenter,
+  // flexCenter,
   {
     width: "100%",
     gap: "0.5rem",
+
+    display: "flex",
   },
 ]);
 
@@ -164,7 +166,10 @@ export const numberTextStyle = style([
 
     selectors: {
       [`${lightTheme} &`]: {
-        color: hsla(theme.colors.onSurface[5], 0.5),
+        // fontWeight: 500,
+
+        color: hsla(theme.colors.onSurface[5], 0.7),
+        // color: hsla(theme.colors.surface[5], 0.8),
       },
     },
   },
@@ -291,6 +296,12 @@ export const maxStatLine = style({
   position: "relative",
   boxShadow: "inset 0px 0px 0px 1px hsl(0, 0%, 100%, 0.1)",
   width: "100%",
+
+  selectors: {
+    [`${lightTheme} &`]: {
+      boxShadow: "inset 0px 0px 0px 1px hsl(0, 0%, 0%, 0.15)",
+    },
+  },
 });
 
 // width: ${ ({ fillPercentage }) => fillPercentage }%,
@@ -321,9 +332,15 @@ export const statLabel = style([
   statFont,
   {
     width: 50,
-    // color: hsla(theme.colors.antiSurface[7]),
     color: hsla("0, 0%, 100%", 0.4),
-    fontWeight: 400,
+    fontWeight: 500,
+
+    selectors: {
+      [`${lightTheme} &`]: {
+        color: hsla("0, 0%, 0%", 0.5),
+        fontWeight: 700,
+      },
+    },
   },
 ]);
 
@@ -332,10 +349,15 @@ export const statValue = style([
   {
     width: 50,
     paddingRight: 10,
+    color: "white",
 
     display: "flex",
     justifyContent: "flex-end",
 
-    color: "white",
+    selectors: {
+      [`${lightTheme} &`]: {
+        color: hsla("0, 0%, 0%", 1),
+      },
+    },
   },
 ]);

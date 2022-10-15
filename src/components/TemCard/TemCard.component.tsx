@@ -36,6 +36,7 @@ import {
   statLine,
 } from "./Temcard.css";
 import { assignInlineVars } from "@vanilla-extract/dynamic";
+import { content } from "../Footer/Footer.css";
 
 export interface TemCardProps {
   name: string;
@@ -132,25 +133,26 @@ export const TemCard = ({
       </div>
 
       <div className={mainContent}>
-        <div className={cardTitle}>
-          <span className={numberTextStyle}>#{formattedNumber}</span>
-          <span className={nameTextStyle}>{formattedName}</span>
-          <Image
-            className={lumaImgIcon}
-            onClick={toggleLuma}
-            alt="luma"
-            src="https://temtem.wiki.gg/images/4/42/Luma_icon.png"
-            width={16}
-            height={16}
-          />
-        </div>
-
-        <div className={contentRow.row}>
-          {/* <H3>Type</H3> */}
-          {/* <ElementHolder> */}
-          <div className={elementTypeLabel[type1]}>{type1}</div>
-          {type2 && <div className={elementTypeLabel[type2]}>{type2}</div>}
-          {/* </ElementHolder> */}
+        <div className={contentRow.column}>
+          <div className={cardTitle}>
+            <span className={numberTextStyle}>#{formattedNumber}</span>
+            <span className={nameTextStyle}>{formattedName}</span>
+            <Image
+              className={lumaImgIcon}
+              onClick={toggleLuma}
+              alt="luma"
+              src="https://temtem.wiki.gg/images/4/42/Luma_icon.png"
+              width={16}
+              height={16}
+            />
+          </div>
+          <div className={contentRow.row}>
+            {/* <H3>Type</H3> */}
+            {/* <ElementHolder> */}
+            <div className={elementTypeLabel[type1]}>{type1}</div>
+            {type2 && <div className={elementTypeLabel[type2]}>{type2}</div>}
+            {/* </ElementHolder> */}
+          </div>
         </div>
 
         <div className={statsContainer}>

@@ -58,7 +58,7 @@ const lightColors: ColorTheme = {
   onSecondary: repeat("hsl(0, 0%, 100%)"),
 
   surface: reverse(ccs("hsl(0, 0%, 100%)")),
-  onSurface: reverse(ccs("hs(0, 0%, 15%)")),
+  onSurface: reverse(ccs("hsl(0, 0%, 15%)")),
 
   antiSurface: ccs("hsl(0, 0%, 0%)"),
   onAntiSurface: ccs("hsl(0, 0%, 85%)"),
