@@ -211,11 +211,16 @@ export const mainContent = style({
 
   display: "flex",
   flexDirection: "column",
-  justifyContent: "space-between",
+  // justifyContent: "space-between",
 });
 
 export const tabContent = style({
+  // border: "1px dashed blue",
+
+  color: "black",
   padding: "1rem",
+  flex: 1,
+
   display: "flex",
 });
 
@@ -425,4 +430,40 @@ export const tab = style({
   height: 3,
   width: "100%",
   backgroundColor: hsla(theme.colors.black[5]),
+});
+
+export const traitContainer = style({
+  overflow: "auto",
+  maxHeight: "100%",
+
+  display: "flex",
+  flexDirection: "column",
+
+  justifyContent: "space-between",
+});
+
+export const traitLabel = style({
+  backgroundColor: hsla(theme.colors.white[3]),
+
+  borderRadius: 5,
+  padding: "3px 6px",
+  width: "min-content",
+
+  whiteSpace: "nowrap",
+
+  color: hsla(theme.colors.black[10], 0.7),
+  fontWeight: 500,
+  fontSize: 12,
+});
+
+export const traitEffect = style({
+  paddingLeft: "0.5rem",
+
+  color: hsla(theme.colors.black[8]),
+  fontStyle: "italic",
+  fontSize: 12,
+
+  ":first-letter": {
+    textTransform: "capitalize",
+  },
 });
