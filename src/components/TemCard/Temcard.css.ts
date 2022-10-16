@@ -403,7 +403,7 @@ export const baseItemButton = style({
   width: "100%",
   height: "100%",
 
-  transition: "color 200ms linear",
+  transition: "color 250ms linear",
 });
 
 export const itemButton = styleVariants({
@@ -411,14 +411,16 @@ export const itemButton = styleVariants({
     baseItemButton,
     {
       fontWeight: 500,
-      color: hsla(theme.colors.black[10]),
+      // color: hsla(theme.colors.black[10]),
+      color: hsla(theme.colors.black[0], 0.5),
     },
   ],
   selected: [
     baseItemButton,
     {
       fontWeight: 700,
-      color: hsla(theme.colors.black[0]),
+      // color: hsla(theme.colors.black[0]),
+      color: hsla(theme.colors.black[0], 1),
     },
   ],
 });
@@ -457,13 +459,16 @@ export const traitLabel = style({
 });
 
 export const traitEffect = style({
-  paddingLeft: "0.5rem",
+  paddingLeft: 6,
+
+  overflow: "hidden",
+
+  display: "-webkit-box",
+  WebkitBoxOrient: "vertical",
+  WebkitLineClamp: 2,
+  lineClamp: 2,
 
   color: hsla(theme.colors.black[8]),
   fontStyle: "italic",
   fontSize: 12,
-
-  ":first-letter": {
-    textTransform: "capitalize",
-  },
 });

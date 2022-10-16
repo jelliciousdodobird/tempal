@@ -290,30 +290,6 @@ type TraitData = {
   strippedEffect: string;
 };
 
-// const fetchTraitData = async (traitsString: string) => {
-//   const res = await axios.get("https://temtem-api.mael.tech/api/traits", {
-//     params: {
-//       names: traitsString,
-//     },
-//   });
-//   const data: [TraitData, TraitData] = await res.data;
-
-//   if (data[0]) {
-//     const { name, effect } = data[0];
-//     const index = effect.indexOf(name);
-
-//     data[0].strippedEffect = effect.slice(0, index) + effect.slice(name.length);
-//   }
-//   if (data[1]) {
-//     const { name, effect } = data[1];
-//     const index = effect.indexOf(name);
-
-//     data[1].strippedEffect = effect.slice(0, index) + effect.slice(name.length);
-//   }
-
-//   return data;
-// };
-
 const traitNameExceptions = (value: string) => {
   let traitApiName = value;
   switch (value) {
@@ -336,38 +312,21 @@ const fetchTraitData = async (traitName: string) => {
       names: cleanedTraitName,
     },
   });
+
   const data: TraitData[] = await res.data;
 
-  // if (data) {
-  //   console.log(data);
-  //   const { effect, name } = data[0];
-  //   console.log(effect, name);
-
-  //   data[0].strippedEffect = effect.slice(name.length);
-  // }
-
-  data.forEach((trait, i) => {
-    // const name = traits[i];
-    const { effect, name } = trait;
-    const index = effect.indexOf(name);
-
-    // trait.strippedEffect = effect.slice(0, index) + effect.slice(name.length);
+  data.forEach((trait) => {
+    const { effect } = trait;
     trait.ogName = traitName;
-    trait.strippedEffect = effect.slice(traitName.length);
+
+    // removes the trait name from the description (the name is redundant):
+    trait.strippedEffect = effect.slice(traitName.length).trim();
+
+    // capitalize first letter:
+    trait.strippedEffect =
+      trait.strippedEffect.charAt(0).toUpperCase() +
+      trait.strippedEffect.slice(1);
   });
-
-  // if (data[0]) {
-  //   const { name, effect } = data[0];
-  //   const index = effect.indexOf(name);
-
-  //   data[0].strippedEffect = effect.slice(0, index) + effect.slice(name.length);
-  // }
-  // if (data[1]) {
-  //   const { name, effect } = data[1];
-  //   const index = effect.indexOf(name);
-
-  //   data[1].strippedEffect = effect.slice(0, index) + effect.slice(name.length);
-  // }
 
   return data[0];
 };
@@ -377,7 +336,7 @@ type TraitsProps = {
   descriptionLimit?: number;
 };
 
-const Traits = ({ traits, descriptionLimit = 80 }: TraitsProps) => {
+const Traits = ({ traits, descriptionLimit = 70 }: TraitsProps) => {
   const {
     isLoading: isLoading1,
     isError: isError1,
@@ -397,15 +356,11 @@ const Traits = ({ traits, descriptionLimit = 80 }: TraitsProps) => {
     <div className={traitContainer}>
       <div className={contentRow.column}>
         <span className={traitLabel}>{trait1.ogName}</span>
-        <span className={traitEffect}>
-          {trait1.strippedEffect.slice(0, descriptionLimit)}(...)
-        </span>
+        <span className={traitEffect}>{trait1.strippedEffect}</span>
       </div>
       <div className={contentRow.column}>
         <span className={traitLabel}>{trait2.ogName}:</span>
-        <span className={traitEffect}>
-          {trait2.strippedEffect.slice(0, descriptionLimit)}(...)
-        </span>
+        <span className={traitEffect}>{trait2.strippedEffect}</span>
       </div>
     </div>
   );
