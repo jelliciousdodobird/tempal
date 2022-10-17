@@ -12,18 +12,22 @@ globalStyle("*", {
   fontFamily: theme.font.family,
   fontSize: theme.font.size,
   fontWeight: theme.font.weight,
-  color: hsla(theme.colors.antiSurface[10]),
+  color: "inherit",
+  // color: hsla(theme.colors.antiSurface[10]),
 
   WebkitTapHighlightColor: "transparent",
 });
 
 globalStyle("*::selection", {
-  background: hsla(theme.colors.secondary[5]),
-  color: "white",
+  background: hsla(theme.colors.antiSurface[5]),
+  color: hsla(theme.colors.surface[5]),
 });
 
 globalStyle("html", {
   // border: "2px dashed red",
+
+  color: hsla(theme.colors.antiSurface[10]),
+
   backgroundColor: hsla(theme.colors.surface[5]),
 
   overflow: "hidden",

@@ -7,12 +7,9 @@ import {
   useMemo,
   useState,
 } from "react";
-import { TemType } from "../../data/temtems";
+import { TemType, temTypeColorMap, temTypeMap } from "../../data/temtems";
 import { Stats, StatsWithTotal } from "../../pages/tems/index.page";
 import { zeroPad } from "../../utils/utils";
-
-import CornerTipSvg from "../../../public/assets/shape.svg";
-import TemCardBottomTip from "../../../public/assets/bottom-tip.svg";
 
 import Image from "next/future/image";
 import {
@@ -26,14 +23,14 @@ import {
   topLeftTipSvg,
   topRightTipContainer,
   topRightTipSvg,
+  lumaImgIcon,
+  bottomTipContainer,
   specieImage,
   specieImageContainer,
   mainContent,
   cardTitle,
   nameTextStyle,
   numberTextStyle,
-  lumaImgIcon,
-  bottomTipContainer,
   contentRow,
   statsContainer,
   statLineContainer,
@@ -46,18 +43,41 @@ import {
   contentContainer,
   listItem,
   tab,
-  baseItemButton,
   tabContent,
   itemButton,
   traitContainer,
   traitLabel,
   traitEffect,
+  matchupGridContainer,
+  elementContainer,
+  matchupTypeValue,
+  matchupCompContainer,
+  matchupGridWrapper,
+  matchupGridLabel,
+  tvYieldContainer,
 } from "./Temcard.css";
 import { assignInlineVars } from "@vanilla-extract/dynamic";
 import { ToggleButton } from "../ToggleButton/ToggleButton.component";
 import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+
+type MatchUps = Record<TemType, number>;
+
+const matchups: MatchUps = {
+  neutral: 1,
+  wind: 1,
+  earth: 2,
+  water: 1,
+  fire: 1,
+  nature: 2,
+  electric: 1,
+  mental: 0.5,
+  digital: 1,
+  melee: 1,
+  crystal: 0.25,
+  toxic: 1,
+};
 
 export interface TemCardProps {
   name: string;
@@ -126,32 +146,42 @@ export const TemCard = ({
     switch (tabSelected) {
       case "stats":
         node = (
-          <div className={statsContainer}>
-            {Object.entries(stats).map(([stat, value]) => (
-              <div className={statLineContainer} key={stat}>
-                <span className={statLabel}>{stat}</span>
-                <span className={statValue}>{value}</span>
-                <div className={maxStatLine}>
-                  {stat !== "total" && (
-                    <span
-                      className={statLine}
-                      style={assignInlineVars({
-                        width: `${Math.min(100, (value / maxStat) * 100)}%`,
-                      })}
-                    />
-                  )}
+          <>
+            <div className={statsContainer}>
+              {Object.entries(stats).map(([stat, value]) => (
+                <div className={statLineContainer} key={stat}>
+                  <span className={statLabel}>{stat}</span>
+                  <span className={statValue}>{value}</span>
+                  <div className={maxStatLine}>
+                    {stat !== "total" && (
+                      <span
+                        className={statLine}
+                        style={assignInlineVars({
+                          width: `${Math.min(100, (value / maxStat) * 100)}%`,
+                        })}
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+            <div className={tvYieldContainer}>
+              {Object.entries(tvYields)
+                .filter(([stat, tv]) => tv > 0)
+                .map(([stat, tv]) => (
+                  <div>
+                    {stat}: {tv}
+                  </div>
+                ))}
+            </div>
+          </>
         );
         break;
       case "traits":
-        node = <>traits</>;
         node = <Traits traits={traits} />;
         break;
       case "matchups":
-        node = <>matchups</>;
+        node = <MatchupsView traits={traits} matchups={matchups} />;
         break;
     }
 
@@ -231,7 +261,7 @@ export const TemCard = ({
     </div>
   );
 };
-
+///////////////////////////////////////////////////////////////////////////////////////
 type TabsProps = {
   uid: string;
   tabSelected: string;
@@ -280,7 +310,7 @@ const Tabs = ({ uid, tabSelected, setTabSelected }: TabsProps) => {
     </ul>
   );
 };
-
+///////////////////////////////////////////////////////////////////////////////////////
 type TraitData = {
   ogName: string;
   name: string;
@@ -359,8 +389,65 @@ const Traits = ({ traits, descriptionLimit = 70 }: TraitsProps) => {
         <span className={traitEffect}>{trait1.strippedEffect}</span>
       </div>
       <div className={contentRow.column}>
-        <span className={traitLabel}>{trait2.ogName}:</span>
+        <span className={traitLabel}>{trait2.ogName}</span>
         <span className={traitEffect}>{trait2.strippedEffect}</span>
+      </div>
+    </div>
+  );
+};
+///////////////////////////////////////////////////////////////////////////////////////
+type MatchupViewProps = {
+  traits: TemCardProps["traits"];
+  matchups: MatchUps;
+};
+
+const MatchupsView = ({ traits, matchups }: MatchupViewProps) => {
+  const diffMatchups = traits[0].length % 2 === 0;
+  return (
+    <div className={matchupCompContainer}>
+      {diffMatchups ? (
+        <>
+          <MatchupGrid matchups={matchups} traitLabel={traits[0]} />
+          <MatchupGrid matchups={matchups} traitLabel={traits[1]} />
+        </>
+      ) : (
+        <MatchupGrid matchups={matchups} />
+      )}
+    </div>
+  );
+};
+///////////////////////////////////////////////////////////////////////////////////////
+type MatchupGridProps = {
+  traitLabel?: string;
+  matchups: MatchUps;
+};
+
+const getValueVariant = (num: number): keyof typeof matchupTypeValue => {
+  if (num > 1) return "effective";
+  else if (num < 1) return "resistant";
+  else return "neutral";
+};
+
+const MatchupGrid = ({ traitLabel, matchups }: MatchupGridProps) => {
+  return (
+    <div className={matchupGridWrapper}>
+      {traitLabel && <span className={matchupGridLabel}>{traitLabel}</span>}
+
+      <div className={matchupGridContainer}>
+        {Object.entries(matchups).map(([key, value]) => (
+          <div key={key} className={elementContainer}>
+            <Image
+              alt={key}
+              src={temTypeMap[key as TemType].imgUrl}
+              width={20}
+              height={20}
+              quality={100}
+            />
+            <div className={matchupTypeValue[getValueVariant(value)]}>
+              {matchups[key as TemType]}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

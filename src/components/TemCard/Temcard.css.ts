@@ -1,9 +1,20 @@
-import { globalStyle, style, styleVariants } from "@vanilla-extract/css";
+import {
+  ComplexStyleRule,
+  createVar,
+  globalStyle,
+  style,
+  styleVariants,
+} from "@vanilla-extract/css";
 
-import { temTypeColorMap } from "../../data/temtems";
+import { TemType, temTypeColorMap, temTypeMap } from "../../data/temtems";
 import { flexCenter } from "../../styles/utility-styles.css";
 import { hsla } from "../../styles/theme.util";
 import { theme, lightTheme, darkTheme } from "../../styles/themes.css";
+import {
+  CSSPropertiesWithVars,
+  StyleWithSelectors,
+  WithQueries,
+} from "@vanilla-extract/css/dist/declarations/src/types";
 
 export const baseElementType = style({
   padding: "3px 6px",
@@ -27,8 +38,8 @@ export const container = style({
   position: "relative",
 
   width: "100%",
-  minHeight: "22rem",
-  maxHeight: "22rem",
+  minHeight: "26rem",
+  maxHeight: "26rem",
 
   marginTop: "4rem",
 
@@ -161,7 +172,7 @@ export const cardTitle = style([
 export const nameTextStyle = style([
   flexCenter,
   {
-    userSelect: "none",
+    // userSelect: "none",
     fontWeight: 700,
     fontSize: "18px",
     whiteSpace: "nowrap",
@@ -171,11 +182,12 @@ export const nameTextStyle = style([
 export const numberTextStyle = style([
   flexCenter,
   {
-    userSelect: "none",
+    // userSelect: "none",
     fontFamily: "Fira Code",
     fontWeight: 600,
     fontSize: "18px",
     color: hsla(theme.colors.onSurface[5], 0.4),
+    // color: hsla(theme.colors.surface[10]),
 
     selectors: {
       [`${lightTheme} &`]: {
@@ -217,11 +229,13 @@ export const mainContent = style({
 export const tabContent = style({
   // border: "1px dashed blue",
 
-  color: "black",
-  padding: "1rem",
-  flex: 1,
+  color: hsla(theme.colors.black[5]),
+  // padding: "1rem",
+  // flex: 1,
+  height: "100%",
 
   display: "flex",
+  flexDirection: "column",
 });
 
 export const shadow = "0px 0px 1px rgba(0, 0, 0, 1)";
@@ -306,8 +320,13 @@ export const contentRow = styleVariants({
 });
 
 export const statsContainer = style([
-  contentRow.column,
+  // contentRow.column,
   {
+    padding: "1rem",
+    width: "100%",
+
+    display: "flex",
+    flexDirection: "column",
     gap: 3,
   },
 ]);
@@ -373,6 +392,15 @@ export const statValue = style([
   },
 ]);
 
+export const tvYieldContainer = style({
+  padding: "1rem",
+  width: "100%",
+
+  display: "flex",
+  flexDirection: "column",
+  gap: 3,
+});
+
 export const listContainer = style({
   borderBottom: `1px solid ${hsla(theme.colors.white[2])}`,
 
@@ -411,7 +439,6 @@ export const itemButton = styleVariants({
     baseItemButton,
     {
       fontWeight: 500,
-      // color: hsla(theme.colors.black[10]),
       color: hsla(theme.colors.black[0], 0.5),
     },
   ],
@@ -419,7 +446,6 @@ export const itemButton = styleVariants({
     baseItemButton,
     {
       fontWeight: 700,
-      // color: hsla(theme.colors.black[0]),
       color: hsla(theme.colors.black[0], 1),
     },
   ],
@@ -435,13 +461,12 @@ export const tab = style({
 });
 
 export const traitContainer = style({
-  overflow: "auto",
   maxHeight: "100%",
+  padding: "1rem",
 
   display: "flex",
   flexDirection: "column",
-
-  justifyContent: "space-between",
+  gap: "1rem",
 });
 
 export const traitLabel = style({
@@ -465,10 +490,114 @@ export const traitEffect = style({
 
   display: "-webkit-box",
   WebkitBoxOrient: "vertical",
-  WebkitLineClamp: 2,
-  lineClamp: 2,
+  WebkitLineClamp: 4,
+  lineClamp: 4,
 
-  color: hsla(theme.colors.black[8]),
+  color: hsla(theme.colors.black[10]),
+
   fontStyle: "italic",
+  fontSize: 11,
+  // fontWeight: 300,
+});
+
+export const matchupGridWrapper = style({
+  height: "100%",
+  width: "100%",
+
+  overflow: "hidden",
+  borderRadius: 12,
+
+  display: "flex",
+  flexDirection: "column",
+  gap: 1,
+});
+
+export const matchupGridContainer = style({
+  // outline: "1px solid red",
+  position: "relative",
+  // overflow: "hidden",
+  // borderRadius: 12,
+
+  height: "100%",
+  width: "100%",
+
+  // backgroundColor: hsla(theme.colors.white[3]),
+  // background: hsla(theme.colors.white[2]),
+
+  // border: `1px solid ${hsla(theme.colors.white[2])}`,
+
+  display: "grid",
+  gridTemplateRows: "repeat(6, 1fr)",
+  gridTemplateColumns: "repeat(2, 1fr)",
+  gap: 1,
+});
+
+export const matchupGridLabel = style({
+  borderRadius: 3,
+  // padding: 2,
+  height: "2.5rem",
+  background: hsla(theme.colors.white[6]),
+
+  whiteSpace: "nowrap",
+  // color: hsla(theme.colors.black[5]),
+  color: hsla(theme.colors.black[10]),
   fontSize: 12,
+  fontWeight: 500,
+
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
+
+export const elementContainer = style({
+  padding: 3,
+  borderRadius: 3,
+  background: hsla(theme.colors.white[3]),
+
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: 2,
+});
+
+export const baseMatchupTypeValue = style({
+  background: hsla(theme.colors.white[1]),
+  borderRadius: "50%",
+
+  width: 20,
+  height: 20,
+
+  color: "black",
+  fontSize: 12,
+  fontFamily: "Fira Code",
+
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+});
+
+export const matchupTypeValue = styleVariants({
+  neutral: [
+    baseMatchupTypeValue,
+    { color: hsla(theme.colors.black[5]), fontWeight: 400 },
+  ],
+  effective: [
+    baseMatchupTypeValue,
+    { color: hsla(theme.colors.positive[3]), fontWeight: 600 },
+  ],
+  resistant: [
+    baseMatchupTypeValue,
+    { color: hsla(theme.colors.negative[5]), fontWeight: 600 },
+  ],
+});
+
+export const matchupCompContainer = style({
+  paddingTop: "0.5rem",
+  width: "100%",
+  height: "100%",
+
+  display: "flex",
+  flexDirection: "row",
+  gap: "0.5rem",
 });
