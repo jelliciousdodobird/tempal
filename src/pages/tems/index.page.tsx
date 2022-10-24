@@ -4,7 +4,8 @@ import type { NextPage, GetStaticProps } from "next";
 import React, { useEffect, useRef, useState } from "react";
 import { TemCard } from "../../components/TemCard/TemCard.component";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch.component";
-import { TemType } from "../../data/temtems";
+import { TemType } from "../../utils/types";
+// import { TemType } from "../../data/temtems";
 import { header, list, listPageContainer } from "./tems.css";
 
 export interface Stats {
@@ -49,7 +50,15 @@ export const getStaticProps: GetStaticProps<TemProps> = async () => {
   });
   const data = await res.data;
   return {
-    props: { tems: data }, // will be passed to the page component as props
+    props: {
+      tems: data.map((d: API_TemData) => ({
+        ...d,
+        types: [
+          d.types[0].toLowerCase(),
+          d.types[1] ? d.types[1].toLowerCase() : null,
+        ] as [TemType, TemType | null],
+      })),
+    }, // will be passed to the page component as props
   };
 };
 

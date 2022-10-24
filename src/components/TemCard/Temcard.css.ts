@@ -6,7 +6,7 @@ import {
   styleVariants,
 } from "@vanilla-extract/css";
 
-import { TemType, temTypeColorMap, temTypeMap } from "../../data/temtems";
+// import { TemType, temTypes } from "../../data/temtems";
 import { flexCenter } from "../../styles/utility-styles.css";
 import { hsla } from "../../styles/theme.util";
 import { theme, lightTheme, darkTheme } from "../../styles/themes.css";
@@ -15,6 +15,7 @@ import {
   StyleWithSelectors,
   WithQueries,
 } from "@vanilla-extract/css/dist/declarations/src/types";
+import { temTypes } from "../../utils/data";
 
 export const baseElementType = style({
   padding: "3px 6px",
@@ -25,13 +26,10 @@ export const baseElementType = style({
   fontSize: "12px",
 });
 
-export const elementTypeLabel = styleVariants(
-  temTypeColorMap,
-  (elementColor) => [
-    baseElementType,
-    { color: elementColor.dark, background: elementColor.base },
-  ]
-);
+export const elementTypeLabel = styleVariants(temTypes, (elementColor) => [
+  baseElementType,
+  { color: elementColor.colors.dark, background: elementColor.colors.base },
+]);
 
 export const container = style({
   // border: "1px dashed gray",
@@ -533,10 +531,10 @@ export const matchupGridContainer = style({
 });
 
 export const matchupGridLabel = style({
-  borderRadius: 3,
+  // borderRadius: 3,
   // padding: 2,
   height: "2.5rem",
-  background: hsla(theme.colors.white[6]),
+  background: hsla(theme.colors.white[3]),
 
   whiteSpace: "nowrap",
   // color: hsla(theme.colors.black[5]),
@@ -551,8 +549,8 @@ export const matchupGridLabel = style({
 
 export const elementContainer = style({
   padding: 3,
-  borderRadius: 3,
-  background: hsla(theme.colors.white[3]),
+  // borderRadius: 3,
+  background: hsla(theme.colors.white[2]),
 
   display: "flex",
   flexDirection: "row",
@@ -562,13 +560,13 @@ export const elementContainer = style({
 });
 
 export const baseMatchupTypeValue = style({
-  background: hsla(theme.colors.white[1]),
+  background: hsla(theme.colors.black[10]),
   borderRadius: "50%",
 
   width: 20,
   height: 20,
 
-  color: "black",
+  color: hsla(theme.colors.white[0]),
   fontSize: 12,
   fontFamily: "Fira Code",
 
@@ -580,15 +578,27 @@ export const baseMatchupTypeValue = style({
 export const matchupTypeValue = styleVariants({
   neutral: [
     baseMatchupTypeValue,
-    { color: hsla(theme.colors.black[5]), fontWeight: 400 },
+    {
+      color: hsla(theme.colors.black[0]),
+      background: hsla(theme.colors.white[4]),
+      fontWeight: 400,
+    },
   ],
   effective: [
     baseMatchupTypeValue,
-    { color: hsla(theme.colors.positive[3]), fontWeight: 600 },
+    {
+      color: hsla(theme.colors.black[0], 0.6),
+      background: hsla(theme.colors.positive[6]),
+      fontWeight: 600,
+    },
   ],
   resistant: [
     baseMatchupTypeValue,
-    { color: hsla(theme.colors.negative[5]), fontWeight: 600 },
+    {
+      color: hsla(theme.colors.white[0], 0.8),
+      background: hsla(theme.colors.negative[5]),
+      fontWeight: 600,
+    },
   ],
 });
 

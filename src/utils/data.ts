@@ -1,22 +1,7 @@
-import { colord } from "colord";
+import { TemTypeMap, TypeMatchups, TypeMatchupSquare } from "./types";
+import matchupAlteringTraitsJSON from "./special-case-data/matchup-altering-traits.json";
 
-export type TemType =
-  | "neutral"
-  | "wind"
-  | "earth"
-  | "water"
-  | "fire"
-  | "nature"
-  | "electric"
-  | "mental"
-  | "digital"
-  | "melee"
-  | "crystal"
-  | "toxic";
-
-type TypeSquare = Record<TemType, Record<TemType, number>>;
-
-export const typeSquare: TypeSquare = {
+export const typeMatchupSquare: TypeMatchupSquare = {
   neutral: {
     neutral: 1,
     wind: 1,
@@ -187,88 +172,7 @@ export const typeSquare: TypeSquare = {
   },
 };
 
-export type TemTypeColorShades = {
-  base: string;
-  dark: string;
-  light: string;
-};
-
-export type TemTypeColor = Record<TemType, TemTypeColorShades>;
-
-export const temTypeColorMap: TemTypeColor = {
-  neutral: {
-    base: "hsl(180, 52%, 94%)",
-    dark: "hsl(180, 52%, 34%)",
-    light: "hsl(180, 52%, 94%)",
-  },
-  wind: {
-    base: "hsl(162, 96%, 51%)",
-    dark: "hsl(162, 96%, 21%)",
-    light: "hsl(162, 96%, 51%)",
-  },
-  earth: {
-    base: "hsl(19, 41%, 55%)",
-    dark: "hsl(19, 41%, 25%)",
-    light: "hsl(19, 41%, 55%)",
-  },
-  water: {
-    base: "hsl(197, 100%, 64%)",
-    dark: "hsl(197, 100%, 24%)",
-    light: "hsl(197, 100%, 64%)",
-  },
-  fire: {
-    base: "hsl(5, 77%, 61%)",
-    dark: "hsl(5, 77%, 31%)",
-    light: "hsl(5, 77%, 61%)",
-  },
-  nature: {
-    base: "hsl(89, 61%, 67%)",
-    dark: "hsl(89, 61%, 27%)",
-    light: "hsl(89, 61%, 67%)",
-  },
-  electric: {
-    base: "hsl(47, 100%, 73%)",
-    dark: "hsl(47, 100%, 23%)",
-    light: "hsl(47, 100%, 73%)",
-  },
-  mental: {
-    base: "hsl(321, 43%, 59%)",
-    dark: "hsl(321, 43%, 19%)",
-    light: "hsl(321, 43%, 59%)",
-  },
-  digital: {
-    base: "hsl(182, 19%, 70%)",
-    dark: "hsl(182, 19%, 30%)",
-    light: "hsl(182, 19%, 70%)",
-  },
-  melee: {
-    base: "hsl(19, 94%, 68%)",
-    dark: "hsl(19, 94%, 38%)",
-    light: "hsl(19, 94%, 68%)",
-  },
-  crystal: {
-    base: "hsl(349, 79%, 60%)",
-    dark: "hsl(349, 79%, 30%)",
-    light: "hsl(349, 79%, 60%)",
-  },
-  toxic: {
-    base: "hsl(300, 3%, 35%)",
-    dark: "hsl(300, 0%, 0%)",
-    light: "hsl(300, 3%, 35%)",
-  },
-};
-
-export const temtems = {};
-
-export type TemTypeData = {
-  index: number;
-  colors: TemTypeColorShades;
-  imgUrl: string;
-};
-
-export type TemTypeMap = Record<TemType, TemTypeData>;
-
-export const temTypeMap: TemTypeMap = {
+export const temTypes: TemTypeMap = {
   neutral: {
     index: 0,
     imgUrl: "https://temtem.wiki.gg/images/b/b3/Neutral.png",
@@ -378,3 +282,9 @@ export const temTypeMap: TemTypeMap = {
     },
   },
 };
+
+export const matchupAlteringTraits = new Map(
+  matchupAlteringTraitsJSON.map((object) => {
+    return [object.trait, object.modifier as TypeMatchups];
+  })
+);

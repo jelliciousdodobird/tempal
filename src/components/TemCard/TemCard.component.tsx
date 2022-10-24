@@ -7,9 +7,13 @@ import {
   useMemo,
   useState,
 } from "react";
-import { TemType, temTypeColorMap, temTypeMap } from "../../data/temtems";
+// import {
+//   calculateBaseTypeModifier,
+//   TemType,
+//   temTypes,
+// } from "../../data/temtems";
 import { Stats, StatsWithTotal } from "../../pages/tems/index.page";
-import { zeroPad } from "../../utils/utils";
+import { prettyFraction, zeroPad } from "../../utils/utils";
 
 import Image from "next/future/image";
 import {
@@ -61,10 +65,16 @@ import { ToggleButton } from "../ToggleButton/ToggleButton.component";
 import { AnimatePresence, motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { TemType, TypeMatchups } from "../../utils/types";
+import {
+  calculateBaseTypeModifier,
+  calculateMatchupModifiers,
+} from "../../utils/damage-calcs";
+import { matchupAlteringTraits, temTypes } from "../../utils/data";
 
-type MatchUps = Record<TemType, number>;
+// type TypeMatchups = Record<TemType, number>;
 
-const matchups: MatchUps = {
+const matchups: TypeMatchups = {
   neutral: 1,
   wind: 1,
   earth: 2,
@@ -135,8 +145,8 @@ export const TemCard = ({
 
   const containerBindings = useMemo(
     () => ({
-      onPointerOver: startHover,
-      onPointerLeave: endHover,
+      onMouseEnter: startHover,
+      onMouseLeave: endHover,
     }),
     []
   );
@@ -169,7 +179,7 @@ export const TemCard = ({
               {Object.entries(tvYields)
                 .filter(([stat, tv]) => tv > 0)
                 .map(([stat, tv]) => (
-                  <div>
+                  <div key={stat}>
                     {stat}: {tv}
                   </div>
                 ))}
@@ -181,7 +191,7 @@ export const TemCard = ({
         node = <Traits traits={traits} />;
         break;
       case "matchups":
-        node = <MatchupsView traits={traits} matchups={matchups} />;
+        node = <MatchupsView traits={traits} types={types} />;
         break;
     }
 
@@ -189,7 +199,14 @@ export const TemCard = ({
   }, [tabSelected]);
 
   return (
-    <div className={container} tabIndex={1} {...containerBindings}>
+    <div
+      className={container}
+      tabIndex={1}
+      {...containerBindings}
+      // onClick={() =>
+      //   console.log(calculateBaseTypeModifier("electric", types[0], types[1]))
+      // }
+    >
       <div className={cardBackground}>
         <div className={backgroundImageContainer}>
           <Image
@@ -398,20 +415,37 @@ const Traits = ({ traits, descriptionLimit = 70 }: TraitsProps) => {
 ///////////////////////////////////////////////////////////////////////////////////////
 type MatchupViewProps = {
   traits: TemCardProps["traits"];
-  matchups: MatchUps;
+  types: [TemType, TemType | null];
 };
 
-const MatchupsView = ({ traits, matchups }: MatchupViewProps) => {
-  const diffMatchups = traits[0].length % 2 === 0;
+const MatchupsView = ({ traits, types }: MatchupViewProps) => {
+  const alteringTrait1 = matchupAlteringTraits.get(traits[0]);
+  const alteringTrait2 = matchupAlteringTraits.get(traits[1]);
+
+  // if either trait1 or trait2 exists, a trait that alters the matchup exists
+  // so we have to show both traits because they'll have different matchups
+  const diffMatchups = !!alteringTrait1 || !!alteringTrait2;
+
+  const trait1Matchups = calculateMatchupModifiers(
+    traits[0],
+    types[0],
+    types[1]
+  );
+  const trait2Matchups = calculateMatchupModifiers(
+    traits[1],
+    types[0],
+    types[1]
+  );
+
   return (
     <div className={matchupCompContainer}>
       {diffMatchups ? (
         <>
-          <MatchupGrid matchups={matchups} traitLabel={traits[0]} />
-          <MatchupGrid matchups={matchups} traitLabel={traits[1]} />
+          <MatchupGrid matchups={trait1Matchups} traitLabel={traits[0]} />
+          <MatchupGrid matchups={trait2Matchups} traitLabel={traits[1]} />
         </>
       ) : (
-        <MatchupGrid matchups={matchups} />
+        <MatchupGrid matchups={trait1Matchups} />
       )}
     </div>
   );
@@ -419,7 +453,7 @@ const MatchupsView = ({ traits, matchups }: MatchupViewProps) => {
 ///////////////////////////////////////////////////////////////////////////////////////
 type MatchupGridProps = {
   traitLabel?: string;
-  matchups: MatchUps;
+  matchups: TypeMatchups;
 };
 
 const getValueVariant = (num: number): keyof typeof matchupTypeValue => {
@@ -438,13 +472,13 @@ const MatchupGrid = ({ traitLabel, matchups }: MatchupGridProps) => {
           <div key={key} className={elementContainer}>
             <Image
               alt={key}
-              src={temTypeMap[key as TemType].imgUrl}
+              src={temTypes[key as TemType].imgUrl}
               width={20}
               height={20}
               quality={100}
             />
             <div className={matchupTypeValue[getValueVariant(value)]}>
-              {matchups[key as TemType]}
+              {prettyFraction(matchups[key as TemType])}
             </div>
           </div>
         ))}

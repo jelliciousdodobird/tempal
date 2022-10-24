@@ -1,8 +1,7 @@
 import { style, styleVariants } from "@vanilla-extract/css";
-import { read } from "fs";
+
 import { redirect } from "next/dist/server/api-utils";
 
-import { temTypeColorMap } from "../../data/temtems";
 import { hsla } from "../../styles/theme.util";
 import { theme, lightTheme, darkTheme } from "../../styles/themes.css";
 
@@ -15,13 +14,13 @@ export const baseElementType = style({
   fontSize: "12px",
 });
 
-export const elementTypeLabel = styleVariants(
-  temTypeColorMap,
-  (elementColor) => [
-    baseElementType,
-    { color: elementColor.dark, background: elementColor.base },
-  ]
-);
+// export const elementTypeLabel = styleVariants(
+//   temTypeColorMap,
+//   (elementColor) => [
+//     baseElementType,
+//     { color: elementColor.dark, background: elementColor.base },
+//   ]
+// );
 
 export const square = style({
   width: 50,
