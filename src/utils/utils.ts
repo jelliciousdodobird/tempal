@@ -90,10 +90,8 @@ export const zeroPad = (num: number, zeroes: number) =>
 
 export const prettyFraction = (num: string | number) => {
   const fraction = num2fraction(num).split("/");
-
   const numerator = fraction[0].trim();
-  const denominator = fraction[1].trim();
+  const denominator = fraction[1] ? fraction[1].trim() : "1";
 
-  if (denominator === "1") return numerator;
-  else return `${numerator}/${denominator}`;
+  return denominator === "1" ? numerator : `${numerator}/${denominator}`;
 };

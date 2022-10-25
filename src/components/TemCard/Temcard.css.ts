@@ -211,13 +211,14 @@ export const lumaImgIcon = style({
 });
 
 export const mainContent = style({
-  // border: "1px dashed blue",
+  // border: "1px dashed red",
 
   padding: "0.5rem",
   borderRadius: 16,
   backgroundColor: "hsl(0, 0%, 100%)",
   width: "100%",
-  flex: 1,
+  height: "100%",
+  // flex: 1,
 
   display: "flex",
   flexDirection: "column",
@@ -226,11 +227,20 @@ export const mainContent = style({
 
 export const tabContent = style({
   // border: "1px dashed blue",
+  // overflowY: "auto",
 
   color: hsla(theme.colors.black[5]),
   // padding: "1rem",
   // flex: 1,
+
+  // height: 100,
   height: "100%",
+  // maxHeight: "100%",
+
+  // height: 210,
+  // minHeight: 210,
+
+  // flex: 0,
 
   display: "flex",
   flexDirection: "column",
@@ -499,6 +509,7 @@ export const traitEffect = style({
 });
 
 export const matchupGridWrapper = style({
+  // border: "1px dashed green",
   height: "100%",
   width: "100%",
 
@@ -507,6 +518,7 @@ export const matchupGridWrapper = style({
 
   display: "flex",
   flexDirection: "column",
+  // flexDirection: "row",
   gap: 1,
 });
 
@@ -518,16 +530,21 @@ export const matchupGridContainer = style({
 
   height: "100%",
   width: "100%",
+  background: hsla(theme.colors.white[2]),
 
   // backgroundColor: hsla(theme.colors.white[3]),
   // background: hsla(theme.colors.white[2]),
 
   // border: `1px solid ${hsla(theme.colors.white[2])}`,
 
-  display: "grid",
-  gridTemplateRows: "repeat(6, 1fr)",
-  gridTemplateColumns: "repeat(2, 1fr)",
-  gap: 1,
+  // display: "grid",
+  // gridTemplateRows: "repeat(2, 1fr)",
+  // gridTemplateColumns: "repeat(6, 1fr)",
+  // gap: 1,
+
+  display: "flex",
+  justifyContent: "space-evenly",
+  flexWrap: "wrap",
 });
 
 export const matchupGridLabel = style({
@@ -550,10 +567,11 @@ export const matchupGridLabel = style({
 export const elementContainer = style({
   padding: 3,
   // borderRadius: 3,
-  background: hsla(theme.colors.white[2]),
+  // background: hsla(theme.colors.white[2]),
 
   display: "flex",
-  flexDirection: "row",
+  // flexDirection: "row",
+  flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
   gap: 2,
@@ -561,10 +579,13 @@ export const elementContainer = style({
 
 export const baseMatchupTypeValue = style({
   background: hsla(theme.colors.black[10]),
-  borderRadius: "50%",
+  // borderRadius: "50%",
 
-  width: 20,
-  height: 20,
+  minWidth: 20,
+  minHeight: 20,
+
+  borderRadius: 4,
+  padding: "1px 4px",
 
   color: hsla(theme.colors.white[0]),
   fontSize: 12,
@@ -576,6 +597,24 @@ export const baseMatchupTypeValue = style({
 });
 
 export const matchupTypeValue = styleVariants({
+  super_effective: [
+    baseMatchupTypeValue,
+    {
+      color: hsla(theme.colors.white[0]),
+      // color: hsla(theme.colors.black[0], 0.6),
+      background: hsla(theme.colors.filler[2]),
+      fontWeight: 600,
+    },
+  ],
+  effective: [
+    baseMatchupTypeValue,
+    {
+      color: hsla(theme.colors.white[0]),
+      // color: hsla(theme.colors.black[0], 0.6),
+      background: hsla(theme.colors.positive[3]),
+      fontWeight: 600,
+    },
+  ],
   neutral: [
     baseMatchupTypeValue,
     {
@@ -584,30 +623,44 @@ export const matchupTypeValue = styleVariants({
       fontWeight: 400,
     },
   ],
-  effective: [
-    baseMatchupTypeValue,
-    {
-      color: hsla(theme.colors.black[0], 0.6),
-      background: hsla(theme.colors.positive[6]),
-      fontWeight: 600,
-    },
-  ],
   resistant: [
     baseMatchupTypeValue,
     {
-      color: hsla(theme.colors.white[0], 0.8),
+      color: hsla(theme.colors.white[0]),
+      // color: hsla(theme.colors.caution[0]),
+      background: hsla(theme.colors.caution[3]),
+      // background: hsla(theme.colors.negative[5]),
+      fontWeight: 600,
+    },
+  ],
+  super_resistant: [
+    baseMatchupTypeValue,
+    {
+      color: hsla(theme.colors.white[0]),
       background: hsla(theme.colors.negative[5]),
+      // background: "hsl(275, 100%, 50%)",
+      fontWeight: 600,
+    },
+  ],
+  immune: [
+    baseMatchupTypeValue,
+    {
+      color: hsla(theme.colors.white[0]),
+      background: hsla(theme.colors.black[5]),
       fontWeight: 600,
     },
   ],
 });
 
 export const matchupCompContainer = style({
+  // border: "1px dashed green",
+
   paddingTop: "0.5rem",
   width: "100%",
-  height: "100%",
+  // height: "100%",
 
   display: "flex",
-  flexDirection: "row",
+  // flexDirection: "row",
+  flexDirection: "column",
   gap: "0.5rem",
 });

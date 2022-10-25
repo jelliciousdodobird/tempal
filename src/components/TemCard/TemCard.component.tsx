@@ -437,15 +437,18 @@ const MatchupsView = ({ traits, types }: MatchupViewProps) => {
     types[1]
   );
 
+  const trait1Name = !!alteringTrait1 ? traits[0] + "*" : traits[0];
+  const trait2Name = !!alteringTrait2 ? traits[1] + "*" : traits[1];
+
   return (
     <div className={matchupCompContainer}>
       {diffMatchups ? (
         <>
-          <MatchupGrid matchups={trait1Matchups} traitLabel={traits[0]} />
-          <MatchupGrid matchups={trait2Matchups} traitLabel={traits[1]} />
+          <MatchupGrid matchups={trait1Matchups} traitLabel={trait1Name} />
+          <MatchupGrid matchups={trait2Matchups} traitLabel={trait2Name} />
         </>
       ) : (
-        <MatchupGrid matchups={trait1Matchups} />
+        <MatchupGrid matchups={trait1Matchups} traitLabel={"Both Traits"} />
       )}
     </div>
   );
@@ -457,8 +460,12 @@ type MatchupGridProps = {
 };
 
 const getValueVariant = (num: number): keyof typeof matchupTypeValue => {
-  if (num > 1) return "effective";
-  else if (num < 1) return "resistant";
+  if (num > 2) return "super_effective";
+  else if (num > 1 && num <= 2) return "effective";
+  else if (num === 1) return "neutral";
+  else if (num < 1 && num >= 0.5) return "resistant";
+  else if (num > 0 && num < 0.5) return "super_resistant";
+  else if (num === 0) return "immune";
   else return "neutral";
 };
 
@@ -466,22 +473,24 @@ const MatchupGrid = ({ traitLabel, matchups }: MatchupGridProps) => {
   return (
     <div className={matchupGridWrapper}>
       {traitLabel && <span className={matchupGridLabel}>{traitLabel}</span>}
-
       <div className={matchupGridContainer}>
-        {Object.entries(matchups).map(([key, value]) => (
-          <div key={key} className={elementContainer}>
-            <Image
-              alt={key}
-              src={temTypes[key as TemType].imgUrl}
-              width={20}
-              height={20}
-              quality={100}
-            />
-            <div className={matchupTypeValue[getValueVariant(value)]}>
-              {prettyFraction(matchups[key as TemType])}
+        {Object.entries(matchups)
+          .filter(([, value]) => value !== 1)
+          .sort((a, b) => b[1] - a[1])
+          .map(([key, value]) => (
+            <div key={key} className={elementContainer}>
+              <Image
+                alt={key}
+                src={temTypes[key as TemType].imgUrl}
+                width={20}
+                height={20}
+                quality={100}
+              />
+              <div className={matchupTypeValue[getValueVariant(value)]}>
+                {prettyFraction(matchups[key as TemType])}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

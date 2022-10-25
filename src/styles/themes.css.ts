@@ -52,7 +52,7 @@ const darkColors: ColorTheme = {
   black: ccs("hsl(0, 0%, 15%)"),
   white: reverse(ccs("hsl(0, 0%, 85%)")),
 
-  positive: ccs("hsl(146, 83%, 44%)"),
+  positive: ccs("hsl(150, 83%, 44%)"),
   negative: ccs("hsl(0, 100%, 64%)"),
   caution: ccs("hsl(44, 100%, 58%)"),
   filler: ccs("hsl(199, 100%, 56%)"),
@@ -74,7 +74,7 @@ const lightColors: ColorTheme = {
   black: ccs("hsl(0, 0%, 15%)"),
   white: reverse(ccs("hsl(0, 0%, 85%)")),
 
-  positive: ccs("hsl(146, 83%, 44%)"),
+  positive: ccs("hsl(150, 83%, 44%)"),
   negative: ccs("hsl(0, 100%, 64%)"),
   caution: ccs("hsl(44, 100%, 58%)"),
   filler: ccs("hsl(199, 100%, 56%)"),
