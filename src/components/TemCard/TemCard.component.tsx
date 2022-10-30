@@ -1,10 +1,12 @@
 // import Image from "next/image";
-import {
+import React, {
   Dispatch,
+  memo,
   ReactNode,
   SetStateAction,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 // import {
@@ -13,7 +15,11 @@ import {
 //   temTypes,
 // } from "../../data/temtems";
 import { Stats, StatsWithTotal } from "../../pages/tems/index.page";
-import { prettyFraction, zeroPad } from "../../utils/utils";
+import {
+  getRandomIntInclusive,
+  prettyFraction,
+  zeroPad,
+} from "../../utils/utils";
 
 import Image from "next/future/image";
 import {
@@ -59,35 +65,30 @@ import {
   matchupGridWrapper,
   matchupGridLabel,
   tvYieldContainer,
+  asteriskLabel,
+  tvValue,
+  tvLabel,
+  tvItem,
+  subHeading,
+  questionButton,
+  dialogWrapper,
+  tooltip,
 } from "./Temcard.css";
 import { assignInlineVars } from "@vanilla-extract/dynamic";
 import { ToggleButton } from "../ToggleButton/ToggleButton.component";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  HTMLMotionProps,
+  motion,
+  useInView,
+} from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { TemType, TypeMatchups } from "../../utils/types";
-import {
-  calculateBaseTypeModifier,
-  calculateMatchupModifiers,
-} from "../../utils/damage-calcs";
+import { calculateMatchupModifiers } from "../../utils/damage-calcs";
 import { matchupAlteringTraits, temTypes } from "../../utils/data";
-
-// type TypeMatchups = Record<TemType, number>;
-
-const matchups: TypeMatchups = {
-  neutral: 1,
-  wind: 1,
-  earth: 2,
-  water: 1,
-  fire: 1,
-  nature: 2,
-  electric: 1,
-  mental: 0.5,
-  digital: 1,
-  melee: 1,
-  crystal: 0.25,
-  toxic: 1,
-};
+import { useModal } from "../../hooks/useModal";
+import { nanoid } from "nanoid";
 
 export interface TemCardProps {
   name: string;
@@ -105,127 +106,174 @@ export interface TemCardProps {
   maxStat?: number;
 }
 
-export const TemCard = ({
-  number,
-  name,
-  types,
-  stats,
-  traits,
-  tvYields,
+const animProps = {
+  variants: {
+    outofview: {
+      // x: 100,
+      // y: -100,
 
-  imgStaticUrl,
-  imgAnimatedUrl,
-  imgStaticLumaUrl,
-  imgAnimatedLumaUrl,
+      opacity: 0,
+      transform: "perspective(1000px) rotateX(40deg) translateY(100px)",
 
-  maxStat = 125,
-}: TemCardProps) => {
-  const [showLuma, setShowLuma] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const [tabSelected, setTabSelected] = useState("stats");
+      // rotateX: "0deg",
+      // scale: 0.8,
+      // skewX: 1,
+      // skewY: 0,
+      // z: 0,
+      // perspective: 1,
+    },
+    inview: {
+      opacity: 1,
+      transform: "perspective(1000px) rotateX(0deg) translateY(0px)",
 
-  const type1 = (types[0] ? types[0].toLowerCase() : "neutral") as TemType;
-  const type2 = (types[1] ? types[1].toLowerCase() : null) as TemType;
+      // x: 0,
+      // y: 0,
+      // perspective: 500,
+      // rotateX: 50,
+      // skewX: "2px 2px",
+      // skewY: 1,
+      // skewY: -10,
+      // z: 0,
 
-  const trait1 = traits[0];
-  const trait2 = traits[1];
+      // scale: 1,
+      transition: { duration: 0.5 },
+    },
+  },
+  initial: "outofview",
+  whileInView: "inview",
+  viewport: { once: true },
+};
 
-  const index = name.indexOf("(");
-  const formattedName = index !== -1 ? name.slice(0, index) : name;
+export const TemCard = memo(
+  ({
+    number,
+    name,
+    types,
+    stats,
+    traits,
+    tvYields,
 
-  const formattedNumber = zeroPad(number, 3);
+    imgStaticUrl,
+    imgAnimatedUrl,
+    imgStaticLumaUrl,
+    imgAnimatedLumaUrl,
 
-  const staticImg = showLuma ? imgStaticLumaUrl : imgStaticUrl;
-  const animatedImg = showLuma ? imgAnimatedLumaUrl : imgAnimatedUrl;
-  const mainImgUrl = hovering ? animatedImg : staticImg;
+    maxStat = 125,
+  }: TemCardProps) => {
+    const [showLuma, setShowLuma] = useState(false);
+    const [hovering, setHovering] = useState(false);
+    const [tabSelected, setTabSelected] = useState("stats");
 
-  const toggleLuma = () => setShowLuma((v) => !v);
-  const startHover = () => setHovering(true);
-  const endHover = () => setHovering(false);
+    // const containerRef = useRef<HTMLDivElement>(null);
+    // const show = useInView(containerRef);
+    // const [show, setShow] = useState(false);
 
-  const containerBindings = useMemo(
-    () => ({
-      onMouseEnter: startHover,
-      onMouseLeave: endHover,
-    }),
-    []
-  );
+    const type1 = (types[0] ? types[0].toLowerCase() : "neutral") as TemType;
+    const type2 = (types[1] ? types[1].toLowerCase() : null) as TemType;
 
-  const tabComponent = useMemo(() => {
-    let node: ReactNode = <></>;
-    switch (tabSelected) {
-      case "stats":
-        node = (
-          <>
-            <div className={statsContainer}>
-              {Object.entries(stats).map(([stat, value]) => (
-                <div className={statLineContainer} key={stat}>
-                  <span className={statLabel}>{stat}</span>
-                  <span className={statValue}>{value}</span>
-                  <div className={maxStatLine}>
-                    {stat !== "total" && (
-                      <span
-                        className={statLine}
-                        style={assignInlineVars({
-                          width: `${Math.min(100, (value / maxStat) * 100)}%`,
-                        })}
-                      />
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className={tvYieldContainer}>
-              {Object.entries(tvYields)
-                .filter(([stat, tv]) => tv > 0)
-                .map(([stat, tv]) => (
-                  <div key={stat}>
-                    {stat}: {tv}
+    const trait1 = traits[0];
+    const trait2 = traits[1];
+
+    const index = name.indexOf("(");
+    const formattedName = index !== -1 ? name.slice(0, index) : name;
+
+    const formattedNumber = zeroPad(number, 3);
+
+    const staticImg = showLuma ? imgStaticLumaUrl : imgStaticUrl;
+    const animatedImg = showLuma ? imgAnimatedLumaUrl : imgAnimatedUrl;
+    const mainImgUrl = hovering ? animatedImg : staticImg;
+
+    const toggleLuma = () => setShowLuma((v) => !v);
+    const startHover = () => setHovering(true);
+    const endHover = () => setHovering(false);
+
+    // const containerBindings = useMemo(
+    //   () => ({
+    //     onMouseEnter: startHover,
+    //     onMouseLeave: endHover,
+    //   }),
+    //   []
+    // );
+
+    const tabComponent = useMemo(() => {
+      let node: ReactNode = <></>;
+      switch (tabSelected) {
+        case "stats":
+          node = (
+            <>
+              <div className={statsContainer}>
+                {Object.entries(stats).map(([stat, value]) => (
+                  <div className={statLineContainer} key={stat}>
+                    <span className={statLabel}>{stat}</span>
+                    <span className={statValue}>{value}</span>
+                    <div className={maxStatLine}>
+                      {stat !== "total" && (
+                        <span
+                          className={statLine}
+                          style={assignInlineVars({
+                            width: `${Math.min(100, (value / maxStat) * 100)}%`,
+                          })}
+                        />
+                      )}
+                    </div>
                   </div>
                 ))}
+              </div>
+              <div className={matchupGridWrapper}>
+                <span className={matchupGridLabel}>Training Values</span>
+                <div className={matchupGridContainer}>
+                  {Object.entries(tvYields)
+                    .filter((item) => item[1] > 0)
+                    .map(([stat, tv]) => (
+                      <span key={stat} className={tvItem}>
+                        <span className={tvLabel}>{stat}</span>
+                        <span className={tvValue}>{tv}</span>
+                      </span>
+                    ))}
+                </div>
+              </div>
+            </>
+          );
+          break;
+        case "traits":
+          node = <Traits traits={traits} />;
+          break;
+        case "matchups":
+          node = <MatchupsView traits={traits} types={types} />;
+          break;
+      }
+
+      return node;
+    }, [tabSelected]);
+
+    return (
+      <motion.div
+        {...animProps}
+        className={container}
+        tabIndex={1}
+        // {...containerBindings}
+      >
+        {/* {show && ( */}
+        <>
+          <div className={cardBackground}>
+            <div className={backgroundImageContainer}>
+              <Image
+                className={backgroundBlur}
+                alt=""
+                src={staticImg}
+                width={128}
+                height={128}
+                quality={100}
+              />
             </div>
-          </>
-        );
-        break;
-      case "traits":
-        node = <Traits traits={traits} />;
-        break;
-      case "matchups":
-        node = <MatchupsView traits={traits} types={types} />;
-        break;
-    }
+          </div>
 
-    return node;
-  }, [tabSelected]);
-
-  return (
-    <div
-      className={container}
-      tabIndex={1}
-      {...containerBindings}
-      // onClick={() =>
-      //   console.log(calculateBaseTypeModifier("electric", types[0], types[1]))
-      // }
-    >
-      <div className={cardBackground}>
-        <div className={backgroundImageContainer}>
-          <Image
-            className={backgroundBlur}
-            alt=""
-            src={staticImg}
-            width={128}
-            height={128}
-            quality={100}
-          />
-        </div>
-      </div>
-
-      <div className={contentContainer}>
-        <div className={headerContent}>
-          <div className={cardTitle}>
-            <span className={numberTextStyle}>#{formattedNumber}</span>
-            <span className={nameTextStyle}>{formattedName}</span>
-            {/* <Image
+          <div className={contentContainer}>
+            <div className={headerContent}>
+              <div className={cardTitle}>
+                <span className={numberTextStyle}>#{formattedNumber}</span>
+                <span className={nameTextStyle}>{formattedName}</span>
+                {/* <Image
             className={lumaImgIcon}
             onClick={toggleLuma}
             alt="luma"
@@ -233,51 +281,61 @@ export const TemCard = ({
             width={16}
             height={16}
           /> */}
+              </div>
+
+              <div className={specieImageContainer}>
+                <Image
+                  className={specieImage}
+                  alt={formattedName}
+                  src={mainImgUrl}
+                  width={128}
+                  height={128}
+                  quality={100}
+                />
+              </div>
+
+              <div className={elementRow}>
+                <span className={elementTypeLabel[type1]}>{type1}</span>
+                {type2 && (
+                  <span className={elementTypeLabel[type2]}>{type2}</span>
+                )}
+              </div>
+
+              {/* <ToggleButton /> */}
+            </div>
+
+            <div className={mainContent}>
+              <Tabs
+                uid={name}
+                tabSelected={tabSelected}
+                setTabSelected={setTabSelected}
+              />
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  className={tabContent}
+                  key={tabSelected}
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -10, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {tabComponent}
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
+        </>
+        {/* )} */}
+      </motion.div>
+    );
+  },
+  (prev, curr) => {
+    return prev.name + prev.number === curr.name + curr.number;
+  }
+);
 
-          <div className={specieImageContainer}>
-            <Image
-              className={specieImage}
-              alt={formattedName}
-              src={mainImgUrl}
-              width={128}
-              height={128}
-              quality={100}
-            />
-          </div>
-
-          <div className={elementRow}>
-            <span className={elementTypeLabel[type1]}>{type1}</span>
-            {type2 && <span className={elementTypeLabel[type2]}>{type2}</span>}
-          </div>
-
-          {/* <ToggleButton /> */}
-        </div>
-
-        <div className={mainContent}>
-          <Tabs
-            uid={name}
-            tabSelected={tabSelected}
-            setTabSelected={setTabSelected}
-          />
-
-          <AnimatePresence mode="wait">
-            <motion.div
-              className={tabContent}
-              key={tabSelected}
-              initial={{ y: 10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -10, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              {tabComponent}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-    </div>
-  );
-};
+TemCard.displayName = "TemCard";
 ///////////////////////////////////////////////////////////////////////////////////////
 type TabsProps = {
   uid: string;
@@ -424,7 +482,7 @@ const MatchupsView = ({ traits, types }: MatchupViewProps) => {
 
   // if either trait1 or trait2 exists, a trait that alters the matchup exists
   // so we have to show both traits because they'll have different matchups
-  const diffMatchups = !!alteringTrait1 || !!alteringTrait2;
+  const matchupAlteringTraitExists = !!alteringTrait1 || !!alteringTrait2;
 
   const trait1Matchups = calculateMatchupModifiers(
     traits[0],
@@ -437,15 +495,20 @@ const MatchupsView = ({ traits, types }: MatchupViewProps) => {
     types[1]
   );
 
-  const trait1Name = !!alteringTrait1 ? traits[0] + "*" : traits[0];
-  const trait2Name = !!alteringTrait2 ? traits[1] + "*" : traits[1];
-
   return (
     <div className={matchupCompContainer}>
-      {diffMatchups ? (
+      {matchupAlteringTraitExists ? (
         <>
-          <MatchupGrid matchups={trait1Matchups} traitLabel={trait1Name} />
-          <MatchupGrid matchups={trait2Matchups} traitLabel={trait2Name} />
+          <MatchupGrid
+            matchups={trait1Matchups}
+            traitLabel={traits[0]}
+            asterisk={!!alteringTrait1}
+          />
+          <MatchupGrid
+            matchups={trait2Matchups}
+            traitLabel={traits[1]}
+            asterisk={!!alteringTrait2}
+          />
         </>
       ) : (
         <MatchupGrid matchups={trait1Matchups} traitLabel={"Both Traits"} />
@@ -456,23 +519,92 @@ const MatchupsView = ({ traits, types }: MatchupViewProps) => {
 ///////////////////////////////////////////////////////////////////////////////////////
 type MatchupGridProps = {
   traitLabel?: string;
+  asterisk?: boolean;
   matchups: TypeMatchups;
 };
 
 const getValueVariant = (num: number): keyof typeof matchupTypeValue => {
   if (num > 2) return "super_effective";
-  else if (num > 1 && num <= 2) return "effective";
+  else if (num > 1) return "effective";
   else if (num === 1) return "neutral";
-  else if (num < 1 && num >= 0.5) return "resistant";
-  else if (num > 0 && num < 0.5) return "super_resistant";
-  else if (num === 0) return "immune";
-  else return "neutral";
+  else if (num >= 0.5) return "resistant";
+  else if (num >= 0.25) return "super_resistant";
+  else return "immune";
 };
 
-const MatchupGrid = ({ traitLabel, matchups }: MatchupGridProps) => {
+const Random = ({
+  value,
+  setValue,
+}: {
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+}) => {
+  // const [value, setValue] = useState("none");
+  return <button onClick={() => setValue(nanoid(5))}>random: {value}</button>;
+};
+
+const drawerAnimProps: HTMLMotionProps<"ul"> = {
+  variants: {
+    open: {
+      x: 0,
+      opacity: 1,
+    },
+    close: {
+      x: 100,
+      opacity: 0,
+    },
+  },
+  initial: "close",
+  animate: "open",
+  exit: "close",
+  transition: { duration: 0.25 },
+};
+
+const MatchupGrid = ({
+  traitLabel,
+  asterisk = false,
+  matchups,
+}: MatchupGridProps) => {
+  const { toggleModal, opened, disableClose } = useModal();
+  const [randomValue, setRandomValue] = useState("");
+
   return (
     <div className={matchupGridWrapper}>
-      {traitLabel && <span className={matchupGridLabel}>{traitLabel}</span>}
+      {traitLabel && (
+        <span className={matchupGridLabel}>
+          {traitLabel}
+          {asterisk && <sup className={asteriskLabel}>&#42;</sup>}
+
+          <div className={dialogWrapper}>
+            <button
+              className={questionButton + disableClose}
+              onClick={toggleModal}
+            >
+              ?
+            </button>
+
+            <AnimatePresence>
+              {opened && (
+                <motion.ul
+                  className={tooltip + disableClose}
+                  {...drawerAnimProps}
+                >
+                  <li>
+                    <Random value={randomValue} setValue={setRandomValue} />
+                  </li>
+                  <li>sdf</li>
+                  <li>sdf</li>
+                  <li>sdf</li>
+                  <li>sdf</li>
+                  <li>sdf</li>
+                  <li>sdf</li>
+                  <li>sdf</li>
+                </motion.ul>
+              )}
+            </AnimatePresence>
+          </div>
+        </span>
+      )}
       <div className={matchupGridContainer}>
         {Object.entries(matchups)
           .filter(([, value]) => value !== 1)

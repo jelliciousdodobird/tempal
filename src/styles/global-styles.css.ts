@@ -41,10 +41,14 @@ globalStyle("html", {
   flexDirection: "column",
 });
 
-globalStyle("html body", {
+globalStyle("body", {
   // border: "2px dashed blue",
+  scrollBehavior: "smooth",
+
   overflowX: "hidden",
   overflowY: "auto",
+  overscrollBehaviorX: "contain",
+
   flex: 1,
   display: "flex",
   flexDirection: "column",

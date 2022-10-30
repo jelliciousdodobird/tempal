@@ -58,5 +58,6 @@ export const animatedText = style({
 // exclude the gradient:
 export const x = style({
   fontSize: "inherit",
+  color: hsla(theme.colors.onSurface[5]),
   fontWeight: 500,
 });

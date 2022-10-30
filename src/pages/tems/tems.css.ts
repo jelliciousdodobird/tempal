@@ -33,6 +33,7 @@ export const list = style({
 
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+  gridTemplateRows: "repeat(auto-fit, minmax(30rem, 30rem))",
   gap: "1.5rem",
 });
 

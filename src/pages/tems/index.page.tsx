@@ -1,11 +1,13 @@
+import { assignInlineVars } from "@vanilla-extract/dynamic";
 import axios from "axios";
+import { nanoid } from "nanoid";
 import type { NextPage, GetStaticProps } from "next";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { TemCard } from "../../components/TemCard/TemCard.component";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch.component";
+
 import { TemType } from "../../utils/types";
-// import { TemType } from "../../data/temtems";
 import { header, list, listPageContainer } from "./tems.css";
 
 export interface Stats {
@@ -63,18 +65,38 @@ export const getStaticProps: GetStaticProps<TemProps> = async () => {
 };
 
 const Tems: NextPage<TemProps> = ({ tems }) => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  // const [range, setRange] = useState(tems.length);
+  const [range, setRange] = useState(20);
+  const renderList = tems.slice(0, range);
+  const numOfItems = useRef(tems.length);
 
-  // console.log(tems);
+  useEffect(() => {
+    const scrollContainer = document.querySelector("body");
+    if (!scrollContainer) return;
+
+    const handler = () => {
+      const { scrollHeight, scrollTop, clientHeight } = scrollContainer;
+
+      const t = Math.abs(scrollHeight - clientHeight - scrollTop);
+
+      if (t < 5000) {
+        setRange((v) => Math.min(v + 5, numOfItems.current));
+      }
+    };
+
+    scrollContainer.addEventListener("scroll", handler);
+
+    return () => {
+      scrollContainer.removeEventListener("scroll", handler);
+    };
+  }, []);
 
   return (
-    <div className={listPageContainer} ref={containerRef}>
+    <div className={listPageContainer}>
       <div className={header}>Temtems</div>
       <ThemeSwitch />
-
       <div className={list}>
-        {/* {tems.slice(0, 80).map((v) => ( */}
-        {tems.map((v) => (
+        {renderList.map((v) => (
           <TemCard
             key={v.number}
             number={v.number}

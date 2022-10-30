@@ -1,20 +1,7 @@
-import {
-  ComplexStyleRule,
-  createVar,
-  globalStyle,
-  style,
-  styleVariants,
-} from "@vanilla-extract/css";
-
-// import { TemType, temTypes } from "../../data/temtems";
+import { globalStyle, style, styleVariants } from "@vanilla-extract/css";
 import { flexCenter } from "../../styles/utility-styles.css";
 import { hsla } from "../../styles/theme.util";
 import { theme, lightTheme, darkTheme } from "../../styles/themes.css";
-import {
-  CSSPropertiesWithVars,
-  StyleWithSelectors,
-  WithQueries,
-} from "@vanilla-extract/css/dist/declarations/src/types";
 import { temTypes } from "../../utils/data";
 
 export const baseElementType = style({
@@ -33,6 +20,7 @@ export const elementTypeLabel = styleVariants(temTypes, (elementColor) => [
 
 export const container = style({
   // border: "1px dashed gray",
+
   position: "relative",
 
   width: "100%",
@@ -43,8 +31,6 @@ export const container = style({
 
   display: "flex",
   flexDirection: "column",
-  // alignItems: "center",
-  // gap: "1rem",
 });
 
 export const cardBackground = style({
@@ -180,19 +166,14 @@ export const nameTextStyle = style([
 export const numberTextStyle = style([
   flexCenter,
   {
-    // userSelect: "none",
     fontFamily: "Fira Code",
     fontWeight: 600,
     fontSize: "18px",
     color: hsla(theme.colors.onSurface[5], 0.4),
-    // color: hsla(theme.colors.surface[10]),
 
     selectors: {
       [`${lightTheme} &`]: {
-        // fontWeight: 500,
-
         color: hsla(theme.colors.onSurface[5], 0.7),
-        // color: hsla(theme.colors.surface[5], 0.8),
       },
     },
   },
@@ -213,34 +194,22 @@ export const lumaImgIcon = style({
 export const mainContent = style({
   // border: "1px dashed red",
 
-  padding: "0.5rem",
   borderRadius: 16,
   backgroundColor: "hsl(0, 0%, 100%)",
   width: "100%",
   height: "100%",
-  // flex: 1,
 
   display: "flex",
   flexDirection: "column",
-  // justifyContent: "space-between",
 });
 
 export const tabContent = style({
   // border: "1px dashed blue",
-  // overflowY: "auto",
+
+  padding: "1rem",
+  height: "100%",
 
   color: hsla(theme.colors.black[5]),
-  // padding: "1rem",
-  // flex: 1,
-
-  // height: 100,
-  height: "100%",
-  // maxHeight: "100%",
-
-  // height: 210,
-  // minHeight: 210,
-
-  // flex: 0,
 
   display: "flex",
   flexDirection: "column",
@@ -330,7 +299,7 @@ export const contentRow = styleVariants({
 export const statsContainer = style([
   // contentRow.column,
   {
-    padding: "1rem",
+    padding: "0 0.5rem",
     width: "100%",
 
     display: "flex",
@@ -401,19 +370,69 @@ export const statValue = style([
 ]);
 
 export const tvYieldContainer = style({
-  padding: "1rem",
+  // border: "1px dashed red",
+
+  padding: "0 1rem",
   width: "100%",
 
   display: "flex",
-  flexDirection: "column",
-  gap: 3,
+  flexDirection: "row",
+  gap: "0.5rem",
 });
+
+export const subHeading = style({
+  padding: "0 0.5rem",
+  fontSize: 14,
+  fontWeight: 600,
+});
+
+export const tvItem = style({
+  // border: "1px solid red",
+
+  borderRadius: 8,
+  padding: "0 6px",
+  background: hsla(theme.colors.white[5]),
+
+  height: "min-content",
+
+  display: "flex",
+  flexDirection: "row",
+
+  gap: "0.25rem",
+});
+
+export const tvLabel = style([
+  flexCenter,
+  {
+    textTransform: "uppercase",
+    // height: "100%",
+
+    fontSize: 12,
+    fontWeight: 600,
+  },
+]);
+
+export const tvValue = style([
+  flexCenter,
+  {
+    background: hsla(theme.colors.white[5]),
+
+    borderRadius: "50%",
+    width: 20,
+    height: 20,
+
+    fontFamily: "Fira Code",
+    fontSize: 12,
+    fontWeight: 600,
+  },
+]);
 
 export const listContainer = style({
   borderBottom: `1px solid ${hsla(theme.colors.white[2])}`,
 
-  padding: "0 0.5rem",
-  paddingBottom: "0.5rem",
+  margin: "0 1rem",
+  padding: "0.5rem 0",
+  // paddingBottom: "0.5rem",
 
   display: "flex",
   gap: "1rem",
@@ -470,7 +489,7 @@ export const tab = style({
 
 export const traitContainer = style({
   maxHeight: "100%",
-  padding: "1rem",
+  // padding: "1rem",
 
   display: "flex",
   flexDirection: "column",
@@ -510,25 +529,32 @@ export const traitEffect = style({
 
 export const matchupGridWrapper = style({
   // border: "1px dashed green",
-  height: "100%",
+  // height: "100%",
   width: "100%",
 
-  overflow: "hidden",
-  borderRadius: 12,
+  // overflow: "hidden",
+  // borderRadius: 12,
 
   display: "flex",
   flexDirection: "column",
   // flexDirection: "row",
-  gap: 1,
+  // gap: 1,
 });
 
 export const matchupGridContainer = style({
   // outline: "1px solid red",
   position: "relative",
-  // overflow: "hidden",
-  // borderRadius: 12,
 
-  height: "100%",
+  padding: 8,
+  // overflow: "hidden",
+  borderRadius: "0 0 12px 12px",
+
+  // height: "100%",
+
+  // minHeight: "1rem",
+  // maxHeight: "1rem",
+  // height: "1rem",
+
   width: "100%",
   background: hsla(theme.colors.white[2]),
 
@@ -543,14 +569,25 @@ export const matchupGridContainer = style({
   // gap: 1,
 
   display: "flex",
-  justifyContent: "space-evenly",
-  flexWrap: "wrap",
+  // justifyContent: "space-evenly",
+  // justifyContent: "space-between",
+  // justifyContent: "stretch",
+  gap: 2,
+  // flexWrap: "wrap",
 });
 
 export const matchupGridLabel = style({
   // borderRadius: 3,
   // padding: 2,
-  height: "2.5rem",
+  position: "relative",
+
+  borderRadius: "12px 12px 0 0",
+  marginBottom: 1,
+
+  // height: "2.5rem",
+  minHeight: "2rem",
+  maxHeight: "2rem",
+  height: "2rem",
   background: hsla(theme.colors.white[3]),
 
   whiteSpace: "nowrap",
@@ -564,8 +601,17 @@ export const matchupGridLabel = style({
   alignItems: "center",
 });
 
+export const asteriskLabel = style({
+  position: "relative",
+  top: -5,
+  fontFamily: "Fira Code",
+  fontSize: 14,
+  fontWeight: 700,
+  color: hsla(theme.colors.negative[4]),
+});
+
 export const elementContainer = style({
-  padding: 3,
+  // padding: 3,
   // borderRadius: 3,
   // background: hsla(theme.colors.white[2]),
 
@@ -601,7 +647,6 @@ export const matchupTypeValue = styleVariants({
     baseMatchupTypeValue,
     {
       color: hsla(theme.colors.white[0]),
-      // color: hsla(theme.colors.black[0], 0.6),
       background: hsla(theme.colors.filler[2]),
       fontWeight: 600,
     },
@@ -610,7 +655,6 @@ export const matchupTypeValue = styleVariants({
     baseMatchupTypeValue,
     {
       color: hsla(theme.colors.white[0]),
-      // color: hsla(theme.colors.black[0], 0.6),
       background: hsla(theme.colors.positive[3]),
       fontWeight: 600,
     },
@@ -627,9 +671,7 @@ export const matchupTypeValue = styleVariants({
     baseMatchupTypeValue,
     {
       color: hsla(theme.colors.white[0]),
-      // color: hsla(theme.colors.caution[0]),
       background: hsla(theme.colors.caution[3]),
-      // background: hsla(theme.colors.negative[5]),
       fontWeight: 600,
     },
   ],
@@ -638,7 +680,6 @@ export const matchupTypeValue = styleVariants({
     {
       color: hsla(theme.colors.white[0]),
       background: hsla(theme.colors.negative[5]),
-      // background: "hsl(275, 100%, 50%)",
       fontWeight: 600,
     },
   ],
@@ -655,12 +696,60 @@ export const matchupTypeValue = styleVariants({
 export const matchupCompContainer = style({
   // border: "1px dashed green",
 
-  paddingTop: "0.5rem",
   width: "100%",
-  // height: "100%",
+  height: "100%",
 
   display: "flex",
-  // flexDirection: "row",
   flexDirection: "column",
-  gap: "0.5rem",
+  justifyContent: "space-between",
+});
+
+export const dialogWrapper = style({
+  // border: "1px solid red",
+  zIndex: 0,
+  position: "absolute",
+
+  padding: 5,
+  width: "100%",
+
+  display: "flex",
+  justifyContent: "flex-end",
+});
+
+export const questionButton = style([
+  flexCenter,
+  {
+    cursor: "pointer",
+
+    background: hsla(theme.colors.white[6]),
+    borderRadius: "50%",
+    width: 20,
+    height: 20,
+
+    color: hsla(theme.colors.black[10]),
+    fontSize: 12,
+    fontWeight: 700,
+
+    ":hover": {
+      background: hsla(theme.colors.white[8]),
+    },
+  },
+]);
+
+export const tooltip = style({
+  // border: "1px solid red",
+
+  position: "absolute",
+  bottom: "calc(100% + 5px)",
+  right: 0,
+
+  borderRadius: 10,
+  background: hsla(theme.colors.white[2]),
+  padding: "1rem",
+
+  minWidth: "100%",
+  width: "100%",
+
+  display: "flex",
+  flexDirection: "column",
 });
