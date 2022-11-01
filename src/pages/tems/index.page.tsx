@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import type { NextPage, GetStaticProps } from "next";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { TemCard } from "../../components/TemCard/TemCard.component";
+import { TemCard } from "../../components/TemCard/TemCard/TemCard.component";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch.component";
 
 import { TemType } from "../../utils/types";
@@ -95,7 +95,7 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
     <div className={listPageContainer}>
       <div className={header}>Temtems</div>
       <ThemeSwitch />
-      <div className={list}>
+      <ul className={list}>
         {renderList.map((v) => (
           <TemCard
             key={v.number}
@@ -111,7 +111,7 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
             imgAnimatedLumaUrl={v.wikiRenderAnimatedLumaUrl}
           />
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
