@@ -1,12 +1,23 @@
-import { globalStyle, style, styleVariants } from "@vanilla-extract/css";
+import { style } from "@vanilla-extract/css";
 import { flexCenter } from "../../../styles/utility-styles.css";
 import { hsla } from "../../../styles/theme.util";
 import { theme, lightTheme, darkTheme } from "../../../styles/themes.css";
-import { temTypes } from "../../../utils/data";
+
+export const statsViewContainer = style({
+  height: "100%",
+
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+  // justifyContent: "space-between",
+});
 
 export const statsContainer = style([
   {
+    borderBottom: `1px solid ${hsla(theme.colors.white[2])}`,
+
     padding: "0 0.5rem",
+    paddingBottom: "1rem",
     width: "100%",
 
     display: "flex",
@@ -27,7 +38,6 @@ export const statLineContainer = style({
 
 export const maxStatLine = style({
   position: "relative",
-  // boxShadow: `inset 0px 0px 0px 1px hsl(0, 0%, 100%, 0.1)`,
   boxShadow: `inset 0px 0px 0px 1px ${hsla(theme.colors.white[2])}`,
   width: "100%",
 });
@@ -75,37 +85,70 @@ export const statValue = style([
   },
 ]);
 
-export const tvYieldContainer = style({
-  padding: "0 1rem",
+export const tvContainer = style({
+  // border: "1px dashed green",
   width: "100%",
 
   display: "flex",
-  flexDirection: "row",
-  gap: "0.5rem",
+  alignItems: "center",
+  gap: 6,
 });
 
-export const tvItem = style({
-  // border: "1px solid red",
+export const tvHeader = style([
+  flexCenter,
+  {
+    position: "relative",
 
-  borderRadius: 8,
-  padding: "0 6px",
-  background: hsla(theme.colors.white[5]),
+    borderRadius: 5,
+    height: "1.5rem",
+    padding: "0 6px",
 
-  height: "min-content",
+    background: hsla(theme.colors.white[3]),
+
+    whiteSpace: "nowrap",
+    color: hsla(theme.colors.black[10], 0.7),
+
+    fontSize: 12,
+    fontWeight: 600,
+  },
+]);
+
+export const tvList = style({
+  // outline: "1px solid red",
+  position: "relative",
+
+  borderRadius: "0 0 12px 12px",
+
+  width: "100%",
 
   display: "flex",
-  flexDirection: "row",
-
-  gap: "0.25rem",
+  gap: 6,
 });
+
+export const tvItem = style([
+  flexCenter,
+  {
+    border: `1px solid ${hsla(theme.colors.white[3])}`,
+
+    borderRadius: 5,
+    height: "1.5rem",
+    padding: "0 6px",
+
+    whiteSpace: "nowrap",
+    color: hsla(theme.colors.black[10], 0.7),
+    fontWeight: 500,
+    fontSize: 10,
+
+    gap: 6,
+  },
+]);
 
 export const tvLabel = style([
   flexCenter,
   {
     textTransform: "uppercase",
-    // height: "100%",
 
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 600,
   },
 ]);
@@ -113,58 +156,10 @@ export const tvLabel = style([
 export const tvValue = style([
   flexCenter,
   {
-    background: hsla(theme.colors.white[5]),
-
-    borderRadius: "50%",
-    width: 20,
-    height: 20,
+    color: hsla(theme.colors.black[10]),
 
     fontFamily: "Fira Code",
     fontSize: 12,
     fontWeight: 600,
   },
 ]);
-
-export const matchupGridWrapper = style({
-  // border: "1px dashed green",
-
-  width: "100%",
-
-  display: "flex",
-  flexDirection: "column",
-});
-
-export const matchupGridContainer = style({
-  // outline: "1px solid red",
-  position: "relative",
-
-  padding: 8,
-  borderRadius: "0 0 12px 12px",
-
-  width: "100%",
-  background: hsla(theme.colors.white[2]),
-
-  display: "flex",
-  gap: 2,
-});
-
-export const matchupGridLabel = style({
-  position: "relative",
-
-  borderRadius: "12px 12px 0 0",
-  marginBottom: 1,
-
-  minHeight: "2rem",
-  maxHeight: "2rem",
-  height: "2rem",
-  background: hsla(theme.colors.white[3]),
-
-  whiteSpace: "nowrap",
-  color: hsla(theme.colors.black[10]),
-  fontSize: 12,
-  fontWeight: 500,
-
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-});

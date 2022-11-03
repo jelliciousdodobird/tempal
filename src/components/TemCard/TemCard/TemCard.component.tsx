@@ -1,4 +1,4 @@
-import { memo, ReactNode, useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 
 import { Stats, StatsWithTotal } from "../../../pages/tems/index.page";
 import { zeroPad } from "../../../utils/utils";
@@ -21,6 +21,8 @@ import {
   elementRow,
   contentContainer,
   tabContent,
+  buttonContainer,
+  imgChangeButton,
 } from "./Temcard.css";
 import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
 
@@ -30,6 +32,12 @@ import { Tabber } from "../Tabber/Tabber.component";
 import { TraitView } from "../TraitView/TraitView.component";
 import { MatchupsView } from "../MatchupsView/MatchupsView.component";
 import { StatsView } from "../StatsView/StatsView.component";
+import {
+  IconPlayerPause,
+  IconPlayerPlay,
+  IconStar,
+  IconStarOff,
+} from "@tabler/icons";
 
 export interface TemCardProps {
   name: string;
@@ -45,16 +53,23 @@ export interface TemCardProps {
   imgAnimatedLumaUrl: string;
 }
 
+export type CardTab = "stats" | "traits" | "matchups";
+export type CardTabComponents = Record<CardTab, JSX.Element>;
+
 const animProps: HTMLMotionProps<"li"> = {
   variants: {
     outofview: {
       opacity: 0,
-      transform: "perspective(1000px) rotateX(40deg) translateY(100px)",
+      x: 100,
+      // perspective and transformPerspective breaks safari mobile for some reason..
+      // transform: "perspective(1000px) rotateX(40deg) translateY(100px)",
     },
     inview: {
       opacity: 1,
-      transform: "perspective(1000px) rotateX(0deg) translateY(0px)",
-      transition: { duration: 0.2 },
+      x: 0,
+      // perspective and transformPerspective breaks safari mobile for some reason..
+      // transform: "perspective(1000px) rotateX(0deg) translateY(0px)",
+      transition: { duration: 0.25 },
     },
   },
   initial: "outofview",
@@ -77,8 +92,8 @@ export const TemCard = memo(
     imgAnimatedLumaUrl,
   }: TemCardProps) => {
     const [showLuma, setShowLuma] = useState(false);
-    const [hovering, setHovering] = useState(false);
-    const [tabSelected, setTabSelected] = useState("stats");
+    const [animate, setAnimate] = useState(false);
+    const [tabSelected, setTabSelected] = useState<CardTab>("stats");
 
     const type1 = (types[0] ? types[0].toLowerCase() : "neutral") as TemType;
     const type2 = (types[1] ? types[1].toLowerCase() : null) as TemType;
@@ -90,44 +105,22 @@ export const TemCard = memo(
 
     const staticImg = showLuma ? imgStaticLumaUrl : imgStaticUrl;
     const animatedImg = showLuma ? imgAnimatedLumaUrl : imgAnimatedUrl;
-    const mainImgUrl = hovering ? animatedImg : staticImg;
+    const mainImgUrl = animate ? animatedImg : staticImg;
 
     const toggleLuma = () => setShowLuma((v) => !v);
-    const startHover = () => setHovering(true);
-    const endHover = () => setHovering(false);
+    const toggleAnimate = () => setAnimate((v) => !v);
 
-    // const containerBindings = useMemo(
-    //   () => ({
-    //     onMouseEnter: startHover,
-    //     onMouseLeave: endHover,
-    //   }),
-    //   []
-    // );
-
-    const tabComponent = useMemo(() => {
-      let node: ReactNode = <></>;
-      switch (tabSelected) {
-        case "stats":
-          node = <StatsView stats={stats} tvYields={tvYields} />;
-          break;
-        case "traits":
-          node = <TraitView traits={traits} />;
-          break;
-        case "matchups":
-          node = <MatchupsView traits={traits} types={types} />;
-          break;
-      }
-
-      return node;
-    }, [tabSelected, stats, tvYields, traits, types]);
+    const tabComponent: CardTabComponents = useMemo(
+      () => ({
+        stats: <StatsView stats={stats} tvYields={tvYields} />,
+        traits: <TraitView traits={traits} />,
+        matchups: <MatchupsView traits={traits} types={types} />,
+      }),
+      [tabSelected, stats, tvYields, traits, types]
+    );
 
     return (
-      <motion.li
-        {...animProps}
-        className={container}
-        tabIndex={1}
-        // {...containerBindings}
-      >
+      <motion.li className={container} tabIndex={1} {...animProps}>
         <>
           <div className={cardBackground}>
             <div className={backgroundImageContainer}>
@@ -147,14 +140,6 @@ export const TemCard = memo(
               <div className={cardTitle}>
                 <span className={numberTextStyle}>#{formattedNumber}</span>
                 <span className={nameTextStyle}>{formattedName}</span>
-                {/* <Image
-                      className={lumaImgIcon}
-                      onClick={toggleLuma}
-                      alt="luma"
-                      src="https://temtem.wiki.gg/images/4/42/Luma_icon.png"
-                      width={16}
-                      height={16}
-                /> */}
               </div>
 
               <div className={specieImageContainer}>
@@ -166,6 +151,30 @@ export const TemCard = memo(
                   height={128}
                   quality={100}
                 />
+                <div className={buttonContainer}>
+                  <button
+                    className={imgChangeButton}
+                    type="button"
+                    onClick={toggleLuma}
+                  >
+                    {showLuma ? (
+                      <IconStarOff width={16} pointerEvents="none" />
+                    ) : (
+                      <IconStar width={16} pointerEvents="none" />
+                    )}
+                  </button>
+                  <button
+                    className={imgChangeButton}
+                    type="button"
+                    onClick={toggleAnimate}
+                  >
+                    {animate ? (
+                      <IconPlayerPause width={16} pointerEvents="none" />
+                    ) : (
+                      <IconPlayerPlay width={16} pointerEvents="none" />
+                    )}
+                  </button>
+                </div>
               </div>
 
               <div className={elementRow}>
@@ -174,6 +183,7 @@ export const TemCard = memo(
                   <span className={elementTypeLabel[type2]}>{type2}</span>
                 )}
               </div>
+              <div className={elementRow}></div>
             </div>
 
             <div className={mainContent}>
@@ -192,7 +202,7 @@ export const TemCard = memo(
                   exit={{ y: -10, opacity: 0 }}
                   transition={{ duration: 0.2 }}
                 >
-                  {tabComponent}
+                  {tabComponent[tabSelected]}
                 </motion.div>
               </AnimatePresence>
             </div>

@@ -1,9 +1,7 @@
-import { assignInlineVars } from "@vanilla-extract/dynamic";
 import axios from "axios";
-import { nanoid } from "nanoid";
 import type { NextPage, GetStaticProps } from "next";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TemCard } from "../../components/TemCard/TemCard/TemCard.component";
 import ThemeSwitch from "../../components/ThemeSwitch/ThemeSwitch.component";
 
@@ -98,7 +96,7 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
       <ul className={list}>
         {renderList.map((v) => (
           <TemCard
-            key={v.number}
+            key={v.name + v.types[0]}
             number={v.number}
             name={v.name}
             types={v.types}

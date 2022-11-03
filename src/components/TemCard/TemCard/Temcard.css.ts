@@ -102,6 +102,7 @@ export const specieImageContainer = style({
 });
 
 export const specieImage = style({
+  position: "relative",
   userSelect: "none",
 
   width: "100%",
@@ -110,12 +111,48 @@ export const specieImage = style({
   objectFit: "contain",
 });
 
+export const buttonContainer = style({
+  position: "absolute",
+  top: 18,
+  right: -21,
+
+  // top: 0,
+  // right: -21,
+
+  // bottom: 22,
+  // right: -32,
+
+  border: `1px solid ${hsla(theme.colors.white[0], 0.1)}`,
+  borderRadius: "5rem",
+
+  padding: "3px 8px",
+  background: hsla(theme.colors.white[0], 0.1),
+  backdropFilter: "blur(5px)",
+
+  display: "flex",
+  gap: 5,
+});
+
+export const imgChangeButton = style([
+  flexCenter,
+  {
+    borderRadius: "50%",
+    width: "1.5rem",
+    height: "1.5rem",
+
+    background: "transparent",
+    // background: hsla(theme.colors.white[0]),
+  },
+]);
+
 export const contentContainer = style({
-  // border: "1px solid red",
+  // border: "1px solid blue",
 
   position: "relative",
   padding: "1.5rem",
   height: "100%",
+
+  flex: 1,
 
   display: "flex",
   flexDirection: "column",
@@ -198,6 +235,8 @@ export const mainContent = style({
   backgroundColor: "hsl(0, 0%, 100%)",
   width: "100%",
   height: "100%",
+
+  flex: 1,
 
   display: "flex",
   flexDirection: "column",

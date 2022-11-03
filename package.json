@@ -26,6 +26,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-resize-detector": "^7.1.2",
+    "sharp": "^0.31.1",
     "zustand": "^4.1.1"
   },
   "devDependencies": {

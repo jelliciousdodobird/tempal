@@ -1,11 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
 import { listContainer, listItem, tab, itemButton } from "./Tabber.css";
 import { motion } from "framer-motion";
+import { CardTab } from "../TemCard/TemCard.component";
 
 interface TabsProps {
   uid: string;
-  tabSelected: string;
-  setTabSelected: Dispatch<SetStateAction<string>>;
+  tabSelected: CardTab;
+  setTabSelected: Dispatch<SetStateAction<CardTab>>;
 }
 
 export const Tabber = ({ uid, tabSelected, setTabSelected }: TabsProps) => {
