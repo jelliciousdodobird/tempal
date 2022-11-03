@@ -133,9 +133,11 @@ export const buttonContainer = style({
   gap: 5,
 });
 
-export const imgChangeButton = style([
+export const toggleImgButton = style([
   flexCenter,
   {
+    cursor: "pointer",
+
     borderRadius: "50%",
     width: "1.5rem",
     height: "1.5rem",

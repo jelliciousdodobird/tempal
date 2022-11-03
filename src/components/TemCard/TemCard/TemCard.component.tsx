@@ -22,7 +22,7 @@ import {
   contentContainer,
   tabContent,
   buttonContainer,
-  imgChangeButton,
+  toggleImgButton,
 } from "./Temcard.css";
 import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
 
@@ -40,6 +40,8 @@ import {
 } from "@tabler/icons";
 
 export interface TemCardProps {
+  id: string;
+
   name: string;
   number: number;
   types: [TemType, TemType | null];
@@ -79,6 +81,7 @@ const animProps: HTMLMotionProps<"li"> = {
 
 export const TemCard = memo(
   ({
+    id,
     number,
     name,
     types,
@@ -120,7 +123,7 @@ export const TemCard = memo(
     );
 
     return (
-      <motion.li className={container} tabIndex={1} {...animProps}>
+      <motion.li className={container} tabIndex={1} {...animProps} id={id}>
         <>
           <div className={cardBackground}>
             <div className={backgroundImageContainer}>
@@ -153,7 +156,7 @@ export const TemCard = memo(
                 />
                 <div className={buttonContainer}>
                   <button
-                    className={imgChangeButton}
+                    className={toggleImgButton}
                     type="button"
                     onClick={toggleLuma}
                   >
@@ -164,7 +167,7 @@ export const TemCard = memo(
                     )}
                   </button>
                   <button
-                    className={imgChangeButton}
+                    className={toggleImgButton}
                     type="button"
                     onClick={toggleAnimate}
                   >
