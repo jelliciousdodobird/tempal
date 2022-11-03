@@ -119,18 +119,26 @@ export const TemCard = memo(
         traits: <TraitView traits={traits} />,
         matchups: <MatchupsView traits={traits} types={types} />,
       }),
-      [tabSelected, stats, tvYields, traits, types]
+      [stats, tvYields, traits, types]
     );
 
-    const imgStatic = <MainImage url={imgStaticUrl} alt={formattedName} />;
-
-    const imgStaticLuma = (
-      <MainImage url={imgStaticLumaUrl} alt={formattedName} />
+    const imgStatic = useMemo(
+      () => <MainImage url={imgStaticUrl} alt={formattedName} />,
+      []
     );
-    const imgAnimate = <MainImage url={imgAnimatedUrl} alt={formattedName} />;
 
-    const imgAnimateLuma = (
-      <MainImage url={imgAnimatedLumaUrl} alt={formattedName} />
+    const imgStaticLuma = useMemo(
+      () => <MainImage url={imgStaticLumaUrl} alt={formattedName} />,
+      []
+    );
+    const imgAnimate = useMemo(
+      () => <MainImage url={imgAnimatedUrl} alt={formattedName} />,
+      []
+    );
+
+    const imgAnimateLuma = useMemo(
+      () => <MainImage url={imgAnimatedLumaUrl} alt={formattedName} />,
+      []
     );
 
     return (
@@ -259,6 +267,7 @@ const MainImage = ({
       width={width}
       height={height}
       quality={quality}
+      priority={true}
     />
   );
 };
