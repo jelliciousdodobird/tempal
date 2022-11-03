@@ -122,6 +122,17 @@ export const TemCard = memo(
       [tabSelected, stats, tvYields, traits, types]
     );
 
+    const imgStatic = <MainImage url={imgStaticUrl} alt={formattedName} />;
+
+    const imgStaticLuma = (
+      <MainImage url={imgStaticLumaUrl} alt={formattedName} />
+    );
+    const imgAnimate = <MainImage url={imgAnimatedUrl} alt={formattedName} />;
+
+    const imgAnimateLuma = (
+      <MainImage url={imgAnimatedLumaUrl} alt={formattedName} />
+    );
+
     return (
       <motion.li className={container} tabIndex={1} {...animProps} id={id}>
         <>
@@ -146,14 +157,18 @@ export const TemCard = memo(
               </div>
 
               <div className={specieImageContainer}>
-                <Image
+                {/* <Image
                   className={specieImage}
                   alt={formattedName}
                   src={mainImgUrl}
                   width={128}
                   height={128}
                   quality={100}
-                />
+                /> */}
+                {!animate && !showLuma && imgStatic}
+                {!animate && showLuma && imgStaticLuma}
+                {animate && !showLuma && imgAnimate}
+                {animate && showLuma && imgAnimateLuma}
                 <div className={buttonContainer}>
                   <button
                     className={toggleImgButton}
@@ -220,3 +235,30 @@ export const TemCard = memo(
 );
 
 TemCard.displayName = "TemCard";
+
+interface MainImageProps {
+  url: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  quality?: number;
+}
+
+const MainImage = ({
+  url,
+  alt,
+  width = 128,
+  height = 128,
+  quality = 100,
+}: MainImageProps) => {
+  return (
+    <Image
+      className={specieImage}
+      alt={alt}
+      src={url}
+      width={width}
+      height={height}
+      quality={quality}
+    />
+  );
+};
