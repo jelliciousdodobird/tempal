@@ -1,5 +1,5 @@
 import { style, styleVariants } from "@vanilla-extract/css";
-import { flexCenter } from "../../../styles/utility-styles.css";
+import { flexCenter, loadingShimmer } from "../../../styles/utility-styles.css";
 import { hsla } from "../../../styles/theme.util";
 import { theme, lightTheme, darkTheme } from "../../../styles/themes.css";
 import { temTypes } from "../../../utils/data";
@@ -125,25 +125,34 @@ export const buttonContainer = style({
   border: `1px solid ${hsla(theme.colors.white[0], 0.1)}`,
   borderRadius: "5rem",
 
-  padding: "3px 8px",
+  // padding: "3px 8px",
+  padding: "0 5px",
   background: hsla(theme.colors.white[0], 0.1),
   backdropFilter: "blur(5px)",
 
   display: "flex",
-  gap: 5,
+  // gap: 5,
 });
 
 export const toggleImgButton = style([
   flexCenter,
   {
+    // border: "1px solid blue",
+
     cursor: "pointer",
 
-    borderRadius: "50%",
-    width: "1.5rem",
-    height: "1.5rem",
+    // borderRadius: "50%",
+    width: "2rem",
+    height: "2rem",
+    // width: "1.5rem",
+    // height: "1.5rem",
 
     background: "transparent",
     // background: hsla(theme.colors.white[0]),
+
+    // ":disabled": {
+    //   cursor: "wait",
+    // },
   },
 ]);
 
@@ -255,3 +264,13 @@ export const tabContent = style({
   display: "flex",
   flexDirection: "column",
 });
+
+export const loadingContainer = style([
+  flexCenter,
+  loadingShimmer,
+  {
+    // border: "1px solid red",
+    position: "absolute",
+    borderRadius: 5,
+  },
+]);

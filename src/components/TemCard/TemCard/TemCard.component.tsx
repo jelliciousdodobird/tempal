@@ -23,8 +23,9 @@ import {
   tabContent,
   buttonContainer,
   toggleImgButton,
+  loadingContainer,
 } from "./Temcard.css";
-import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { TemType } from "../../../utils/types";
 
@@ -58,27 +59,6 @@ export interface TemCardProps {
 export type CardTab = "stats" | "traits" | "matchups";
 export type CardTabComponents = Record<CardTab, JSX.Element>;
 
-const animProps: HTMLMotionProps<"li"> = {
-  variants: {
-    outofview: {
-      opacity: 0,
-      x: 100,
-      // perspective and transformPerspective breaks safari mobile for some reason..
-      // transform: "perspective(1000px) rotateX(40deg) translateY(100px)",
-    },
-    inview: {
-      opacity: 1,
-      x: 0,
-      // perspective and transformPerspective breaks safari mobile for some reason..
-      // transform: "perspective(1000px) rotateX(0deg) translateY(0px)",
-      transition: { duration: 0.25 },
-    },
-  },
-  initial: "outofview",
-  whileInView: "inview",
-  viewport: { once: true },
-};
-
 export const TemCard = memo(
   ({
     id,
@@ -94,6 +74,7 @@ export const TemCard = memo(
     imgStaticLumaUrl,
     imgAnimatedLumaUrl,
   }: TemCardProps) => {
+    const [imgLoading, setImgLoading] = useState(false);
     const [showLuma, setShowLuma] = useState(false);
     const [animate, setAnimate] = useState(false);
     const [tabSelected, setTabSelected] = useState<CardTab>("stats");
@@ -103,15 +84,25 @@ export const TemCard = memo(
 
     const index = name.indexOf("(");
     const formattedName = index !== -1 ? name.slice(0, index) : name;
-
     const formattedNumber = zeroPad(number, 3);
 
     const staticImg = showLuma ? imgStaticLumaUrl : imgStaticUrl;
     const animatedImg = showLuma ? imgAnimatedLumaUrl : imgAnimatedUrl;
-    const mainImgUrl = animate ? animatedImg : staticImg;
+    const displayImg = animate ? animatedImg : staticImg;
 
-    const toggleLuma = () => setShowLuma((v) => !v);
-    const toggleAnimate = () => setAnimate((v) => !v);
+    const toggleLuma = () => {
+      setImgLoading(true);
+      if (imgLoading) return;
+      setShowLuma((v) => !v);
+    };
+
+    const toggleAnimate = () => {
+      setImgLoading(true);
+      if (imgLoading) return;
+      setAnimate((v) => !v);
+    };
+
+    const stopLoading = () => setImgLoading(false);
 
     const tabComponent: CardTabComponents = useMemo(
       () => ({
@@ -122,27 +113,8 @@ export const TemCard = memo(
       [stats, tvYields, traits, types]
     );
 
-    const imgStatic = useMemo(
-      () => <MainImage url={imgStaticUrl} alt={formattedName} />,
-      []
-    );
-
-    const imgStaticLuma = useMemo(
-      () => <MainImage url={imgStaticLumaUrl} alt={formattedName} />,
-      []
-    );
-    const imgAnimate = useMemo(
-      () => <MainImage url={imgAnimatedUrl} alt={formattedName} />,
-      []
-    );
-
-    const imgAnimateLuma = useMemo(
-      () => <MainImage url={imgAnimatedLumaUrl} alt={formattedName} />,
-      []
-    );
-
     return (
-      <motion.li className={container} tabIndex={1} {...animProps} id={id}>
+      <motion.li className={container} id={id} tabIndex={1}>
         <>
           <div className={cardBackground}>
             <div className={backgroundImageContainer}>
@@ -165,20 +137,19 @@ export const TemCard = memo(
               </div>
 
               <div className={specieImageContainer}>
-                {/* <Image
+                <Image
                   className={specieImage}
                   alt={formattedName}
-                  src={mainImgUrl}
+                  src={displayImg}
                   width={128}
                   height={128}
                   quality={100}
-                /> */}
-                {!animate && !showLuma && imgStatic}
-                {!animate && showLuma && imgStaticLuma}
-                {animate && !showLuma && imgAnimate}
-                {animate && showLuma && imgAnimateLuma}
+                  onLoadingComplete={stopLoading}
+                />
+                {imgLoading && <div className={loadingContainer}></div>}
                 <div className={buttonContainer}>
                   <button
+                    disabled={imgLoading}
                     className={toggleImgButton}
                     type="button"
                     onClick={toggleLuma}
@@ -190,6 +161,7 @@ export const TemCard = memo(
                     )}
                   </button>
                   <button
+                    disabled={imgLoading}
                     className={toggleImgButton}
                     type="button"
                     onClick={toggleAnimate}
@@ -209,7 +181,6 @@ export const TemCard = memo(
                   <span className={elementTypeLabel[type2]}>{type2}</span>
                 )}
               </div>
-              <div className={elementRow}></div>
             </div>
 
             <div className={mainContent}>
@@ -243,31 +214,3 @@ export const TemCard = memo(
 );
 
 TemCard.displayName = "TemCard";
-
-interface MainImageProps {
-  url: string;
-  alt: string;
-  width?: number;
-  height?: number;
-  quality?: number;
-}
-
-const MainImage = ({
-  url,
-  alt,
-  width = 128,
-  height = 128,
-  quality = 100,
-}: MainImageProps) => {
-  return (
-    <Image
-      className={specieImage}
-      alt={alt}
-      src={url}
-      width={width}
-      height={height}
-      quality={quality}
-      priority={true}
-    />
-  );
-};

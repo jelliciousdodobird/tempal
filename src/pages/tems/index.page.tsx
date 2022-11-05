@@ -72,6 +72,8 @@ export const getStaticProps: GetStaticProps<TemProps> = async () => {
   };
 };
 
+const STARTING_LIMIT = 10;
+
 const Tems: NextPage<TemProps> = ({ tems }) => {
   const searchRef = useRef<HTMLInputElement>(null);
 
@@ -81,23 +83,25 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
         keys: ["name", "number", "types", "traits"],
         includeScore: true,
         shouldSort: true,
-        threshold: 0.4,
+        threshold: 0.35,
       }),
     [tems]
   );
 
-  const [range, setRange] = useState(20);
-  const [list, setList] = useState<API_TemData[]>([]);
-  const renderList = list.slice(0, range);
+  const [range, setRange] = useState(STARTING_LIMIT);
+  const [results, setResults] = useState<API_TemData[]>(tems);
+  const renderList = results.slice(0, range);
   const numOfItems = useRef(tems.length);
   const [searchTerm, setSearchTerm] = useState("");
 
   const search = useCallback(
     debounce((term: string) => {
-      setList((list) => {
+      setResults((list) => {
         const searchResults = searcher.search(term);
         const results = searchResults ? searchResults.map((v) => v.item) : list;
         const data = term === "" ? tems : results;
+
+        if (data !== list) setRange(STARTING_LIMIT);
         return data;
       });
     }, 500),
@@ -128,12 +132,12 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
   }, [search, searchTerm]);
 
   useEffect(() => {
-    if (list.length === numOfItems.current || list.length === 0) return;
+    if (results.length === numOfItems.current) return;
 
     document
       .querySelector("#temtem-list")
       ?.scrollIntoView({ behavior: "smooth" });
-  }, [list]);
+  }, [results]);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -158,6 +162,7 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
       </div>
       <div className={listPageContainer}>
         <div className={searchContainer}>
+          results: {results.length} | render: {renderList.length}
           <input
             ref={searchRef}
             className={searchInput}
