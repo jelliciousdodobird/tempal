@@ -5,7 +5,7 @@ import { darkTheme, lightTheme, theme } from "../../../styles/themes.css";
 
 export const container = style({
   position: "relative",
-  height: "5rem",
+  height: theme.mainNav.maxHeight,
 
   backgroundColor: hsla(theme.colors.surface[5], 0.95),
   backdropFilter: "blur(4px)",

@@ -14,9 +14,15 @@ import {
   headerContent,
   listContainer,
   listPageContainer,
-  searchContainer,
-  searchInput,
+  subHeader,
+  subHeaderContent,
+  sortButton,
+  resultsOverview,
+  bolden,
+  redBolden,
 } from "./tems.css";
+import { IconSortAscending2 } from "@tabler/icons";
+import { SearchInput } from "../../components/SearchInput/SearchInput.component";
 
 export interface Stats {
   atk: number;
@@ -74,16 +80,36 @@ export const getStaticProps: GetStaticProps<TemProps> = async () => {
 
 const STARTING_LIMIT = 10;
 
-const Tems: NextPage<TemProps> = ({ tems }) => {
-  const searchRef = useRef<HTMLInputElement>(null);
+type CustomKey = Fuse.FuseOptionKeyObject<API_TemData> & {
+  alias?: string[];
+};
 
+const customKeyData: CustomKey[] = [
+  { name: "name" },
+  { name: "number" },
+  { name: "types", alias: ["type"] },
+  { name: "traits", alias: ["trait"] },
+];
+
+const resolveKey = (key: string) => {
+  for (const keyObj of customKeyData) {
+    if (keyObj.alias)
+      for (const alias of keyObj.alias) {
+        if (key === alias) return keyObj.name as string;
+      }
+  }
+  return key;
+};
+
+const Tems: NextPage<TemProps> = ({ tems }) => {
   const searcher = useMemo(
     () =>
       new Fuse(tems, {
-        keys: ["name", "number", "types", "traits"],
+        keys: customKeyData,
+        useExtendedSearch: true,
         includeScore: true,
         shouldSort: true,
-        threshold: 0.35,
+        threshold: 0.34,
       }),
     [tems]
   );
@@ -95,16 +121,39 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const search = useCallback(
-    debounce((term: string) => {
+    debounce((query: string) => {
       setResults((list) => {
-        const searchResults = searcher.search(term);
-        const results = searchResults ? searchResults.map((v) => v.item) : list;
-        const data = term === "" ? tems : results;
+        const tokens = query.toLowerCase().split(":");
 
-        if (data !== list) setRange(STARTING_LIMIT);
+        const hasKey = tokens.length > 1;
+        const key = hasKey ? resolveKey(tokens[0]) : "";
+        const basicQuery = hasKey ? { [key]: tokens[1] } : tokens[0];
+
+        const queryValueStr = hasKey ? tokens[1] : tokens[0];
+        const andTokens = queryValueStr.split("&").map((v) => v.trim());
+        const orTokens = queryValueStr.split("|").map((v) => v.trim());
+
+        let finalQuery: string | Fuse.Expression = basicQuery;
+        if (andTokens.length > 1 && orTokens.length > 1) {
+          finalQuery = { "": "invalid key" };
+        } else if (hasKey && andTokens.length > 1) {
+          finalQuery = {
+            $and: andTokens.map((v) => ({ [key]: v })),
+          };
+        } else if (hasKey && orTokens.length > 1) {
+          finalQuery = {
+            $or: andTokens.map((v) => ({ [key]: v })),
+          };
+        }
+
+        const searchResults = searcher.search(finalQuery);
+        const results = searchResults ? searchResults.map((v) => v.item) : list;
+        const data = queryValueStr === "" ? tems : results;
+
+        if (data !== list) setRange(STARTING_LIMIT); // reset the range
         return data;
       });
-    }, 500),
+    }, 750),
     [searcher, tems]
   );
 
@@ -139,42 +188,36 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
       ?.scrollIntoView({ behavior: "smooth" });
   }, [results]);
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === "f") {
-        e.preventDefault();
-        searchRef.current?.focus();
-      }
-    };
-
-    window.addEventListener("keydown", handler);
-
-    return () => {
-      window.removeEventListener("keydown", handler);
-    };
-  }, []);
-
   return (
     <>
       <div className={header}>
         <div className={headerBackground}></div>
         <div className={headerContent}>TEMTEMS</div>
       </div>
-      <div className={listPageContainer}>
-        <div className={searchContainer}>
-          results: {results.length} | render: {renderList.length}
-          <input
-            ref={searchRef}
-            className={searchInput}
-            placeholder="Search by name, number, traits, types, etc.."
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-            }}
-          />
+      <div className={subHeader}>
+        <div className={subHeaderContent}>
+          <SearchInput value={searchTerm} setValue={setSearchTerm} />
+          <button className={sortButton} type="button">
+            <IconSortAscending2 pointerEvents="none" />
+            sort
+          </button>
         </div>
-        <ul className={listContainer} id="temtem-list">
-          {renderList.length === 0 && <li>No items found.</li>}
+      </div>
+      <div className={listPageContainer}>
+        <div className={resultsOverview} id="temtem-list">
+          {renderList.length === 0 && (
+            <>
+              <span className={redBolden}>0</span> temtems found. 😵
+            </>
+          )}
+          {renderList.length > 0 && (
+            <>
+              <span className={bolden}>{results.length}</span> temtem(s) found.
+            </>
+          )}
+        </div>
+
+        <ul className={listContainer}>
           {renderList.map((v) => {
             const id = `${v.name}-${v.types[0]}`;
             return (

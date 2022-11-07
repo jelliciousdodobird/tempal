@@ -14,11 +14,11 @@ const common = createGlobalTheme(":root", {
   unit: "14px",
   mainNav: {
     maxWidth: "100px",
-    maxHeight: "70px",
+    maxHeight: "56px",
   },
   subNav: {
-    maxWidth: "60px",
-    maxHeight: "60px",
+    maxWidth: "48px",
+    maxHeight: "48px",
   },
   font: {
     size: "14px",

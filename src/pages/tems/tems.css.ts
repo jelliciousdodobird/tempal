@@ -1,7 +1,19 @@
-import { style } from "@vanilla-extract/css";
-import { contentCenter } from "../../styles/utility-styles.css";
+import { createVar, globalKeyframes, style } from "@vanilla-extract/css";
+import {
+  contentCenter,
+  flexCenter,
+  glowAnimation,
+  glowBorderRadius,
+  glowEffect,
+  glowGradient,
+  rotateGlowGradient,
+} from "../../styles/utility-styles.css";
 import { hsla } from "../../styles/theme.util";
 import { theme } from "../../styles/themes.css";
+
+const navHeight = theme.mainNav.maxHeight;
+const subHeaderHeight = "4rem";
+const extraHeaderSpace = "10rem";
 
 export const idPageContainer = style({
   display: "flex",
@@ -25,29 +37,25 @@ export const listPageContainer = style([
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    gap: "4rem",
+    // gap: "1rem",
   },
 ]);
 
 export const listContainer = style({
-  scrollMarginTop: "calc(5rem + 4rem + 4rem)",
   // border: "1px dashed red",
   width: "100%",
 
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-  gridTemplateRows: "repeat(auto-fit, minmax(30rem, 30rem))",
+  gridTemplateRows: "repeat(auto-fit, minmax(30rem, 30rem))", // future: we'll need this line to virtualize this list
   gap: "1.5rem",
 });
 
 export const header = style({
+  // border: "1px dashed red",
   position: "relative",
-  // isolation: "isolate",
-
   width: "100%",
   height: "40vh",
-
-  // background: hsla(theme.colors.primary[5]),
 });
 
 export const headerBackground = style({
@@ -57,9 +65,8 @@ export const headerBackground = style({
   left: 0,
 
   width: "100%",
-  height: "calc(100% + 5rem + 4rem)",
+  height: `calc(100% + ${subHeaderHeight} + ${extraHeaderSpace})`,
 
-  // background: hsla(theme.colors.primary[5]),
   background: hsla(theme.colors.surface[7]),
 });
 
@@ -73,39 +80,61 @@ export const headerContent = style([
   },
 ]);
 
-////////////////////////////////////////////////
+export const subHeader = style([
+  {
+    // border: `1px dashed green`,
 
-export const searchContainer = style({
-  // border: `1px solid red`,
+    zIndex: 100,
+    position: "sticky",
+    top: navHeight,
 
-  zIndex: 100,
-  position: "sticky",
-  top: "calc(5rem - 1px)",
+    padding: "0.5rem 0",
+    marginBottom: extraHeaderSpace,
 
-  // borderRadius: "5rem",
+    height: subHeaderHeight,
+    maxHeight: subHeaderHeight,
+  },
+]);
 
-  marginBottom: "5rem",
+export const subHeaderContent = style([
+  contentCenter,
+  {
+    height: "100%",
 
-  // background: hsla(theme.colors.surface[5]),
+    display: "flex",
+    gap: "1rem",
+  },
+]);
 
-  padding: "0.5rem 0",
+export const sortButton = style([
+  glowEffect,
+  flexCenter,
+  {
+    vars: {
+      [glowBorderRadius]: "5rem",
+    },
 
+    boxShadow: "rgba(0, 0, 0, 0.4) 0px 0px 30px 0px",
+    padding: "0 16px",
+    gap: 5,
+  },
+]);
+
+export const resultsOverview = style({
+  scrollMarginTop: `calc(${navHeight} + ${subHeaderHeight})`,
   width: "100%",
-  height: "4rem",
+  padding: "2rem 0",
 });
 
-export const searchInput = style({
-  borderRadius: "5rem",
-
-  background: hsla(theme.colors.onSurface[5], 0.9),
-  backdropFilter: "blur(5px)",
-
-  padding: "0 16px",
-
-  width: "100%",
-  height: "100%",
-
-  color: hsla(theme.colors.surface[1]),
+export const bolden = style({
+  fontFamily: "Fira Code",
+  fontWeight: 700,
+  color: hsla(theme.colors.positive[5]),
 });
 
-////////////////////////////////////////////////
+export const redBolden = style([
+  bolden,
+  {
+    color: hsla(theme.colors.negative[3]),
+  },
+]);
