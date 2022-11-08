@@ -80,6 +80,16 @@ export const headerContent = style([
   },
 ]);
 
+export const backgroundContent = style([
+  contentCenter,
+  {
+    fontSize: "5rem",
+    fontWeight: "700",
+    display: "flex",
+    flexDirection: "column",
+  },
+]);
+
 export const subHeader = style([
   {
     // border: `1px dashed green`,
@@ -138,3 +148,15 @@ export const redBolden = style([
     color: hsla(theme.colors.negative[3]),
   },
 ]);
+
+export const landingImage = style({
+  position: "relative",
+  userSelect: "none",
+
+  // width: "100%",
+  // height: "100%",
+
+  objectFit: "contain",
+
+  alignSelf: "flex-end",
+});

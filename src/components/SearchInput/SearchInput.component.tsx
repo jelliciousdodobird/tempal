@@ -5,6 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useDisableIOSInputZoom } from "../../hooks/useDisableIOSInputZoom";
 
 // types:
 import { searchContainer, searchInput } from "./SearchInput.css";
@@ -15,8 +16,8 @@ type Props = {
 };
 
 export const SearchInput = ({ value, setValue }: Props) => {
-  const [hover, setHover] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
+  useDisableIOSInputZoom(searchRef);
   const [focused, setFocused] =
     useState<keyof typeof searchContainer>("normal");
 
@@ -36,8 +37,9 @@ export const SearchInput = ({ value, setValue }: Props) => {
   }, []);
 
   return (
-    <div className={searchContainer[focused]}>
+    <div className={searchContainer[focused]} id="yell">
       <input
+        type="search"
         ref={searchRef}
         className={searchInput}
         placeholder="Search by name, number, traits, or types."

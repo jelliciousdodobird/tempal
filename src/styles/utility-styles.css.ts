@@ -120,3 +120,23 @@ export const glowEffect = style({
     background: glowBackground,
   },
 });
+
+// --------------------------------------------------------------------
+// DON'T USE THESE CLASSES UNLESS YOU KNOW WHAT IT WAS MEANT FOR:
+// Used to fix iOS behaviors:
+// 1. Page will zoom in when an input with fontSize < 16px gets focus.
+// 2. Page will scroll on input focus and breaks position: fixed / sticky
+// --------------------------------------------------------------------
+export const resetFontSizeAndColor = style({
+  fontSize: "16px !important",
+  color: "rgba(0,0,0,0) !important",
+
+  "::placeholder": {
+    color: "rgba(0,0,0,0) !important",
+  },
+});
+
+export const resetScrollBehavior = style({
+  scrollBehavior: "auto",
+});
+// --------------------------------------------------------------------

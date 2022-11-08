@@ -53,6 +53,7 @@ export const searchContainer = styleVariants({
 });
 
 export const searchInput = style({
+  position: "relative",
   borderRadius: "5rem",
 
   background: hsla(theme.colors.white[0], 1),
@@ -63,7 +64,9 @@ export const searchInput = style({
   width: "100%",
   height: "100%",
 
-  fontSize: 16,
+  fontSize: 14,
 
   color: hsla(theme.colors.surface[1]),
+
+  // transform: ""
 });

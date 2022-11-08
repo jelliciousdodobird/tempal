@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TemCard } from "../../components/TemCard/TemCard/TemCard.component";
 
 import debounce from "lodash.debounce";
+import Image from "next/future/image";
 
 import { TemType } from "../../utils/types";
 import {
@@ -20,6 +21,8 @@ import {
   resultsOverview,
   bolden,
   redBolden,
+  landingImage,
+  backgroundContent,
 } from "./tems.css";
 import { IconSortAscending2 } from "@tabler/icons";
 import { SearchInput } from "../../components/SearchInput/SearchInput.component";
@@ -191,7 +194,20 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
   return (
     <>
       <div className={header}>
-        <div className={headerBackground}></div>
+        <div className={headerBackground}>
+          <div className={backgroundContent}>
+            <Image
+              className={landingImage}
+              src="https://temtem.wiki.gg/images/b/b0/Tateru_idle_animation.gif"
+              alt="Banner pic of tateru"
+              width={450}
+              height={450}
+              quality={100}
+              priority={true}
+            />
+          </div>
+        </div>
+
         <div className={headerContent}>TEMTEMS</div>
       </div>
       <div className={subHeader}>
