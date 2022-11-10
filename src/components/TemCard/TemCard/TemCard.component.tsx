@@ -114,98 +114,100 @@ export const TemCard = memo(
     );
 
     return (
-      <motion.li className={container} id={id} tabIndex={1}>
-        <>
-          <div className={cardBackground}>
-            <div className={backgroundImageContainer}>
+      <li className={container} id={id} tabIndex={1}>
+        <div className={cardBackground}>
+          <div className={backgroundImageContainer}>
+            <Image
+              className={backgroundBlur}
+              alt=""
+              src={staticImg}
+              width={128}
+              height={128}
+              quality={100}
+            />
+          </div>
+        </div>
+
+        <div className={contentContainer}>
+          <div className={headerContent}>
+            <div className={cardTitle}>
+              <span className={numberTextStyle}>#{formattedNumber}</span>
+              <span className={nameTextStyle}>{formattedName}</span>
+            </div>
+
+            <div className={specieImageContainer}>
               <Image
-                className={backgroundBlur}
-                alt=""
-                src={staticImg}
+                className={specieImage}
+                alt={formattedName}
+                src={displayImg}
                 width={128}
                 height={128}
                 quality={100}
+                onLoadingComplete={stopLoading}
               />
-            </div>
-          </div>
-
-          <div className={contentContainer}>
-            <div className={headerContent}>
-              <div className={cardTitle}>
-                <span className={numberTextStyle}>#{formattedNumber}</span>
-                <span className={nameTextStyle}>{formattedName}</span>
-              </div>
-
-              <div className={specieImageContainer}>
-                <Image
-                  className={specieImage}
-                  alt={formattedName}
-                  src={displayImg}
-                  width={128}
-                  height={128}
-                  quality={100}
-                  onLoadingComplete={stopLoading}
-                />
-                {imgLoading && <div className={loadingContainer}></div>}
-                <div className={buttonContainer}>
-                  <button
-                    disabled={imgLoading}
-                    className={toggleImgButton}
-                    type="button"
-                    onClick={toggleLuma}
-                  >
-                    {showLuma ? (
-                      <IconStarOff width={16} pointerEvents="none" />
-                    ) : (
-                      <IconStar width={16} pointerEvents="none" />
-                    )}
-                  </button>
-                  <button
-                    disabled={imgLoading}
-                    className={toggleImgButton}
-                    type="button"
-                    onClick={toggleAnimate}
-                  >
-                    {animate ? (
-                      <IconPlayerPause width={16} pointerEvents="none" />
-                    ) : (
-                      <IconPlayerPlay width={16} pointerEvents="none" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <div className={elementRow}>
-                <span className={elementTypeLabel[type1]}>{type1}</span>
-                {type2 && (
-                  <span className={elementTypeLabel[type2]}>{type2}</span>
-                )}
-              </div>
-            </div>
-
-            <div className={mainContent}>
-              <Tabber
-                uid={name}
-                tabSelected={tabSelected}
-                setTabSelected={setTabSelected}
-              />
-
-              <AnimatePresence mode="wait">
-                <motion.div
-                  className={tabContent}
-                  key={tabSelected}
-                  initial={{ y: 10, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -10, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+              {imgLoading && <div className={loadingContainer}></div>}
+              <div className={buttonContainer}>
+                <button
+                  disabled={imgLoading}
+                  className={toggleImgButton}
+                  type="button"
+                  onClick={toggleLuma}
                 >
-                  {tabComponent[tabSelected]}
-                </motion.div>
-              </AnimatePresence>
+                  {showLuma ? (
+                    <IconStarOff width={16} pointerEvents="none" />
+                  ) : (
+                    <IconStar width={16} pointerEvents="none" />
+                  )}
+                </button>
+                <button
+                  disabled={imgLoading}
+                  className={toggleImgButton}
+                  type="button"
+                  onClick={toggleAnimate}
+                >
+                  {animate ? (
+                    <IconPlayerPause width={16} pointerEvents="none" />
+                  ) : (
+                    <IconPlayerPlay width={16} pointerEvents="none" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div className={elementRow}>
+              <span className={elementTypeLabel[type1]}>{type1}</span>
+              {type2 && (
+                <span className={elementTypeLabel[type2]}>{type2}</span>
+              )}
             </div>
           </div>
-        </>
-      </motion.li>
+
+          <div className={mainContent}>
+            <Tabber
+              uid={name}
+              tabSelected={tabSelected}
+              setTabSelected={setTabSelected}
+            />
+
+            <div className={tabContent} key={tabSelected}>
+              {tabComponent[tabSelected]}
+            </div>
+
+            {/* <AnimatePresence mode="wait">
+              <motion.div
+                className={tabContent}
+                key={tabSelected}
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -10, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {tabComponent[tabSelected]}
+              </motion.div>
+            </AnimatePresence> */}
+          </div>
+        </div>
+      </li>
     );
   },
   (prev, curr) => {

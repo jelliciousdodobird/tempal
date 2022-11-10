@@ -7,19 +7,17 @@ const Item = ({ children }: { children: ReactNode }) => (
 
 export const Footer = () => {
   return (
-    <div className={container}>
-      <div className={content}>
-        <ul className={list}>
-          <Item>Contact</Item>
-          <Item>Discord</Item>
+    <nav className={container}>
+      <ul className={list}>
+        <Item>Contact</Item>
+        <Item>Discord</Item>
 
-          <Item>Changelog</Item>
-          <Item>Github</Item>
+        <Item>Changelog</Item>
+        <Item>Github</Item>
 
-          <Item>Privacy</Item>
-          <Item>Terms </Item>
-        </ul>
-      </div>
-    </div>
+        <Item>Privacy</Item>
+        <Item>Terms </Item>
+      </ul>
+    </nav>
   );
 };

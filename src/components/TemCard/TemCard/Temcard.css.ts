@@ -1,4 +1,9 @@
-import { style, styleVariants } from "@vanilla-extract/css";
+import {
+  globalKeyframes,
+  globalStyle,
+  style,
+  styleVariants,
+} from "@vanilla-extract/css";
 import { flexCenter, loadingShimmer } from "../../../styles/utility-styles.css";
 import { hsla } from "../../../styles/theme.util";
 import { theme, lightTheme, darkTheme } from "../../../styles/themes.css";
@@ -38,6 +43,7 @@ export const cardBackground = style({
 
   zIndex: -1,
   position: "absolute",
+  overflow: "hidden",
 
   height: "100%",
   width: "100%",
@@ -49,14 +55,13 @@ export const cardBackground = style({
 export const backgroundImageContainer = style([
   flexCenter,
   {
-    // border: "1px dashed red",
+    // border: "1px dashed transparent",
     position: "relative",
-
-    borderRadius: "12px",
     overflow: "hidden",
 
     background: hsla(theme.colors.surface[6]),
 
+    borderRadius: "12px",
     width: "100%",
     height: "100%",
 
@@ -65,6 +70,8 @@ export const backgroundImageContainer = style([
         background: hsla(theme.colors.onAntiSurface[0]),
       },
     },
+
+    ":hover": {},
   },
 ]);
 
@@ -76,15 +83,35 @@ export const backgroundBlur = style({
 
   objectFit: "none",
 
-  filter: "blur(5px) opacity(0.4)",
+  filter: "blur(5px) opacity(0.5)",
   transform: "scale(6)",
 
   selectors: {
     [`${lightTheme} &`]: {
-      filter: "blur(5px) opacity(0.5)",
-      // border: `1px solid ${hsla(theme.colors.antiSurface[5], 0.2)}`,
+      // filter: "blur(5px) opacity(0.5)",
     },
   },
+});
+
+const rotate = "rotate-bg-image";
+
+globalKeyframes(rotate, {
+  from: {
+    transform: "scale(6) rotate(0deg)",
+  },
+  to: {
+    transform: "scale(6) rotate(360deg)",
+  },
+});
+
+globalStyle(`${container}:hover ${backgroundBlur}`, {
+  animation: `${rotate} 20s ease infinite normal`,
+
+  // filter: "blur(5px) opacity(0.5) saturate(250%)",
+});
+globalStyle(`${container}:hover ${backgroundImageContainer}`, {
+  // border: `1px solid ${hsla(theme.colors.white[0], 0.1)}`,
+  // filter: "blur(5px) opacity(0.5) saturate(200%)",
 });
 
 export const specieImageContainer = style({
@@ -109,12 +136,23 @@ export const specieImage = style({
   height: "100%",
 
   objectFit: "contain",
+
+  // this media query is a fix for images that load on iOS with a white border
+  "@media": {
+    ["not all and (min-resolution:.001dpcm)"]: {
+      selectors: {
+        [`&[loading="lazy"]`]: {
+          clipPath: "inset(0.5px)",
+        },
+      },
+    },
+  },
 });
 
 export const buttonContainer = style({
   position: "absolute",
-  top: 18,
-  right: -21,
+  // top: 18,
+  // right: -21,
 
   // top: 0,
   // right: -21,
@@ -125,13 +163,17 @@ export const buttonContainer = style({
   border: `1px solid ${hsla(theme.colors.white[0], 0.1)}`,
   borderRadius: "5rem",
 
-  // padding: "3px 8px",
-  padding: "0 5px",
+  // padding: "0 5px",
   background: hsla(theme.colors.white[0], 0.1),
   backdropFilter: "blur(5px)",
 
   display: "flex",
-  // gap: 5,
+
+  bottom: 0,
+  right: "-2.5rem",
+
+  padding: "2px 0",
+  flexDirection: "column",
 });
 
 export const toggleImgButton = style([
@@ -141,11 +183,8 @@ export const toggleImgButton = style([
 
     cursor: "pointer",
 
-    // borderRadius: "50%",
     width: "2rem",
     height: "2rem",
-    // width: "1.5rem",
-    // height: "1.5rem",
 
     background: "transparent",
     // background: hsla(theme.colors.white[0]),
@@ -187,19 +226,20 @@ export const headerContent = style({
   gap: 5,
 });
 
-export const cardTitle = style([
-  // flexCenter,
-  {
-    position: "absolute",
-    top: "-3.5rem",
-    left: "-1rem",
+export const cardTitle = style({
+  position: "absolute",
+  top: "-3.5rem",
+  left: "-1rem",
 
-    // width: "100%",
-    gap: "0.5rem",
+  // width: "100%",
+  gap: "0.5rem",
 
-    display: "flex",
+  display: "flex",
+
+  ":hover": {
+    zIndex: 1000,
   },
-]);
+});
 
 export const nameTextStyle = style([
   flexCenter,

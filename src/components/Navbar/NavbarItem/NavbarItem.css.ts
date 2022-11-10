@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { contentCenter } from "../../../styles/utility-styles.css";
+import { pageLayout } from "../../../styles/utility-styles.css";
 import { hsla } from "../../../styles/theme.util";
 import { darkTheme, lightTheme, theme } from "../../../styles/themes.css";
 

@@ -1,6 +1,5 @@
 import { style, styleVariants } from "@vanilla-extract/css";
 import {
-  contentCenter,
   glowAnimation,
   glowBorderRadius,
   glowEffect,

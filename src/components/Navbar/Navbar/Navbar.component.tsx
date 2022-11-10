@@ -23,7 +23,7 @@ export const links = [
 
 export const Navbar = () => {
   return (
-    <div className={container}>
+    <nav className={container}>
       <ul className={list}>
         <li className={stretchedItem}>{<Logo />}</li>
         {links.map((link) => (
@@ -38,6 +38,6 @@ export const Navbar = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </nav>
   );
 };

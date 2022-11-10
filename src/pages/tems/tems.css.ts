@@ -1,12 +1,10 @@
 import { createVar, globalKeyframes, style } from "@vanilla-extract/css";
 import {
-  contentCenter,
+  pageLayout,
+  placeMid,
   flexCenter,
-  glowAnimation,
   glowBorderRadius,
   glowEffect,
-  glowGradient,
-  rotateGlowGradient,
 } from "../../styles/utility-styles.css";
 import { hsla } from "../../styles/theme.util";
 import { theme } from "../../styles/themes.css";
@@ -14,30 +12,21 @@ import { theme } from "../../styles/themes.css";
 const navHeight = theme.mainNav.maxHeight;
 const subHeaderHeight = "4rem";
 const extraHeaderSpace = "10rem";
+const bannerHeight = "40vh";
 
-export const idPageContainer = style({
-  display: "flex",
-  flexDirection: "column",
-  gap: "1px",
-});
-
-export const row = style({
-  display: "flex",
-  gap: "1px",
-});
-
-export const listPageContainer = style([
-  contentCenter,
+export const temsPageBox = style([
+  pageLayout,
   {
     position: "relative",
-    // padding: "1rem 0",
     paddingBottom: "1.5rem",
+  },
+]);
 
+export const pageContent = style([
+  placeMid,
+  {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    // gap: "1rem",
   },
 ]);
 
@@ -48,14 +37,16 @@ export const listContainer = style({
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
   gridTemplateRows: "repeat(auto-fit, minmax(30rem, 30rem))", // future: we'll need this line to virtualize this list
-  gap: "1.5rem",
+  gap: "2rem",
 });
 
 export const header = style({
   // border: "1px dashed red",
-  position: "relative",
+
   width: "100%",
-  height: "40vh",
+  minHeight: bannerHeight,
+  height: bannerHeight,
+  maxHeight: bannerHeight,
 });
 
 export const headerBackground = style({
@@ -65,56 +56,27 @@ export const headerBackground = style({
   left: 0,
 
   width: "100%",
-  height: `calc(100% + ${subHeaderHeight} + ${extraHeaderSpace})`,
+  height: `calc(${bannerHeight} + ${subHeaderHeight} + ${extraHeaderSpace})`,
 
   background: hsla(theme.colors.surface[7]),
 });
 
-export const headerContent = style([
-  contentCenter,
-  {
-    fontSize: "5rem",
-    fontWeight: "700",
-    display: "flex",
-    flexDirection: "column",
-  },
-]);
+export const stickyBox = style({
+  // border: `1px dashed green`,
 
-export const backgroundContent = style([
-  contentCenter,
-  {
-    fontSize: "5rem",
-    fontWeight: "700",
-    display: "flex",
-    flexDirection: "column",
-  },
-]);
+  zIndex: 100,
+  position: "sticky",
+  top: navHeight,
 
-export const subHeader = style([
-  {
-    // border: `1px dashed green`,
+  padding: "0.5rem 0",
+  marginBottom: extraHeaderSpace, // we use margin to create space for the headerBackground
 
-    zIndex: 100,
-    position: "sticky",
-    top: navHeight,
+  height: subHeaderHeight,
+  maxHeight: subHeaderHeight,
 
-    padding: "0.5rem 0",
-    marginBottom: extraHeaderSpace,
-
-    height: subHeaderHeight,
-    maxHeight: subHeaderHeight,
-  },
-]);
-
-export const subHeaderContent = style([
-  contentCenter,
-  {
-    height: "100%",
-
-    display: "flex",
-    gap: "1rem",
-  },
-]);
+  display: "flex",
+  gap: "1rem",
+});
 
 export const sortButton = style([
   glowEffect,
@@ -124,9 +86,59 @@ export const sortButton = style([
       [glowBorderRadius]: "5rem",
     },
 
+    cursor: "pointer",
     boxShadow: "rgba(0, 0, 0, 0.4) 0px 0px 30px 0px",
-    padding: "0 16px",
-    gap: 5,
+    padding: "0 16px 0 8px",
+
+    minWidth: "min-content",
+
+    // justifyContent: "space-evenly",
+    // alignItems: "space-around",
+
+    // gap: 0,
+
+    "@media": {
+      [`(max-width: 480px)`]: {
+        padding: 0,
+
+        height: "100%",
+        aspectRatio: "1 / 1",
+      },
+    },
+  },
+]);
+
+export const searchButtonText = style({
+  textTransform: "capitalize",
+  fontWeight: 400,
+  fontSize: 12,
+
+  color: hsla(theme.colors.white[10]),
+
+  "@media": {
+    [`(max-width: 480px)`]: {
+      position: "absolute",
+      opacity: 0,
+      pointerEvents: "none",
+    },
+  },
+});
+
+const s = "2rem";
+
+export const iconBox = style([
+  flexCenter,
+  {
+    color: hsla(theme.colors.white[10]),
+
+    width: s,
+    height: s,
+    minWidth: s,
+    minHeight: s,
+    maxWidth: s,
+    maxHeight: s,
+
+    transform: "scale(0.7)",
   },
 ]);
 
@@ -153,8 +165,9 @@ export const landingImage = style({
   position: "relative",
   userSelect: "none",
 
-  // width: "100%",
-  // height: "100%",
+  height: "100%",
+  aspectRatio: "1 / 1",
+  width: "auto",
 
   objectFit: "contain",
 

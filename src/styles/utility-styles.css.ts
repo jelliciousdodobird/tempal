@@ -2,7 +2,7 @@ import { createVar, globalKeyframes, style } from "@vanilla-extract/css";
 import { hsla } from "./theme.util";
 import { theme } from "./themes.css";
 
-export const contentCenter = style({
+export const oldcontentCenter = style({
   width: "clamp(300px, calc(50% + 100px), 1024px)",
   margin: "0 auto",
 
@@ -13,14 +13,61 @@ export const contentCenter = style({
   },
 });
 
+// ----------------------------------------------------------------------
+// PURE ULITITY CLASSES:
+// - extract common css attribute and values here
+// ----------------------------------------------------------------------
 export const flexCenter = style({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
 });
 
-//------------------------------------------------------------------
+// ----------------------------------------------------------------------
+// LAYOUT CLASSES:
+// - use these on each page to align content with the navbar / footer.
+// - it is not applied higher up the dom to allow more flexibility with each page.
+// ----------------------------------------------------------------------
+const threshold = 480;
+const scrollbar = 20;
+const min = threshold - scrollbar;
+
+export const pageLayout = style({
+  display: "grid",
+
+  gridTemplateColumns: `minmax(0, 1fr) minmax(${min}px, 3fr) minmax(0, 1fr)`,
+  gridTemplateRows: "none",
+  gridTemplateAreas: `"left mid right"`,
+
+  "@media": {
+    [`(max-width: ${threshold}px)`]: {
+      padding: "0 1rem",
+      gridTemplateColumns: "minmax(0, 1fr)",
+      gridTemplateRows: "auto auto auto",
+      gridTemplateAreas: `"left"
+                          "mid"
+                          "right"`,
+    },
+  },
+});
+
+export const placeLeft = style({
+  gridArea: "left",
+});
+
+export const placeMid = style({
+  gridArea: "mid",
+});
+
+export const placeRight = style({
+  gridArea: "right",
+});
+
+// ----------------------------------------------------------------------
 // ANIMATIONS:
+// - use these on each page to align content with the navbar / footer.
+// - it is not applied higher up the dom to allow more flexibility with each page.
+// ----------------------------------------------------------------------
 const shimmer = "shimmer";
 
 globalKeyframes(shimmer, {
@@ -46,7 +93,7 @@ export const loadingShimmer = style({
 
   animation: `${shimmer} 500ms infinite alternate-reverse`,
 });
-//------------------------------------------------------------------
+// ----------------------------------------------------------------------
 export const rotateGlowGradient = "rotate-gradient";
 globalKeyframes(rotateGlowGradient, {
   from: {
@@ -121,12 +168,12 @@ export const glowEffect = style({
   },
 });
 
-// --------------------------------------------------------------------
+// ----------------------------------------------------------------------
 // DON'T USE THESE CLASSES UNLESS YOU KNOW WHAT IT WAS MEANT FOR:
 // Used to fix iOS behaviors:
 // 1. Page will zoom in when an input with fontSize < 16px gets focus.
 // 2. Page will scroll on input focus and breaks position: fixed / sticky
-// --------------------------------------------------------------------
+// ----------------------------------------------------------------------
 export const resetFontSizeAndColor = style({
   fontSize: "16px !important",
   color: "rgba(0,0,0,0) !important",
@@ -139,4 +186,4 @@ export const resetFontSizeAndColor = style({
 export const resetScrollBehavior = style({
   scrollBehavior: "auto",
 });
-// --------------------------------------------------------------------
+// ----------------------------------------------------------------------

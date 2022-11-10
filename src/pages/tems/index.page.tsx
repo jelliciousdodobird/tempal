@@ -12,19 +12,23 @@ import { TemType } from "../../utils/types";
 import {
   header,
   headerBackground,
-  headerContent,
   listContainer,
-  listPageContainer,
-  subHeader,
-  subHeaderContent,
+  temsPageBox,
+  stickyBox,
   sortButton,
   resultsOverview,
   bolden,
   redBolden,
   landingImage,
-  backgroundContent,
+  pageContent,
+  searchButtonText,
+  iconBox,
 } from "./tems.css";
-import { IconSortAscending2 } from "@tabler/icons";
+import {
+  IconAdjustmentsAlt,
+  IconAdjustmentsHorizontal,
+  IconSortAscending2,
+} from "@tabler/icons";
 import { SearchInput } from "../../components/SearchInput/SearchInput.component";
 
 export interface Stats {
@@ -192,34 +196,48 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
   }, [results]);
 
   return (
-    <>
-      <div className={header}>
-        <div className={headerBackground}>
-          <div className={backgroundContent}>
-            <Image
-              className={landingImage}
-              src="https://temtem.wiki.gg/images/b/b0/Tateru_idle_animation.gif"
-              alt="Banner pic of tateru"
-              width={450}
-              height={450}
-              quality={100}
-              priority={true}
-            />
-          </div>
+    <div className={temsPageBox}>
+      <div className={pageContent}>
+        <div className={header}>
+          <div className={headerBackground}></div>
+          TEMTEM
+          <Image
+            className={landingImage}
+            src="https://temtem.wiki.gg/images/b/b0/Tateru_idle_animation.gif"
+            alt="Banner pic of tateru"
+            width={500}
+            height={500}
+            quality={100}
+            priority={true}
+          />
         </div>
 
-        <div className={headerContent}>TEMTEMS</div>
-      </div>
-      <div className={subHeader}>
-        <div className={subHeaderContent}>
+        <div className={stickyBox}>
           <SearchInput value={searchTerm} setValue={setSearchTerm} />
           <button className={sortButton} type="button">
-            <IconSortAscending2 pointerEvents="none" />
-            sort
+            <span className={iconBox}>
+              <IconAdjustmentsHorizontal
+                // shapeRendering="crispEdges"
+                size={24}
+                pointerEvents="none"
+                strokeWidth={2}
+              />
+            </span>
+            <span className={searchButtonText}>filter</span>
+          </button>
+          <button className={sortButton} type="button">
+            <span className={iconBox}>
+              <IconSortAscending2
+                // shapeRendering="crispEdges"
+                size={24}
+                pointerEvents="none"
+                // strokeWidth={2}
+              />
+            </span>
+            <span className={searchButtonText}>sort</span>
           </button>
         </div>
-      </div>
-      <div className={listPageContainer}>
+
         <div className={resultsOverview} id="temtem-list">
           {renderList.length === 0 && (
             <>
@@ -255,7 +273,7 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
           })}
         </ul>
       </div>
-    </>
+    </div>
   );
 };
 

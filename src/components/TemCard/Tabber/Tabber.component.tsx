@@ -26,7 +26,8 @@ export const Tabber = ({ uid, tabSelected, setTabSelected }: TabsProps) => {
         >
           Stats
         </button>
-        {statsSelected && <motion.span layoutId={tab_uid} className={tab} />}
+        {/* {statsSelected && <motion.span layoutId={tab_uid} className={tab} />} */}
+        {statsSelected && <span className={tab} />}
       </li>
       <li className={listItem}>
         <button
@@ -36,7 +37,8 @@ export const Tabber = ({ uid, tabSelected, setTabSelected }: TabsProps) => {
         >
           Traits
         </button>
-        {traitsSelected && <motion.span layoutId={tab_uid} className={tab} />}
+        {/* {traitsSelected && <motion.span layoutId={tab_uid} className={tab} />} */}
+        {traitsSelected && <span className={tab} />}
       </li>
       <li className={listItem}>
         <button
@@ -46,7 +48,8 @@ export const Tabber = ({ uid, tabSelected, setTabSelected }: TabsProps) => {
         >
           Matchups
         </button>
-        {matchupsSelected && <motion.span layoutId={tab_uid} className={tab} />}
+        {/* {matchupsSelected && <motion.span layoutId={tab_uid} className={tab} />} */}
+        {matchupsSelected && <span className={tab} />}
       </li>
     </ul>
   );
