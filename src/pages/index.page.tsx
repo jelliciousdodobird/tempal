@@ -18,8 +18,8 @@ const Home: NextPage = () => {
     <div className={pageLayout}>
       <div style={{ background: "red" }}>L</div>
       <div className={placeMid} style={{ background: "green" }}>
-        {[...Array(3).keys()].map(() => (
-          <p>{str}</p>
+        {[...Array(3).keys()].map((i) => (
+          <p key={i}>{str}</p>
         ))}
       </div>
       <div style={{ background: "blue" }}>R</div>
