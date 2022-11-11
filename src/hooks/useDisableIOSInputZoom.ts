@@ -16,6 +16,8 @@ export const useDisableIOSInputZoom = (
   useEffect(() => {
     if (!ref.current) return;
 
+    const inputElement = ref.current;
+
     let timer: string | number | NodeJS.Timeout | undefined;
     let focusSucces = false;
 
@@ -27,14 +29,14 @@ export const useDisableIOSInputZoom = (
       focusSucces = true;
       clearTimeout(timer);
 
-      ref.current?.classList.remove(autoZoomFix);
+      inputElement.classList.remove(autoZoomFix);
     };
 
     const trickIOSAutoZoom = () => {
       focusSucces = false;
       clearTimeout(timer);
 
-      ref.current?.classList.add(autoZoomFix);
+      inputElement.classList.add(autoZoomFix);
 
       // this is to handle long presses or if somehow the input does not focus:
       timer = setTimeout(resetFontSize, 500);
@@ -50,18 +52,18 @@ export const useDisableIOSInputZoom = (
     };
 
     // using "touchstart" event because it executes before "focus" events:
-    ref.current?.addEventListener("touchstart", touchstart);
-    ref.current?.addEventListener("touchend", touchend);
-    ref.current?.addEventListener("focus", resetFontSize);
+    inputElement.addEventListener("touchstart", touchstart);
+    inputElement.addEventListener("touchend", touchend);
+    inputElement.addEventListener("focus", resetFontSize);
 
     return () => {
-      ref.current?.removeEventListener("touchstart", touchstart);
-      ref.current?.removeEventListener("touchend", touchend);
-      ref.current?.removeEventListener("focus", resetFontSize);
+      inputElement.removeEventListener("touchstart", touchstart);
+      inputElement.removeEventListener("touchend", touchend);
+      inputElement.removeEventListener("focus", resetFontSize);
 
       clearTimeout(timer);
     };
-  }, []);
+  }, [ref]);
 };
 
 /**
@@ -75,6 +77,7 @@ export const useDisableAutoScrollOnFocusOnIOS = (
     if (!ref.current) return;
 
     let timer: string | number | NodeJS.Timeout | undefined;
+    const inputElement = ref.current;
 
     // by using a class instead of mutating the style object
     // we won't have to track the original value (which may change)
@@ -105,14 +108,14 @@ export const useDisableAutoScrollOnFocusOnIOS = (
     };
 
     // using "touchstart" event because it executes before "focus" events:
-    ref.current?.addEventListener("touchstart", trickIOSAutoScroll);
-    ref.current?.addEventListener("focus", resetOverflowBehavior);
+    inputElement.addEventListener("touchstart", trickIOSAutoScroll);
+    inputElement.addEventListener("focus", resetOverflowBehavior);
 
     return () => {
-      ref.current?.removeEventListener("touchstart", trickIOSAutoScroll);
-      ref.current?.removeEventListener("focus", resetOverflowBehavior);
+      inputElement.removeEventListener("touchstart", trickIOSAutoScroll);
+      inputElement.removeEventListener("focus", resetOverflowBehavior);
 
       clearTimeout(timer);
     };
-  }, []);
+  }, [ref]);
 };

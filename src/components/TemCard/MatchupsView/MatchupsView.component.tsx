@@ -17,7 +17,7 @@ import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
 import { TemType, TypeMatchups } from "../../../utils/types";
 import { calculateMatchupModifiers } from "../../../utils/damage-calcs";
 import { matchupAlteringTraits, temTypes } from "../../../utils/data";
-import { useModal } from "../../../hooks/useModal";
+import { usePopup } from "../../../hooks/usePopup";
 
 import { TemCardProps } from "../TemCard/TemCard.component";
 
@@ -106,9 +106,9 @@ const MatchupList = ({
   matchups,
   asterisk = false,
 }: MatchupGridProps) => {
-  const { toggleModal, opened, disableClose } = useModal();
-  const btnClass = questionButton + disableClose;
-  const modalClass = tooltip + disableClose;
+  const { togglePopup, opened, ignorePassiveCloseClass } = usePopup();
+  const btnClass = questionButton + ignorePassiveCloseClass;
+  const modalClass = tooltip + ignorePassiveCloseClass;
 
   return (
     <div className={matchupListWrapper}>
@@ -117,7 +117,7 @@ const MatchupList = ({
         {asterisk && <sup className={asteriskLabel}>&#42;</sup>}
 
         <div className={modalContainer}>
-          <button className={btnClass} onClick={toggleModal}>
+          <button className={btnClass} onClick={togglePopup}>
             ?
           </button>
 

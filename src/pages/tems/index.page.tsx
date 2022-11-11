@@ -5,7 +5,6 @@ import type { NextPage, GetStaticProps } from "next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { TemCard } from "../../components/TemCard/TemCard/TemCard.component";
 
-import debounce from "lodash.debounce";
 import Image from "next/future/image";
 
 import { TemType } from "../../utils/types";
@@ -30,6 +29,7 @@ import {
   IconSortAscending2,
 } from "@tabler/icons";
 import { SearchInput } from "../../components/SearchInput/SearchInput.component";
+import { useDebounce } from "../../hooks/useDebounce";
 
 export interface Stats {
   atk: number;
@@ -121,48 +121,49 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
     [tems]
   );
 
-  const [range, setRange] = useState(STARTING_LIMIT);
-  const [results, setResults] = useState<API_TemData[]>(tems);
-  const renderList = results.slice(0, range);
-  const numOfItems = useRef(tems.length);
-  const [searchTerm, setSearchTerm] = useState("");
-
   const search = useCallback(
-    debounce((query: string) => {
-      setResults((list) => {
-        const tokens = query.toLowerCase().split(":");
+    (query: string) => {
+      const tokens = query.toLowerCase().split(":");
 
-        const hasKey = tokens.length > 1;
-        const key = hasKey ? resolveKey(tokens[0]) : "";
-        const basicQuery = hasKey ? { [key]: tokens[1] } : tokens[0];
+      const hasKey = tokens.length > 1;
+      const key = hasKey ? resolveKey(tokens[0]) : "";
+      const basicQuery = hasKey ? { [key]: tokens[1] } : tokens[0];
 
-        const queryValueStr = hasKey ? tokens[1] : tokens[0];
-        const andTokens = queryValueStr.split("&").map((v) => v.trim());
-        const orTokens = queryValueStr.split("|").map((v) => v.trim());
+      const queryValueStr = hasKey ? tokens[1] : tokens[0];
+      const andTokens = queryValueStr.split("&").map((v) => v.trim());
+      const orTokens = queryValueStr.split("|").map((v) => v.trim());
 
-        let finalQuery: string | Fuse.Expression = basicQuery;
-        if (andTokens.length > 1 && orTokens.length > 1) {
-          finalQuery = { "": "invalid key" };
-        } else if (hasKey && andTokens.length > 1) {
-          finalQuery = {
-            $and: andTokens.map((v) => ({ [key]: v })),
-          };
-        } else if (hasKey && orTokens.length > 1) {
-          finalQuery = {
-            $or: andTokens.map((v) => ({ [key]: v })),
-          };
-        }
+      let finalQuery: string | Fuse.Expression = basicQuery;
+      if (andTokens.length > 1 && orTokens.length > 1) {
+        finalQuery = { "": "invalid key" };
+      } else if (hasKey && andTokens.length > 1) {
+        finalQuery = {
+          $and: andTokens.map((v) => ({ [key]: v })),
+        };
+      } else if (hasKey && orTokens.length > 1) {
+        finalQuery = {
+          $or: andTokens.map((v) => ({ [key]: v })),
+        };
+      }
 
-        const searchResults = searcher.search(finalQuery);
-        const results = searchResults ? searchResults.map((v) => v.item) : list;
-        const data = queryValueStr === "" ? tems : results;
+      const searchResults = searcher.search(finalQuery);
+      const results = searchResults ? searchResults.map((v) => v.item) : tems;
+      const data = queryValueStr === "" ? tems : results;
 
-        if (data !== list) setRange(STARTING_LIMIT); // reset the range
-        return data;
-      });
-    }, 750),
+      if (data !== tems) setRange(STARTING_LIMIT); // reset the range
+      return data;
+    },
+
     [searcher, tems]
   );
+
+  const numOfItems = useRef(tems.length);
+  const [range, setRange] = useState(STARTING_LIMIT);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const debouncedTerm = useDebounce(searchTerm, 750);
+  const results = useMemo(() => search(debouncedTerm), [search, debouncedTerm]);
+  const renderList = results.slice(0, range);
 
   useEffect(() => {
     const scrollContainer = document.querySelector("body");
@@ -171,9 +172,7 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
     const handler = () => {
       const { scrollHeight, scrollTop, clientHeight } = scrollContainer;
       const t = Math.abs(scrollHeight - clientHeight - scrollTop);
-      if (t < 5000) {
-        setRange((v) => Math.min(v + 5, numOfItems.current));
-      }
+      if (t < 5000) setRange((v) => Math.min(v + 5, numOfItems.current));
     };
 
     scrollContainer.addEventListener("scroll", handler);
@@ -182,10 +181,6 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
       scrollContainer.removeEventListener("scroll", handler);
     };
   }, []);
-
-  useEffect(() => {
-    search(searchTerm);
-  }, [search, searchTerm]);
 
   useEffect(() => {
     if (results.length === numOfItems.current) return;
@@ -203,7 +198,7 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
           TEMTEM
           <Image
             className={landingImage}
-            src="https://temtem.wiki.gg/images/b/b0/Tateru_idle_animation.gif"
+            src="https://temtem.wiki.gg/images/0/0e/Tateru_full_render.png"
             alt="Banner pic of tateru"
             width={500}
             height={500}
@@ -217,7 +212,6 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
           <button className={sortButton} type="button">
             <span className={iconBox}>
               <IconAdjustmentsHorizontal
-                // shapeRendering="crispEdges"
                 size={24}
                 pointerEvents="none"
                 strokeWidth={2}
@@ -228,7 +222,6 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
           <button className={sortButton} type="button">
             <span className={iconBox}>
               <IconSortAscending2
-                // shapeRendering="crispEdges"
                 size={24}
                 pointerEvents="none"
                 // strokeWidth={2}

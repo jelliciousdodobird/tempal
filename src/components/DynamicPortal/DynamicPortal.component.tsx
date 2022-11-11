@@ -32,14 +32,17 @@ const Portal = ({
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
     pageElement.current = document.getElementById(portalId) as Element;
 
     if (disableScroll) document.documentElement.style.overflow = "hidden";
 
     return () => {
-      document.documentElement.style.overflow = "auto";
+      if (disableScroll) document.documentElement.style.overflow = "auto";
     };
-  }, []);
+  }, [disableScroll, portalId]);
 
   return mounted
     ? createPortal(

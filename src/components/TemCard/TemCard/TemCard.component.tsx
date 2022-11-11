@@ -25,7 +25,6 @@ import {
   toggleImgButton,
   loadingContainer,
 } from "./Temcard.css";
-import { AnimatePresence, motion } from "framer-motion";
 
 import { TemType } from "../../../utils/types";
 
@@ -77,7 +76,6 @@ export const TemCard = memo(
     const [imgLoading, setImgLoading] = useState(false);
     const [showLuma, setShowLuma] = useState(false);
     const [animate, setAnimate] = useState(false);
-    const [tabSelected, setTabSelected] = useState<CardTab>("stats");
 
     const type1 = (types[0] ? types[0].toLowerCase() : "neutral") as TemType;
     const type2 = (types[1] ? types[1].toLowerCase() : null) as TemType;
@@ -182,30 +180,7 @@ export const TemCard = memo(
             </div>
           </div>
 
-          <div className={mainContent}>
-            <Tabber
-              uid={name}
-              tabSelected={tabSelected}
-              setTabSelected={setTabSelected}
-            />
-
-            <div className={tabContent} key={tabSelected}>
-              {tabComponent[tabSelected]}
-            </div>
-
-            {/* <AnimatePresence mode="wait">
-              <motion.div
-                className={tabContent}
-                key={tabSelected}
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -10, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                {tabComponent[tabSelected]}
-              </motion.div>
-            </AnimatePresence> */}
-          </div>
+          <TabContent id={id} tabComponent={tabComponent} />
         </div>
       </li>
     );
@@ -216,3 +191,38 @@ export const TemCard = memo(
 );
 
 TemCard.displayName = "TemCard";
+
+interface TabContentProps {
+  tabComponent: CardTabComponents;
+  id: string;
+}
+const TabContent = ({ id, tabComponent }: TabContentProps) => {
+  const [tabSelected, setTabSelected] = useState<CardTab>("stats");
+
+  return (
+    <div className={mainContent}>
+      <Tabber
+        uid={id}
+        tabSelected={tabSelected}
+        setTabSelected={setTabSelected}
+      />
+
+      <div className={tabContent} key={tabSelected}>
+        {tabComponent[tabSelected]}
+      </div>
+
+      {/* <AnimatePresence mode="wait">
+        <motion.div
+          className={tabContent}
+          key={tabSelected}
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -10, opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {tabComponent[tabSelected]}
+        </motion.div>
+      </AnimatePresence> */}
+    </div>
+  );
+};

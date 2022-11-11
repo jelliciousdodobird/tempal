@@ -1,6 +1,5 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo } from "react";
 import { listContainer, listItem, tab, itemButton } from "./Tabber.css";
-import { motion } from "framer-motion";
 import { CardTab } from "../TemCard/TemCard.component";
 
 interface TabsProps {
@@ -10,11 +9,25 @@ interface TabsProps {
 }
 
 export const Tabber = ({ uid, tabSelected, setTabSelected }: TabsProps) => {
-  const tab_uid = `${uid}-tab`;
+  const tab_uid = useMemo(() => `${uid}-tab`, [uid]);
 
   const statsSelected = tabSelected === "stats";
   const traitsSelected = tabSelected === "traits";
   const matchupsSelected = tabSelected === "matchups";
+
+  const TabLine = useMemo(
+    () => (
+      // // animated version
+      // <motion.span
+      //   layoutId={tab_uid}
+      //   className={tab}
+      //   transition={{ duration: 0.2 }}
+      // />
+      // static version:
+      <span id={tab_uid} className={tab} />
+    ),
+    [tab_uid]
+  );
 
   return (
     <ul className={listContainer}>
@@ -26,8 +39,7 @@ export const Tabber = ({ uid, tabSelected, setTabSelected }: TabsProps) => {
         >
           Stats
         </button>
-        {/* {statsSelected && <motion.span layoutId={tab_uid} className={tab} />} */}
-        {statsSelected && <span className={tab} />}
+        {statsSelected && TabLine}
       </li>
       <li className={listItem}>
         <button
@@ -37,8 +49,7 @@ export const Tabber = ({ uid, tabSelected, setTabSelected }: TabsProps) => {
         >
           Traits
         </button>
-        {/* {traitsSelected && <motion.span layoutId={tab_uid} className={tab} />} */}
-        {traitsSelected && <span className={tab} />}
+        {traitsSelected && TabLine}
       </li>
       <li className={listItem}>
         <button
@@ -48,8 +59,7 @@ export const Tabber = ({ uid, tabSelected, setTabSelected }: TabsProps) => {
         >
           Matchups
         </button>
-        {/* {matchupsSelected && <motion.span layoutId={tab_uid} className={tab} />} */}
-        {matchupsSelected && <span className={tab} />}
+        {matchupsSelected && TabLine}
       </li>
     </ul>
   );
