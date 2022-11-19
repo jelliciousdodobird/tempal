@@ -1,4 +1,9 @@
-import { style, styleVariants } from "@vanilla-extract/css";
+import {
+  createVar,
+  globalStyle,
+  style,
+  styleVariants,
+} from "@vanilla-extract/css";
 import { flexCenter } from "../../../styles/utility-styles.css";
 import { hsla } from "../../../styles/theme.util";
 import { theme, lightTheme, darkTheme } from "../../../styles/themes.css";
@@ -28,7 +33,7 @@ export const matchupList = style({
   position: "relative",
 
   padding: 8,
-  borderRadius: "0 0 12px 12px",
+  borderRadius: "0 0 8px 8px",
 
   width: "100%",
   background: hsla(theme.colors.white[2]),
@@ -40,7 +45,7 @@ export const matchupList = style({
 export const matchupLabel = style({
   position: "relative",
 
-  borderRadius: "12px 12px 0 0",
+  borderRadius: "8px 8px 0 0",
   marginBottom: 1,
 
   minHeight: "2rem",
@@ -151,9 +156,11 @@ export const modalContainer = style({
 
   padding: 5,
   width: "100%",
+  height: "min-content",
 
   display: "flex",
   justifyContent: "flex-end",
+  gap: "0.5rem",
 });
 
 export const questionButton = style([
@@ -161,30 +168,45 @@ export const questionButton = style([
   {
     cursor: "pointer",
 
-    background: hsla(theme.colors.white[6]),
+    // background: hsla(theme.colors.white[6]),
+    background: hsla(theme.colors.white[5]),
     borderRadius: "50%",
     width: 20,
     height: 20,
 
-    color: hsla(theme.colors.black[10]),
-    fontSize: 12,
-    fontWeight: 700,
+    color: hsla(theme.colors.black[8]),
+    fontSize: 10,
+    fontWeight: 600,
 
     ":hover": {
       background: hsla(theme.colors.white[8]),
+      color: hsla(theme.colors.black[0]),
     },
   },
 ]);
 
-export const tooltip = style({
-  // border: "1px solid red",
+const tooltipColor = createVar();
+const tooltipBg = createVar();
 
+export const tooltip = style({
+  vars: {
+    [tooltipColor]: hsla(theme.colors.black[5]),
+    [tooltipBg]: hsla(theme.colors.white[0]),
+    // [tooltipColor]: `hsla(200, 100%, 15%)`,
+    // [tooltipBg]: `hsla(200, 100%, 90%)`,
+  },
+  boxShadow: "rgba(0, 0, 0, 0.4) 0px 0px 30px 0px",
   position: "absolute",
   bottom: "calc(100% + 5px)",
   right: 0,
 
-  borderRadius: 10,
-  background: hsla(theme.colors.white[2]),
+  borderRadius: 4,
+
+  color: tooltipColor,
+  // border: `1px solid ${tooltipColor}`,
+  background: tooltipBg,
+  backdropFilter: "blur(5px)",
+
   padding: "1rem",
 
   minWidth: "100%",
@@ -192,4 +214,20 @@ export const tooltip = style({
 
   display: "flex",
   flexDirection: "column",
+});
+
+export const pg = style({
+  width: "100%",
+  whiteSpace: "pre-wrap",
+
+  fontWeight: 400,
+  fontSize: 12,
+  // color: hsla(theme.colors.white[0]),
+  color: "inherit",
+});
+
+globalStyle(`${tooltip} > ${pg}:not(:last-child)`, {
+  // color: "red",
+
+  paddingBottom: "0.8rem",
 });

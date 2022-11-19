@@ -99,7 +99,7 @@ export const tvHeader = style([
   {
     position: "relative",
 
-    borderRadius: 5,
+    borderRadius: 4,
     height: "1.5rem",
     padding: "0 6px",
 
@@ -130,7 +130,7 @@ export const tvItem = style([
   {
     border: `1px solid ${hsla(theme.colors.white[3])}`,
 
-    borderRadius: 5,
+    borderRadius: 4,
     height: "1.5rem",
     padding: "0 6px",
 

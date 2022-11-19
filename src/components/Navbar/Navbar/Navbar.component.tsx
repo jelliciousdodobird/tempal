@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
 import { Logo } from "../../Logo/Logo.component";
 import { NavbarItem } from "../NavbarItem/NavbarItem.component";
-import { container, item, list, stretchedItem } from "./Navbar.css";
+import { bgRed, container, item, list, stretchedItem } from "./Navbar.css";
 
 export const links = [
   // { name: "Home", link: "/", order: 0, color: "#428ae8", icon: MdMap },
@@ -25,7 +26,9 @@ export const Navbar = () => {
   return (
     <nav className={container}>
       <ul className={list}>
-        <li className={stretchedItem}>{<Logo />}</li>
+        <li className={stretchedItem}>
+          <Logo />
+        </li>
         {links.map((link) => (
           <li className={item} key={link.name}>
             <NavbarItem

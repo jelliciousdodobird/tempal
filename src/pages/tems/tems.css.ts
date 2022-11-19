@@ -3,8 +3,6 @@ import {
   pageLayout,
   placeMid,
   flexCenter,
-  glowBorderRadius,
-  glowEffect,
 } from "../../styles/utility-styles.css";
 import { hsla } from "../../styles/theme.util";
 import { theme } from "../../styles/themes.css";
@@ -43,22 +41,60 @@ export const listContainer = style({
 export const header = style({
   // border: "1px dashed red",
 
+  padding: "1rem 0",
+
   width: "100%",
   minHeight: bannerHeight,
   height: bannerHeight,
   maxHeight: bannerHeight,
+
+  display: "flex",
+  flexDirection: "column",
 });
 
-export const headerBackground = style({
-  zIndex: -1,
-  position: "absolute",
-  top: 0,
-  left: 0,
+export const headerBackground = style([
+  flexCenter,
+  {
+    overflow: "hidden",
 
-  width: "100%",
-  height: `calc(${bannerHeight} + ${subHeaderHeight} + ${extraHeaderSpace})`,
+    zIndex: -1,
+    position: "absolute",
+    // top: 0,
+    top: `calc(-1 * ${navHeight})`,
+    left: 0,
 
-  background: hsla(theme.colors.surface[7]),
+    width: "100%",
+    height: `calc(${navHeight} + ${bannerHeight} + ${subHeaderHeight} + ${extraHeaderSpace})`,
+
+    background: hsla(theme.colors.surface[7]),
+
+    ":after": {
+      zIndex: 1000,
+      position: "absolute",
+      top: 0,
+      left: 0,
+
+      content: "",
+      width: "100%",
+      height: "100%",
+
+      background: `linear-gradient(transparent 50%, ${hsla(
+        theme.colors.surface[5]
+      )})`,
+    },
+  },
+]);
+
+export const H1 = style({
+  fontSize: "5rem",
+  fontWeight: 700,
+});
+
+export const bannerBgImage = style({
+  border: "1px solid red",
+
+  transform: "scale(5000%)",
+  filter: "blur(2px)",
 });
 
 export const stickyBox = style({
@@ -67,6 +103,8 @@ export const stickyBox = style({
   zIndex: 100,
   position: "sticky",
   top: navHeight,
+
+  // boxShadow: "rgba(0, 0, 0, 0.4) 0px 0px 30px 0px",
 
   padding: "0.5rem 0",
   marginBottom: extraHeaderSpace, // we use margin to create space for the headerBackground
@@ -79,23 +117,16 @@ export const stickyBox = style({
 });
 
 export const sortButton = style([
-  glowEffect,
   flexCenter,
   {
-    vars: {
-      [glowBorderRadius]: "5rem",
-    },
-
+    borderRadius: 8,
     cursor: "pointer",
-    boxShadow: "rgba(0, 0, 0, 0.4) 0px 0px 30px 0px",
+    boxShadow: "rgba(0, 0, 0, 0.5) 0px 0px 30px 0px",
     padding: "0 16px 0 8px",
 
     minWidth: "min-content",
-
-    // justifyContent: "space-evenly",
-    // alignItems: "space-around",
-
-    // gap: 0,
+    background: hsla(theme.colors.white[0]),
+    color: hsla(theme.colors.black[0]),
 
     "@media": {
       [`(max-width: 480px)`]: {
@@ -109,11 +140,10 @@ export const sortButton = style([
 ]);
 
 export const searchButtonText = style({
+  color: "inherit",
   textTransform: "capitalize",
   fontWeight: 400,
-  fontSize: 12,
-
-  color: hsla(theme.colors.white[10]),
+  fontSize: 14,
 
   "@media": {
     [`(max-width: 480px)`]: {
@@ -129,7 +159,7 @@ const s = "2rem";
 export const iconBox = style([
   flexCenter,
   {
-    color: hsla(theme.colors.white[10]),
+    color: "inherit",
 
     width: s,
     height: s,

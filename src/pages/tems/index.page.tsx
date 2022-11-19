@@ -7,6 +7,8 @@ import { TemCard } from "../../components/TemCard/TemCard/TemCard.component";
 
 import Image from "next/future/image";
 
+import SvgBG from "../../../public/assets/background/stuff.svg";
+
 import { TemType } from "../../utils/types";
 import {
   header,
@@ -22,6 +24,8 @@ import {
   pageContent,
   searchButtonText,
   iconBox,
+  bannerBgImage,
+  H1,
 } from "./tems.css";
 import {
   IconAdjustmentsAlt,
@@ -160,6 +164,7 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
   const numOfItems = useRef(tems.length);
   const [range, setRange] = useState(STARTING_LIMIT);
   const [searchTerm, setSearchTerm] = useState("");
+  const [keyFilter, setKeyFilter] = useState("");
 
   const debouncedTerm = useDebounce(searchTerm, 750);
   const results = useMemo(() => search(debouncedTerm), [search, debouncedTerm]);
@@ -194,9 +199,26 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
     <div className={temsPageBox}>
       <div className={pageContent}>
         <div className={header}>
-          <div className={headerBackground}></div>
-          TEMTEM
-          <Image
+          <div className={headerBackground}>
+            {/* <Image
+              // className={landingImage}
+              // className={bannerBgImage}
+              src="https://temtem.wiki.gg/images/8/8d/LumaCycrox_full_render.png"
+              alt="Banner pic of tateru"
+              width={50}
+              height={50}
+              quality={100}
+              priority={true}
+            /> */}
+            {/* <SvgBG /> */}
+          </div>
+          <h1 className={H1}>Tem List</h1>
+          <h2>
+            A showcase of all available temtems! Check out their luma variant
+            and animations, filter, and sort to find the perfect temtem for your
+            team.
+          </h2>
+          {/* <Image
             className={landingImage}
             src="https://temtem.wiki.gg/images/0/0e/Tateru_full_render.png"
             alt="Banner pic of tateru"
@@ -204,7 +226,7 @@ const Tems: NextPage<TemProps> = ({ tems }) => {
             height={500}
             quality={100}
             priority={true}
-          />
+          /> */}
         </div>
 
         <div className={stickyBox}>

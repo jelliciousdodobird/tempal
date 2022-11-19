@@ -11,6 +11,7 @@ import {
   questionButton,
   modalContainer,
   tooltip,
+  pg,
 } from "./MatchupsView.css";
 import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
 
@@ -20,6 +21,7 @@ import { matchupAlteringTraits, temTypes } from "../../../utils/data";
 import { usePopup } from "../../../hooks/usePopup";
 
 import { TemCardProps } from "../TemCard/TemCard.component";
+import { bold, italic } from "../../../styles/utility-styles.css";
 
 interface MatchupViewProps {
   traits: TemCardProps["traits"];
@@ -78,15 +80,23 @@ const getValueVariant = (num: number): keyof typeof matchupTypeValue => {
   else return "immune";
 };
 
-const drawerAnimProps: HTMLMotionProps<"ul"> = {
+const drawerAnimProps: HTMLMotionProps<"div"> = {
   variants: {
     open: {
-      x: 0,
+      y: 0,
       opacity: 1,
+      pointerEvents: "none",
+      transitionEnd: {
+        pointerEvents: "auto",
+      },
     },
     close: {
-      x: 100,
+      y: 50,
       opacity: 0,
+      pointerEvents: "none",
+      transitionEnd: {
+        pointerEvents: "auto",
+      },
     },
   },
   initial: "close",
@@ -123,15 +133,24 @@ const MatchupList = ({
 
           <AnimatePresence>
             {opened && (
-              <motion.ul className={modalClass} {...drawerAnimProps}>
-                <li>sdf</li>
-                <li>sdf</li>
-                <li>sdf</li>
-                <li>sdf</li>
-                <li>sdf</li>
-                <li>sdf</li>
-                <li>sdf</li>
-              </motion.ul>
+              <motion.div className={modalClass} {...drawerAnimProps}>
+                <p className={pg}>
+                  Each type listed represents the{" "}
+                  <span className={bold}>attacking</span> type followed by a
+                  multiplier that accounts for both the{" "}
+                  <span className={bold}>defending</span> temtem's{" "}
+                  <span className={italic}>types</span> and{" "}
+                  <span className={italic}>traits</span>.
+                </p>
+                <p className={pg}>
+                  If an attack type is not shown then it does neutral damage
+                  <span className={bold}> (x1)</span>.
+                </p>
+                <p className={pg}>
+                  <span className={asteriskLabel}>&#42;</span>A red asterisk
+                  indicates a trait that alters the type effectiveness.
+                </p>
+              </motion.div>
             )}
           </AnimatePresence>
         </div>

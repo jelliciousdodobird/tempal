@@ -9,23 +9,39 @@ export const container = style([
     position: "relative",
     height: theme.mainNav.maxHeight,
 
-    backgroundColor: hsla(theme.colors.surface[5], 0.95),
+    background: hsla(theme.colors.surface[5], 0.95),
     backdropFilter: "blur(4px)",
     borderBottom: `1px solid ${hsla(theme.colors.surface[7])}`,
 
     // display: "flex",
     // justifyContent: "center",
 
+    transition: "background 250ms linear",
+
     selectors: {
       [`${darkTheme} &`]: {
-        backgroundColor: hsla(theme.colors.surface[5], 0.85),
+        background: hsla(theme.colors.surface[5], 0.85),
+        // background: "transparent",
+        // backdropFilter: "blur(0px)",
+        // borderBottom: "none",
       },
       [`${lightTheme} &`]: {
-        backgroundColor: hsla(theme.colors.surface[5], 0.9),
+        background: hsla(theme.colors.surface[5], 0.9),
       },
     },
   },
 ]);
+
+export const bgRed = style({
+  selectors: {
+    [`${darkTheme} &`]: {
+      background: "red",
+    },
+    [`${lightTheme} &`]: {
+      background: hsla(theme.colors.surface[5], 0.9),
+    },
+  },
+});
 
 export const list = style([
   placeMid,

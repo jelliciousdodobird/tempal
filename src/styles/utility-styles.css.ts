@@ -23,6 +23,16 @@ export const flexCenter = style({
   alignItems: "center",
 });
 
+export const inheritFont = style({
+  fontWeight: "inherit",
+  fontFamily: "inherit",
+  fontSize: "inherit",
+  fontStyle: "inherit",
+  color: "inherit",
+});
+
+export const bold = style([inheritFont, { fontWeight: 700 }]);
+export const italic = style([inheritFont, { fontStyle: "italic" }]);
 // ----------------------------------------------------------------------
 // LAYOUT CLASSES:
 // - use these on each page to align content with the navbar / footer.
@@ -35,7 +45,7 @@ const min = threshold - scrollbar;
 export const pageLayout = style({
   display: "grid",
 
-  gridTemplateColumns: `minmax(0, 1fr) minmax(${min}px, 3fr) minmax(0, 1fr)`,
+  gridTemplateColumns: `minmax(0, 1fr) minmax(${min}px, 2fr) minmax(0, 1fr)`,
   gridTemplateRows: "none",
   gridTemplateAreas: `"left mid right"`,
 

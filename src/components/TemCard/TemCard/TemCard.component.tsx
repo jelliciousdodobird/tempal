@@ -152,9 +152,9 @@ export const TemCard = memo(
                   onClick={toggleLuma}
                 >
                   {showLuma ? (
-                    <IconStarOff width={16} pointerEvents="none" />
+                    <IconStarOff width={14} pointerEvents="none" />
                   ) : (
-                    <IconStar width={16} pointerEvents="none" />
+                    <IconStar width={14} pointerEvents="none" />
                   )}
                 </button>
                 <button
@@ -164,9 +164,9 @@ export const TemCard = memo(
                   onClick={toggleAnimate}
                 >
                   {animate ? (
-                    <IconPlayerPause width={16} pointerEvents="none" />
+                    <IconPlayerPause width={14} pointerEvents="none" />
                   ) : (
-                    <IconPlayerPlay width={16} pointerEvents="none" />
+                    <IconPlayerPlay width={14} pointerEvents="none" />
                   )}
                 </button>
               </div>
@@ -179,6 +179,33 @@ export const TemCard = memo(
               )}
             </div>
           </div>
+
+          {/* <div className={buttonContainer}>
+            <button
+              disabled={imgLoading}
+              className={toggleImgButton}
+              type="button"
+              onClick={toggleLuma}
+            >
+              {showLuma ? (
+                <IconStarOff width={16} pointerEvents="none" />
+              ) : (
+                <IconStar width={16} pointerEvents="none" />
+              )}
+            </button>
+            <button
+              disabled={imgLoading}
+              className={toggleImgButton}
+              type="button"
+              onClick={toggleAnimate}
+            >
+              {animate ? (
+                <IconPlayerPause width={16} pointerEvents="none" />
+              ) : (
+                <IconPlayerPlay width={16} pointerEvents="none" />
+              )}
+            </button>
+          </div> */}
 
           <TabContent id={id} tabComponent={tabComponent} />
         </div>

@@ -11,7 +11,7 @@ import { temTypes } from "../../../utils/data";
 
 export const baseElementType = style({
   padding: "3px 6px",
-  borderRadius: "5px",
+  borderRadius: 4,
 
   textTransform: "capitalize",
   fontWeight: 600,
@@ -61,7 +61,8 @@ export const backgroundImageContainer = style([
 
     background: hsla(theme.colors.surface[6]),
 
-    borderRadius: "12px",
+    borderRadius: 12,
+
     width: "100%",
     height: "100%",
 
@@ -74,6 +75,16 @@ export const backgroundImageContainer = style([
     ":hover": {},
   },
 ]);
+const rotate = "rotate-bg-image";
+
+globalKeyframes(rotate, {
+  from: {
+    transform: "scale(6) rotate(0deg)",
+  },
+  to: {
+    transform: "scale(6) rotate(360deg)",
+  },
+});
 
 export const backgroundBlur = style({
   userSelect: "none",
@@ -86,32 +97,15 @@ export const backgroundBlur = style({
   filter: "blur(5px) opacity(0.5)",
   transform: "scale(6)",
 
-  selectors: {
-    [`${lightTheme} &`]: {
-      // filter: "blur(5px) opacity(0.5)",
-    },
-  },
-});
+  transition: "filter 150ms linear",
 
-const rotate = "rotate-bg-image";
-
-globalKeyframes(rotate, {
-  from: {
-    transform: "scale(6) rotate(0deg)",
-  },
-  to: {
-    transform: "scale(6) rotate(360deg)",
-  },
+  animation: `${rotate} 20s linear infinite normal`,
+  animationPlayState: "paused",
 });
 
 globalStyle(`${container}:hover ${backgroundBlur}`, {
-  animation: `${rotate} 20s ease infinite normal`,
-
-  // filter: "blur(5px) opacity(0.5) saturate(250%)",
-});
-globalStyle(`${container}:hover ${backgroundImageContainer}`, {
-  // border: `1px solid ${hsla(theme.colors.white[0], 0.1)}`,
-  // filter: "blur(5px) opacity(0.5) saturate(200%)",
+  animationPlayState: "running",
+  filter: "blur(5px) opacity(0.6) saturate(225%)",
 });
 
 export const specieImageContainer = style({
@@ -151,29 +145,19 @@ export const specieImage = style({
 
 export const buttonContainer = style({
   position: "absolute",
-  // top: 18,
-  // right: -21,
 
-  // top: 0,
-  // right: -21,
-
-  // bottom: 22,
-  // right: -32,
+  bottom: "-0.5rem",
+  right: 0,
 
   border: `1px solid ${hsla(theme.colors.white[0], 0.1)}`,
-  borderRadius: "5rem",
 
-  // padding: "0 5px",
+  borderRadius: 8,
+
+  padding: "0 3px",
   background: hsla(theme.colors.white[0], 0.1),
   backdropFilter: "blur(5px)",
 
   display: "flex",
-
-  bottom: 0,
-  right: "-2.5rem",
-
-  padding: "2px 0",
-  flexDirection: "column",
 });
 
 export const toggleImgButton = style([
@@ -183,15 +167,10 @@ export const toggleImgButton = style([
 
     cursor: "pointer",
 
-    width: "2rem",
-    height: "2rem",
+    width: "1.5rem",
+    height: "1.5rem",
 
     background: "transparent",
-    // background: hsla(theme.colors.white[0]),
-
-    // ":disabled": {
-    //   cursor: "wait",
-    // },
   },
 ]);
 
@@ -282,7 +261,9 @@ export const lumaImgIcon = style({
 export const mainContent = style({
   // border: "1px dashed red",
 
-  borderRadius: 16,
+  // borderRadius: 16,
+  borderRadius: 8,
+
   backgroundColor: "hsl(0, 0%, 100%)",
   width: "100%",
   height: "100%",
@@ -311,6 +292,6 @@ export const loadingContainer = style([
   {
     // border: "1px solid red",
     position: "absolute",
-    borderRadius: 5,
+    borderRadius: 12,
   },
 ]);

@@ -27,7 +27,7 @@ export const traitContainer = style({
 export const traitLabel = style({
   backgroundColor: hsla(theme.colors.white[3]),
 
-  borderRadius: 5,
+  borderRadius: 4,
   padding: "3px 6px",
   width: "min-content",
 
@@ -50,6 +50,5 @@ export const traitEffect = style({
 
   color: hsla(theme.colors.black[10]),
 
-  fontStyle: "italic",
   fontSize: 11,
 });

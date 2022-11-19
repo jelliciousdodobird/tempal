@@ -18,8 +18,8 @@ type Props = {
 export const SearchInput = ({ value, setValue }: Props) => {
   const searchRef = useRef<HTMLInputElement>(null);
   useDisableIOSInputZoom(searchRef);
-  const [focused, setFocused] =
-    useState<keyof typeof searchContainer>("normal");
+  // const [focused, setFocused] =
+  //   useState<keyof typeof searchContainer>("normal");
 
   useEffect(() => {
     const focusOnCtrlF = (e: KeyboardEvent) => {
@@ -37,7 +37,7 @@ export const SearchInput = ({ value, setValue }: Props) => {
   }, []);
 
   return (
-    <div className={searchContainer[focused]} id="yell">
+    <div className={searchContainer}>
       <input
         type="search"
         ref={searchRef}
@@ -47,8 +47,8 @@ export const SearchInput = ({ value, setValue }: Props) => {
         onChange={(e) => {
           setValue(e.target.value);
         }}
-        onFocus={() => setFocused("focused")}
-        onBlur={() => setFocused("normal")}
+        // onFocus={() => setFocused("focused")}
+        // onBlur={() => setFocused("normal")}
       />
       <button type="button"></button>
     </div>
