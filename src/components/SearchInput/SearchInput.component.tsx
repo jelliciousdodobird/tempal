@@ -6,20 +6,55 @@ import React, {
   useState,
 } from "react";
 import { useDisableIOSInputZoom } from "../../hooks/useDisableIOSInputZoom";
+import { usePopup } from "../../hooks/usePopup";
+import { FilterKey } from "../../pages/tems/index.page";
 
 // types:
-import { searchContainer, searchInput } from "./SearchInput.css";
+import {
+  dropdownBox,
+  searchContainer,
+  searchInput,
+  selectItem,
+  selectMenuBox,
+  selectValueButton,
+} from "./SearchInput.css";
 
-type Props = {
-  value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+const placeholders: Record<FilterKey, string> = {
+  all: "Filtering by name, number, types, and traits",
+  name: "Filtering by name only",
+  number: "Filtering by number only",
+  types: "Filtering by types only",
+  traits: "Filtering by traits only",
 };
 
-export const SearchInput = ({ value, setValue }: Props) => {
+interface SearchInputProps {
+  value: string;
+  setValue: Dispatch<SetStateAction<string>>;
+
+  filter: FilterKey;
+  setFilter: Dispatch<SetStateAction<FilterKey>>;
+}
+
+export const SearchInput = ({
+  value,
+  setValue,
+  filter,
+  setFilter,
+}: SearchInputProps) => {
+  const {
+    opened: showFilterMenu,
+    setOpened: setShowFilterMenu,
+    togglePopup: toggleMenu,
+    safeMark,
+  } = usePopup();
   const searchRef = useRef<HTMLInputElement>(null);
+
+  const toggleItem = (item: FilterKey) => {
+    setFilter(item);
+    setShowFilterMenu(false);
+  };
+
   useDisableIOSInputZoom(searchRef);
-  // const [focused, setFocused] =
-  //   useState<keyof typeof searchContainer>("normal");
 
   useEffect(() => {
     const focusOnCtrlF = (e: KeyboardEvent) => {
@@ -38,19 +73,84 @@ export const SearchInput = ({ value, setValue }: Props) => {
 
   return (
     <div className={searchContainer}>
+      <div className={selectMenuBox}>
+        <button
+          className={selectValueButton + safeMark}
+          type="button"
+          onClick={toggleMenu}
+        >
+          {filter}
+        </button>
+        {showFilterMenu && (
+          <ul className={dropdownBox}>
+            <SelectItem
+              className={safeMark}
+              value="all"
+              selectedItem={filter}
+              toggleItem={toggleItem}
+            />
+            <SelectItem
+              className={safeMark}
+              value="name"
+              selectedItem={filter}
+              toggleItem={toggleItem}
+            />
+            <SelectItem
+              className={safeMark}
+              value="number"
+              selectedItem={filter}
+              toggleItem={toggleItem}
+            />
+            <SelectItem
+              className={safeMark}
+              value="types"
+              selectedItem={filter}
+              toggleItem={toggleItem}
+            />
+
+            <SelectItem
+              className={safeMark}
+              value="traits"
+              selectedItem={filter}
+              toggleItem={toggleItem}
+            />
+          </ul>
+        )}
+      </div>
       <input
         type="search"
         ref={searchRef}
         className={searchInput}
-        placeholder="Search by name, number, traits, or types."
+        placeholder={placeholders[filter]}
         value={value}
         onChange={(e) => {
           setValue(e.target.value);
         }}
-        // onFocus={() => setFocused("focused")}
-        // onBlur={() => setFocused("normal")}
       />
-      <button type="button"></button>
     </div>
+  );
+};
+
+interface SelectItemProps {
+  className?: string;
+  value: FilterKey;
+  selectedItem: FilterKey;
+  toggleItem: (item: FilterKey) => void;
+}
+
+const SelectItem = ({
+  className,
+  value,
+  selectedItem,
+  toggleItem,
+}: SelectItemProps) => {
+  return (
+    <li
+      className={selectItem + className}
+      data-selected={selectedItem === value}
+      onClick={() => toggleItem(value)}
+    >
+      {value}
+    </li>
   );
 };

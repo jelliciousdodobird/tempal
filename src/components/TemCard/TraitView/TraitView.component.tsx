@@ -3,6 +3,7 @@ import {
   traitContainer,
   traitLabel,
   traitEffect,
+  traitDescBox,
 } from "./TraitView.css";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -80,14 +81,14 @@ export const TraitView = ({ traits, descriptionLimit = 70 }: TraitsProps) => {
 
   return (
     <div className={traitContainer}>
-      <div className={contentRow.column}>
-        <span className={traitLabel}>{trait1.ogName}</span>
-        <span className={traitEffect}>{trait1.strippedEffect}</span>
-      </div>
-      <div className={contentRow.column}>
-        <span className={traitLabel}>{trait2.ogName}</span>
-        <span className={traitEffect}>{trait2.strippedEffect}</span>
-      </div>
+      <dl className={traitDescBox}>
+        <dt className={traitLabel}>{trait1.ogName}</dt>
+        <dd className={traitEffect}>{trait1.strippedEffect}</dd>
+      </dl>
+      <dl className={traitDescBox}>
+        <dt className={traitLabel}>{trait2.ogName}</dt>
+        <dd className={traitEffect}>{trait2.strippedEffect}</dd>
+      </dl>
     </div>
   );
 };

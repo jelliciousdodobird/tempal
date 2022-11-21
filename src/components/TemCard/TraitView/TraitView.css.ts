@@ -24,12 +24,27 @@ export const traitContainer = style({
   gap: "1rem",
 });
 
+export const traitDescBox = style({
+  // border: `1px solid red`,
+  border: `1px solid ${hsla(theme.colors.white[2])}`,
+
+  borderRadius: 4,
+  padding: 2,
+
+  width: "100%",
+  height: "min-content",
+
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.25rem",
+});
+
 export const traitLabel = style({
   backgroundColor: hsla(theme.colors.white[3]),
 
   borderRadius: 4,
   padding: "3px 6px",
-  width: "min-content",
+  // width: "min-content",
 
   whiteSpace: "nowrap",
 
@@ -39,7 +54,8 @@ export const traitLabel = style({
 });
 
 export const traitEffect = style({
-  paddingLeft: 6,
+  // paddingLeft: 6,
+  padding: "0 6px",
 
   overflow: "hidden",
 

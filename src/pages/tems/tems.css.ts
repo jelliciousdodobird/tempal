@@ -113,15 +113,37 @@ export const stickyBox = style({
   maxHeight: subHeaderHeight,
 
   display: "flex",
-  gap: "1rem",
+  gap: "0.5rem",
+
+  ":before": {
+    // border: `1px dashed green`,
+    zIndex: -1,
+
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    margin: "auto 0",
+    background: "rgba(0, 0, 0, 0.3)",
+
+    // transform: "translateY(-1)"
+
+    content: "",
+    width: "100%",
+    height: "50%",
+    // height: 0,
+
+    boxShadow: "rgba(0, 0, 0, 0.6) 0px 0px 30px 0px",
+  },
 });
 
 export const sortButton = style([
   flexCenter,
   {
+    position: "relative",
     borderRadius: 8,
     cursor: "pointer",
-    boxShadow: "rgba(0, 0, 0, 0.5) 0px 0px 30px 0px",
+    // boxShadow: "rgba(0, 0, 0, 0.5) 0px 0px 30px 0px",
     padding: "0 16px 0 8px",
 
     minWidth: "min-content",
@@ -203,3 +225,93 @@ export const landingImage = style({
 
   alignSelf: "flex-end",
 });
+
+export const sortBox = style({
+  // border: "1px solid red",
+  color: "black",
+
+  position: "absolute",
+  top: "4rem",
+
+  boxShadow: "rgba(0, 0, 0, 0.5) 0px 0px 30px 0px",
+
+  padding: "1rem",
+  borderRadius: 8,
+
+  width: "100%",
+  background: hsla(theme.colors.white[0]),
+
+  display: "flex",
+  // flexDirection: "column",
+  gap: "3rem",
+
+  // justifyContent: "space-between",
+
+  "@media": {
+    ["(max-width: 480px)"]: {
+      flexDirection: "column",
+      gap: "1rem",
+    },
+  },
+});
+
+export const groupKey = style({
+  fontSize: 12,
+  fontWeight: 400,
+
+  color: hsla(theme.colors.black[10]),
+});
+
+export const groupItem = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.25rem",
+});
+
+export const sortItem = style({
+  position: "relative",
+  userSelect: "none",
+  cursor: "pointer",
+
+  borderRadius: 4,
+
+  textTransform: "capitalize",
+
+  ":hover": {
+    background: hsla(theme.colors.white[5]),
+  },
+
+  display: "flex",
+  alignItems: "center",
+});
+
+export const sortItemLabel = style({
+  padding: "2px 5px",
+  borderRadius: 4,
+
+  flex: 1,
+
+  selectors: {
+    "&[data-selected=true]": {
+      background: hsla(theme.colors.black[5]),
+      color: hsla(theme.colors.white[0]),
+    },
+  },
+});
+
+export const sortIconBox = style([
+  flexCenter,
+  {
+    width: 20,
+    height: 20,
+
+    // position: "absolute",
+    // right: 0,
+    // transform: "translateX(100%)",
+
+    color: hsla(theme.colors.black[0]),
+    // color: hsla(theme.colors.white[0]),
+  },
+]);
+
+export const sortingDesc = style([bolden, { fontFamily: "Sora, san-serif" }]);

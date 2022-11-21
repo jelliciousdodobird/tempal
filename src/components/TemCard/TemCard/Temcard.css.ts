@@ -75,16 +75,17 @@ export const backgroundImageContainer = style([
     ":hover": {},
   },
 ]);
-const rotate = "rotate-bg-image";
 
-globalKeyframes(rotate, {
-  from: {
-    transform: "scale(6) rotate(0deg)",
-  },
-  to: {
-    transform: "scale(6) rotate(360deg)",
-  },
-});
+// const rotate = "rotate-bg-image";
+
+// globalKeyframes(rotate, {
+//   from: {
+//     transform: "scale(6) rotate(0deg)",
+//   },
+//   to: {
+//     transform: "scale(6) rotate(360deg)",
+//   },
+// });
 
 export const backgroundBlur = style({
   userSelect: "none",
@@ -99,12 +100,12 @@ export const backgroundBlur = style({
 
   transition: "filter 150ms linear",
 
-  animation: `${rotate} 20s linear infinite normal`,
-  animationPlayState: "paused",
+  // animation: `${rotate} 20s linear infinite normal`,
+  // animationPlayState: "paused",
 });
 
 globalStyle(`${container}:hover ${backgroundBlur}`, {
-  animationPlayState: "running",
+  // animationPlayState: "running",
   filter: "blur(5px) opacity(0.6) saturate(225%)",
 });
 
