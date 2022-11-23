@@ -179,7 +179,7 @@ const TooltipPopup = () => {
               Each type listed represents the{" "}
               <span className={bold}>attacking</span> type followed by a
               multiplier that accounts for both the{" "}
-              <span className={bold}>defending</span> temtem's{" "}
+              <span className={bold}>defending</span> temtem&apos;s{" "}
               <span className={italic}>types</span> and{" "}
               <span className={italic}>traits</span>.
             </p>

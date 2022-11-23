@@ -26,6 +26,10 @@ export const elementTypeLabel = styleVariants(temTypes, (elementColor) => [
 export const container = style({
   // border: "1px dashed gray",
 
+  // borderRadius: 10,
+  // outline: `5px solid ${hsla(theme.colors.antiSurface[5])}`,
+  // outlineOffset: 4,
+
   position: "relative",
 
   width: "100%",
@@ -36,6 +40,10 @@ export const container = style({
 
   display: "flex",
   flexDirection: "column",
+
+  // ":hover": {
+  //   outline: `2px solid ${hsla(theme.colors.antiSurface[5])}`,
+  // },
 });
 
 export const cardBackground = style({

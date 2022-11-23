@@ -1,4 +1,9 @@
-import { createVar, globalKeyframes, style } from "@vanilla-extract/css";
+import {
+  createVar,
+  globalKeyframes,
+  globalStyle,
+  style,
+} from "@vanilla-extract/css";
 import {
   pageLayout,
   placeMid,
@@ -9,7 +14,7 @@ import { theme } from "../../styles/themes.css";
 
 const navHeight = theme.mainNav.maxHeight;
 const subHeaderHeight = "4rem";
-const extraHeaderSpace = "10rem";
+const extraHeaderSpace = "2rem";
 const bannerHeight = "40vh";
 
 export const temsPageBox = style([
@@ -23,6 +28,8 @@ export const temsPageBox = style([
 export const pageContent = style([
   placeMid,
   {
+    // border: "1px dashed blue",
+
     display: "flex",
     flexDirection: "column",
   },
@@ -44,44 +51,61 @@ export const header = style({
   padding: "1rem 0",
 
   width: "100%",
-  minHeight: bannerHeight,
-  height: bannerHeight,
-  maxHeight: bannerHeight,
+  // minHeight: bannerHeight,
+  // height: bannerHeight,
+  // maxHeight: bannerHeight,
 
   display: "flex",
   flexDirection: "column",
 });
 
+export const headerContent = style({
+  // border: "1px solid blue",
+
+  // isolation: "isolate",
+
+  width: "100%",
+  height: "100%",
+
+  position: "relative",
+
+  display: "flex",
+  flexDirection: "column",
+
+  gap: "1rem",
+  // justifyContent: "space-around",
+});
+
 export const headerBackground = style([
   flexCenter,
   {
-    overflow: "hidden",
-
     zIndex: -1,
     position: "absolute",
-    // top: 0,
-    top: `calc(-1 * ${navHeight})`,
     left: 0,
+    top: `calc(-1 * ${navHeight})`,
+
+    overflow: "hidden",
 
     width: "100%",
-    height: `calc(${navHeight} + ${bannerHeight} + ${subHeaderHeight} + ${extraHeaderSpace})`,
+    // height: `calc(${navHeight} + ${bannerHeight} + ${subHeaderHeight} + ${extraHeaderSpace})`,
+    // height: `calc(${navHeight} + 100% + ${subHeaderHeight} + ${extraHeaderSpace})`,
 
     background: hsla(theme.colors.surface[7]),
 
-    ":after": {
-      zIndex: 1000,
-      position: "absolute",
-      top: 0,
-      left: 0,
+    // ":after": {
+    //   zIndex: 1000,
+    //   position: "absolute",
+    //   top: 0,
+    //   left: 0,
 
-      content: "",
-      width: "100%",
-      height: "100%",
+    //   content: "",
+    //   width: "100%",
+    //   height: "100%",
 
-      background: `linear-gradient(transparent 50%, ${hsla(
-        theme.colors.surface[5]
-      )})`,
-    },
+    //   background: `linear-gradient(transparent 50%, ${hsla(
+    //     theme.colors.surface[5]
+    //   )})`,
+    // },
   },
 ]);
 
@@ -198,6 +222,9 @@ export const resultsOverview = style({
   scrollMarginTop: `calc(${navHeight} + ${subHeaderHeight})`,
   width: "100%",
   padding: "2rem 0",
+
+  display: "flex",
+  justifyContent: "space-between",
 });
 
 export const bolden = style({
@@ -214,16 +241,23 @@ export const redBolden = style([
 ]);
 
 export const landingImage = style({
-  position: "relative",
+  border: "1px solid red",
+
+  zIndex: -1,
+  position: "absolute",
+  top: 0,
+  right: 0,
+
   userSelect: "none",
 
-  height: "100%",
-  aspectRatio: "1 / 1",
+  marginRight: "5rem",
+
+  maxHeight: "100%",
+  // aspectRatio: "1 / 1",
   width: "auto",
 
   objectFit: "contain",
-
-  alignSelf: "flex-end",
+  // alignSelf: "flex-end",
 });
 
 export const sortBox = style({
@@ -277,9 +311,9 @@ export const sortItem = style({
 
   textTransform: "capitalize",
 
-  ":hover": {
-    background: hsla(theme.colors.white[5]),
-  },
+  // ":hover": {
+  //   background: hsla(theme.colors.white[5]),
+  // },
 
   display: "flex",
   alignItems: "center",
@@ -299,6 +333,11 @@ export const sortItemLabel = style({
   },
 });
 
+globalStyle(`${sortItem}:hover > ${sortItemLabel}`, {
+  background: hsla(theme.colors.white[5]),
+  color: hsla(theme.colors.black[5]),
+});
+
 export const sortIconBox = style([
   flexCenter,
   {
@@ -310,8 +349,15 @@ export const sortIconBox = style([
     // transform: "translateX(100%)",
 
     color: hsla(theme.colors.black[0]),
-    // color: hsla(theme.colors.white[0]),
+
+    ":hover": {
+      color: hsla(theme.colors.primary[5]),
+    },
   },
 ]);
 
 export const sortingDesc = style([bolden, { fontFamily: "Sora, san-serif" }]);
+
+export const subTitle = style({
+  maxWidth: "25rem",
+});

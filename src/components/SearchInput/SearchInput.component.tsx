@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { useDisableIOSInputZoom } from "../../hooks/useDisableIOSInputZoom";
 import { usePopup } from "../../hooks/usePopup";
-import { FilterKey } from "../../pages/tems/index.page";
+import { FilterKey, SearchQuery } from "../../pages/tems/index.page";
 
 // types:
 import {
@@ -29,17 +29,20 @@ const placeholders: Record<FilterKey, string> = {
 
 interface SearchInputProps {
   value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  // setValue: Dispatch<SetStateAction<string>>;
 
   filter: FilterKey;
-  setFilter: Dispatch<SetStateAction<FilterKey>>;
+  // setFilter: Dispatch<SetStateAction<FilterKey>>;
+
+  setQuery: Dispatch<SetStateAction<SearchQuery>>;
 }
 
 export const SearchInput = ({
   value,
-  setValue,
+  // setValue,
   filter,
-  setFilter,
+  // setFilter,
+  setQuery,
 }: SearchInputProps) => {
   const {
     opened: showFilterMenu,
@@ -50,7 +53,10 @@ export const SearchInput = ({
   const searchRef = useRef<HTMLInputElement>(null);
 
   const toggleItem = (item: FilterKey) => {
-    setFilter(item);
+    // setFilter(item);
+    // setShowFilterMenu(false);
+
+    setQuery((v) => ({ ...v, filterKey: item }));
     setShowFilterMenu(false);
   };
 
@@ -124,7 +130,8 @@ export const SearchInput = ({
         placeholder={placeholders[filter]}
         value={value}
         onChange={(e) => {
-          setValue(e.target.value);
+          // setValue(e.target.value);
+          setQuery((v) => ({ ...v, value: e.target.value }));
         }}
       />
     </div>
