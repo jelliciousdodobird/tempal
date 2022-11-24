@@ -79,6 +79,8 @@ export const selectMenuBox = style({ position: "relative" });
 export const selectValueButton = style([
   selectMenuFont,
   {
+    userSelect: "none",
+
     // padding: "0 "
     cursor: "pointer",
 
@@ -96,6 +98,8 @@ export const dropdownBox = style({
   overflow: "hidden",
   position: "absolute",
   left: 0,
+
+  userSelect: "none",
 
   marginTop: 4,
   borderRadius: 4,

@@ -20,6 +20,7 @@ const bannerHeight = "40vh";
 export const temsPageBox = style([
   pageLayout,
   {
+    // isolation: "isolate",
     position: "relative",
     paddingBottom: "1.5rem",
   },
@@ -29,6 +30,7 @@ export const pageContent = style([
   placeMid,
   {
     // border: "1px dashed blue",
+    isolation: "isolate",
 
     display: "flex",
     flexDirection: "column",
@@ -48,6 +50,8 @@ export const listContainer = style({
 export const header = style({
   // border: "1px dashed red",
 
+  pointerEvents: "none",
+  userSelect: "none",
   padding: "1rem 0",
 
   width: "100%",
@@ -90,7 +94,7 @@ export const headerBackground = style([
     // height: `calc(${navHeight} + ${bannerHeight} + ${subHeaderHeight} + ${extraHeaderSpace})`,
     // height: `calc(${navHeight} + 100% + ${subHeaderHeight} + ${extraHeaderSpace})`,
 
-    background: hsla(theme.colors.surface[7]),
+    // background: hsla(theme.colors.surface[7]),
 
     // ":after": {
     //   zIndex: 1000,

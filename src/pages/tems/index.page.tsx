@@ -42,6 +42,7 @@ import {
   SortOrder,
   sortOrderDescription,
 } from "./SortMenu.component";
+import { TemDexPageBanner } from "../../components/TemDexPageBanner/TemDexPageBanner.component";
 
 export interface Stats {
   atk: number;
@@ -270,8 +271,10 @@ const TemdexPage: NextPage<TemDexPageProps> = ({ tems }) => {
 
   return (
     <div className={temsPageBox}>
-      <div className={headerBackground} style={{ height }}></div>
       <div className={pageContent}>
+        <div className={headerBackground} style={{ height }}>
+          <TemDexPageBanner />
+        </div>
         <div className={header}>
           <div className={headerContent}>
             <h1 className={H1}>temdex</h1>
