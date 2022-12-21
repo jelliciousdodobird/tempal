@@ -51,6 +51,7 @@ import {
   SortOrder,
   sortOrderDescription,
 } from "./SortMenu.component";
+import Head from "next/head";
 
 export interface Stats {
   atk: number;
@@ -290,6 +291,10 @@ const TemdexPage: NextPage<TemDexPageProps> = ({ tems }) => {
 
   return (
     <div className={temsPageBox}>
+      <Head>
+        <title>Tempal - Temdex</title>
+      </Head>
+
       <div className={headerSection}>
         <div className={header}>
           <div className={headerContent}>

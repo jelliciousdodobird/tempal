@@ -5,6 +5,7 @@ import {
   IconRecordMail,
 } from "@tabler/icons";
 import { NextPage } from "next";
+import Head from "next/head";
 import {
   contactBox,
   contacts,
@@ -19,6 +20,9 @@ import {
 const ContactPage: NextPage = () => {
   return (
     <div>
+      <Head>
+        <title>Tempal - Contacts</title>
+      </Head>
       <div className={container}>
         <h1 className={header}>Developers</h1>
 
