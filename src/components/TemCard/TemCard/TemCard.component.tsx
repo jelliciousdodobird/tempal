@@ -1,6 +1,6 @@
 import { memo, useMemo, useState } from "react";
 
-import { Stats, StatsWithTotal } from "../../../pages/tems/index.page";
+import { Stats, StatsWithTotal } from "../../../pages/temdex/index.page";
 import { zeroPad } from "../../../utils/utils";
 
 import Image from "next/future/image";

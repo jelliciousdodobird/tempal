@@ -296,12 +296,12 @@ export const sortItems: Record<SortType, SortKey> = {
   },
   "base sp. attack": {
     value: "base sp. attack",
-    label: "Sp. Attack",
+    label: "Sp. Atk",
     accessor: (item: API_TemData) => item.stats.spatk,
   },
   "base sp. defense": {
     value: "base sp. defense",
-    label: "Sp. Defense",
+    label: "Sp. Def",
     accessor: (item: API_TemData) => item.stats.spdef,
   },
   "HP TVs": {
@@ -331,12 +331,12 @@ export const sortItems: Record<SortType, SortKey> = {
   },
   "sp. attack TVs": {
     value: "sp. attack TVs",
-    label: "Sp. Attack",
+    label: "Sp. Atk",
     accessor: (item: API_TemData) => item.tvYields.spatk,
   },
   "sp. defense TVs": {
     value: "sp. defense TVs",
-    label: "Sp. Defense",
+    label: "Sp. Def",
     accessor: (item: API_TemData) => item.tvYields.spdef,
   },
 };

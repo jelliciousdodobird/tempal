@@ -22,8 +22,8 @@ export const appContainer = style({
 export const header = style({
   zIndex: 10,
 
-  position: "sticky",
-  top: 0,
+  // position: "sticky",
+  // top: 0,
 });
 
 export const notificationContainer = style({

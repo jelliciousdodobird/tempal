@@ -18,7 +18,8 @@ export const container = style({
 });
 
 export const h1 = style({
-  fontSize: "1.5rem",
+  // fontSize: "1.5rem",
+  fontSize: 24,
   fontWeight: "600",
   color: "#fff",
 });
@@ -59,5 +60,5 @@ export const animatedText = style({
 export const x = style({
   fontSize: "inherit",
   color: hsla(theme.colors.onSurface[5]),
-  fontWeight: 500,
+  fontWeight: 600,
 });

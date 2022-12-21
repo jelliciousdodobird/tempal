@@ -1,3 +1,8 @@
+import {
+  IconSearch,
+  IconSortAscending2,
+  IconSortDescending2,
+} from "@tabler/icons";
 import React, {
   Dispatch,
   SetStateAction,
@@ -7,28 +12,37 @@ import React, {
 } from "react";
 import { useDisableIOSInputZoom } from "../../hooks/useDisableIOSInputZoom";
 import { usePopup } from "../../hooks/usePopup";
-import { FilterKey, SearchQuery } from "../../pages/tems/index.page";
+import { FilterKey, SearchQuery } from "../../pages/temdex/index.page";
+import {
+  SortMenu,
+  sortOrderDescription,
+} from "../../pages/temdex/SortMenu.component";
 
 // types:
 import {
   dropdownBox,
+  searchBar,
   searchContainer,
+  searchContent,
   searchInput,
+  searchOptions,
   selectItem,
   selectMenuBox,
   selectValueButton,
+  sortButton,
+  sortingDesc,
 } from "./SearchInput.css";
 
 const placeholders: Record<FilterKey, string> = {
-  all: "Filtering by name, number, types, and traits",
-  name: "Filtering by name only",
-  number: "Filtering by number only",
-  types: "Filtering by types only",
-  traits: "Filtering by traits only",
+  all: "Searching in name, number, types, and traits...",
+  name: "Searching in name only...",
+  number: "Searching in number only...",
+  types: "Searching in types only...",
+  traits: "Searching in traits only...",
 };
 
 interface SearchInputProps {
-  value: string;
+  query: SearchQuery;
   // setValue: Dispatch<SetStateAction<string>>;
 
   filter: FilterKey;
@@ -38,7 +52,7 @@ interface SearchInputProps {
 }
 
 export const SearchInput = ({
-  value,
+  query,
   // setValue,
   filter,
   // setFilter,
@@ -50,7 +64,16 @@ export const SearchInput = ({
     togglePopup: toggleMenu,
     safeMark,
   } = usePopup();
+
+  const {
+    opened: sortOpened,
+    safeMark: sortSafeMark,
+    togglePopup: toggleSortOpened,
+  } = usePopup();
+
   const searchRef = useRef<HTMLInputElement>(null);
+
+  const sortDesc = sortOrderDescription[query.sortOrder];
 
   const toggleItem = (item: FilterKey) => {
     // setFilter(item);
@@ -79,34 +102,40 @@ export const SearchInput = ({
 
   return (
     <div className={searchContainer}>
-      <div className={selectMenuBox}>
-        <button
-          className={selectValueButton + safeMark}
-          type="button"
-          onClick={toggleMenu}
-        >
-          {filter}
-        </button>
-        {showFilterMenu && (
+      <div className={searchContent}>
+        <div className={searchBar}>
+          <IconSearch />
+          <input
+            type="search"
+            ref={searchRef}
+            className={searchInput}
+            placeholder={placeholders[filter]}
+            value={query.value}
+            onChange={(e) => {
+              setQuery((v) => ({ ...v, value: e.target.value }));
+            }}
+          />
+        </div>
+        <div className={searchOptions}>
           <ul className={dropdownBox}>
-            <SelectItem
+            {/* <SelectItem
               className={safeMark}
               value="all"
               selectedItem={filter}
               toggleItem={toggleItem}
-            />
+            /> */}
             <SelectItem
               className={safeMark}
               value="name"
               selectedItem={filter}
               toggleItem={toggleItem}
             />
-            <SelectItem
+            {/* <SelectItem
               className={safeMark}
               value="number"
               selectedItem={filter}
               toggleItem={toggleItem}
-            />
+            /> */}
             <SelectItem
               className={safeMark}
               value="types"
@@ -121,19 +150,31 @@ export const SearchInput = ({
               toggleItem={toggleItem}
             />
           </ul>
-        )}
+
+          <button
+            type="button"
+            className={sortButton + sortSafeMark}
+            // className={sortSafeMark}
+            onClick={toggleSortOpened}
+          >
+            {query.sortOrder === "asc" ? (
+              <IconSortAscending2 size={18} />
+            ) : (
+              <IconSortDescending2 size={18} />
+            )}
+            <span className={sortingDesc}>{query.sortKey.value}</span>
+          </button>
+
+          {sortOpened && (
+            <SortMenu
+              sortKey={query.sortKey}
+              sortOrder={query.sortOrder}
+              setQuery={setQuery}
+              className={sortSafeMark}
+            />
+          )}
+        </div>
       </div>
-      <input
-        type="search"
-        ref={searchRef}
-        className={searchInput}
-        placeholder={placeholders[filter]}
-        value={value}
-        onChange={(e) => {
-          // setValue(e.target.value);
-          setQuery((v) => ({ ...v, value: e.target.value }));
-        }}
-      />
     </div>
   );
 };

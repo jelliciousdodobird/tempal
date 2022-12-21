@@ -117,10 +117,10 @@ export const matchupItem = styleVariants({
     matchupItemBase,
     {
       vars: {
-        [magnitude_alt_color]: hsla(theme.colors.filler[0]),
-        [magnitude_base_color]: hsla(theme.colors.filler[2], 0.2),
-        // [magnitude_alt_color]: hsla(theme.colors.filler[2]),
-        // [magnitude_base_color]: hsla(theme.colors.filler[0]),
+        // [magnitude_alt_color]: hsla(theme.colors.filler[0]),
+        // [magnitude_base_color]: hsla(theme.colors.filler[2], 0.2),
+        [magnitude_alt_color]: hsla(theme.colors.white[0]),
+        [magnitude_base_color]: hsla(theme.colors.filler[3]),
       },
     },
   ],
@@ -128,10 +128,10 @@ export const matchupItem = styleVariants({
     matchupItemBase,
     {
       vars: {
-        [magnitude_alt_color]: hsla(theme.colors.positive[0]),
-        [magnitude_base_color]: hsla(theme.colors.positive[3], 0.2),
-        // [magnitude_alt_color]: hsla(theme.colors.positive[3]),
-        // [magnitude_base_color]: hsla(theme.colors.positive[0]),
+        // [magnitude_alt_color]: hsla(theme.colors.positive[0]),
+        // [magnitude_base_color]: hsla(theme.colors.positive[3], 0.2),
+        [magnitude_alt_color]: hsla(theme.colors.white[0]),
+        [magnitude_base_color]: hsla(theme.colors.positive[4]),
       },
     },
   ],
@@ -139,10 +139,10 @@ export const matchupItem = styleVariants({
     matchupItemBase,
     {
       vars: {
+        // [magnitude_alt_color]: hsla(theme.colors.white[0]),
+        // [magnitude_base_color]: hsla(theme.colors.white[4], 0.2),
         [magnitude_alt_color]: hsla(theme.colors.white[0]),
-        [magnitude_base_color]: hsla(theme.colors.white[4], 0.2),
-        // [magnitude_alt_color]: hsla(theme.colors.white[4]),
-        // [magnitude_base_color]: hsla(theme.colors.white[0]),
+        [magnitude_base_color]: hsla(theme.colors.black[5]),
       },
     },
   ],
@@ -151,10 +151,10 @@ export const matchupItem = styleVariants({
 
     {
       vars: {
-        [magnitude_alt_color]: hsla(theme.colors.caution[0]),
-        [magnitude_base_color]: hsla(theme.colors.caution[3], 0.3),
-        // [magnitude_alt_color]: hsla(theme.colors.caution[3]),
-        // [magnitude_base_color]: hsla(theme.colors.caution[0]),
+        // [magnitude_alt_color]: hsla(theme.colors.caution[0]),
+        // [magnitude_base_color]: hsla(theme.colors.caution[3], 0.3),
+        [magnitude_alt_color]: hsla(theme.colors.white[0]),
+        [magnitude_base_color]: hsla(theme.colors.caution[3]),
       },
     },
   ],
@@ -162,10 +162,10 @@ export const matchupItem = styleVariants({
     matchupItemBase,
     {
       vars: {
-        [magnitude_alt_color]: hsla(theme.colors.negative[3]),
-        [magnitude_base_color]: hsla(theme.colors.negative[5], 0.2),
-        // [magnitude_alt_color]: hsla(theme.colors.negative[5]),
-        // [magnitude_base_color]: hsla(theme.colors.negative[0]),
+        // [magnitude_alt_color]: hsla(theme.colors.negative[3]),
+        // [magnitude_base_color]: hsla(theme.colors.negative[5], 0.2),
+        [magnitude_alt_color]: hsla(theme.colors.white[0]),
+        [magnitude_base_color]: hsla(theme.colors.negative[3]),
       },
     },
   ],
@@ -174,11 +174,11 @@ export const matchupItem = styleVariants({
     {
       vars: {
         [magnitude_alt_color]: hsla(theme.colors.white[0]),
-        [magnitude_base_color]: hsla(theme.colors.black[5], 1),
+        [magnitude_base_color]: hsla(theme.colors.black[5]),
         // [magnitude_alt_color]: hsla(theme.colors.black[5]),
         // [magnitude_base_color]: hsla(theme.colors.black[5]),
       },
-      fontWeight: 400,
+      // fontWeight: 400,
     },
   ],
 });

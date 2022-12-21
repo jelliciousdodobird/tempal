@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { Logo } from "../../Logo/Logo.component";
 import { NavbarItem } from "../NavbarItem/NavbarItem.component";
-import { bgRed, container, item, list, stretchedItem } from "./Navbar.css";
+import { container, item, list, stretchedItem } from "./Navbar.css";
 
 export const links = [
   // { name: "Home", link: "/", order: 0, color: "#428ae8", icon: MdMap },
-  { name: "Tems", link: "/tems", order: 0, color: "#19b28e" },
+  { name: "Temdex", link: "/temdex", order: 0, color: "#19b28e" },
+  // {
+  //   name: "Theme",
+  //   link: "/theme",
+  //   order: 1,
+  //   color: "#fee257",
+  //   // icon: RiAuctionFill,
+  // },
   {
-    name: "Theme",
-    link: "/theme",
-    order: 1,
-    color: "#fee257",
-    // icon: RiAuctionFill,
-  },
-  {
-    name: "Create",
-    link: "/create",
-    order: 3,
+    name: "Contact",
+    link: "/contact",
+    order: 2,
     color: "#f99155",
     // icon: MdShoppingBasket,
   },

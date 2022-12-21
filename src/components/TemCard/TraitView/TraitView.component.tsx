@@ -76,7 +76,7 @@ export const TraitView = ({ traits, descriptionLimit = 70 }: TraitsProps) => {
     data: trait2,
   } = useQuery(["trait", traits[1]], () => fetchTraitData(traits[1]));
 
-  if (isLoading1 || isLoading2) return <>LOADING</>;
+  if (isLoading1 || isLoading2) return <></>;
   else if (isError1 || isError2) return <>ERROR</>;
 
   return (

@@ -9,7 +9,7 @@ export const Logo = () => {
   return (
     <h1 className={h1}>
       <span className={animatedText}>
-        TATERU<span className={x}>.gg</span>
+        TEM<span className={x}>PAL</span>
       </span>
     </h1>
   );

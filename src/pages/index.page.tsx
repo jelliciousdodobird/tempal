@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { pageLayout, placeMid } from "../styles/utility-styles.css";
 
 const str = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure facilis
         dolores laudantium doloremque magnam aspernatur animi doloribus est
@@ -14,17 +13,7 @@ const str = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure facil
         assumenda suscipit voluptatibus rem ducimus veniam!`;
 
 const Home: NextPage = () => {
-  return (
-    <div className={pageLayout}>
-      <div style={{ background: "red" }}>L</div>
-      <div className={placeMid} style={{ background: "green" }}>
-        {[...Array(3).keys()].map((i) => (
-          <p key={i}>{str}</p>
-        ))}
-      </div>
-      <div style={{ background: "blue" }}>R</div>
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Home;

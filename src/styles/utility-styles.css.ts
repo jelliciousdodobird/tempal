@@ -13,6 +13,16 @@ export const oldcontentCenter = style({
   },
 });
 
+export const centerer = style({
+  maxWidth: "70rem",
+
+  paddingLeft: "1rem",
+  paddingRight: "1rem",
+
+  marginLeft: "auto",
+  marginRight: "auto",
+});
+
 // ----------------------------------------------------------------------
 // PURE ULITITY CLASSES:
 // - extract common css attribute and values here
@@ -45,7 +55,7 @@ const min = threshold - scrollbar;
 export const pageLayout = style({
   display: "grid",
 
-  gridTemplateColumns: `minmax(0, 1fr) minmax(${min}px, 2fr) minmax(0, 1fr)`,
+  gridTemplateColumns: `minmax(0, 1fr) minmax(${min}px, 3fr) minmax(0, 1fr)`,
   gridTemplateRows: "none",
   gridTemplateAreas: `"left mid right"`,
 
@@ -103,6 +113,42 @@ export const loadingShimmer = style({
 
   animation: `${shimmer} 500ms infinite alternate-reverse`,
 });
+// ----------------------------------------------------------------------
+export const animatedGradient = "animatedGradient";
+
+globalKeyframes(animatedGradient, {
+  from: {
+    backgroundPosition: "0%",
+  },
+  to: {
+    backgroundPosition: "100%",
+  },
+});
+
+export const gradient = createVar();
+
+export const flowGradient = style({
+  vars: {
+    [gradient]: `linear-gradient(
+      to right,
+      #19b28e,
+      #fee257,
+      #ff3939,
+      #217aff
+    )`,
+  },
+
+  backgroundImage: gradient,
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text",
+  color: "transparent",
+
+  backgroundSize: "300%",
+  backgroundPosition: "-100%",
+
+  animation: `${animatedGradient} 5s infinite alternate-reverse`,
+});
+
 // ----------------------------------------------------------------------
 export const rotateGlowGradient = "rotate-gradient";
 globalKeyframes(rotateGlowGradient, {

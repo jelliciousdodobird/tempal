@@ -26,8 +26,17 @@ import {
   sortingDesc,
   subTitle,
   headerContent,
+  queriesContainer,
+  queryHeader,
+  tip,
+  sortButtonBox,
+  tipsButton,
+  sortItem,
+  headerSection,
+  tipBox,
+  sortedByLabel,
 } from "./tems.css";
-import { IconSortAscending2 } from "@tabler/icons";
+import { IconSearch, IconSortAscending2 } from "@tabler/icons";
 import { SearchInput } from "../../components/SearchInput/SearchInput.component";
 import { useDebounce } from "../../hooks/useDebounce";
 import { usePopup } from "../../hooks/usePopup";
@@ -42,7 +51,6 @@ import {
   SortOrder,
   sortOrderDescription,
 } from "./SortMenu.component";
-import { TemDexPageBanner } from "../../components/TemDexPageBanner/TemDexPageBanner.component";
 
 export interface Stats {
   atk: number;
@@ -121,36 +129,16 @@ const fuseKeyData = Object.values(fuseKeysConfig).map((v) => v);
 
 // navbarHeight + headerContentHeight + searchBoxHeight + bottomSpacing
 // this is the best guess height for the banner:
-const default_height = `calc(${theme.mainNav.maxHeight} + 30vh + 4rem + 8rem)`;
+// const default_height = `calc(${theme.mainNav.maxHeight} + 30vh + 4rem + 8rem)`;
 
 const default_query: SearchQuery = {
-  filterKey: "all",
+  filterKey: "name",
   sortKey: sortItems["relevance"],
   sortOrder: "des",
   value: "",
 };
 
 const TemdexPage: NextPage<TemDexPageProps> = ({ tems }) => {
-  const [height, setHeight] = useState(default_height);
-  const endOfHeaderRef = useRef<HTMLDivElement>(null);
-  const calcHeight = useCallback(() => {
-    if (!endOfHeaderRef.current) return;
-    const t = endOfHeaderRef.current.getBoundingClientRect().y;
-    setHeight(t + "px");
-  }, []);
-
-  useResizeObserver({
-    ref: endOfHeaderRef,
-    onResize: calcHeight,
-  });
-  // ---------------------------------------------------------------------------
-  const {
-    opened: sortOpened,
-    safeMark: sortSafeMark,
-    togglePopup: toggleSortOpened,
-  } = usePopup();
-  // ---------------------------------------------------------------------------
-
   const searcher = useMemo(
     () =>
       new Fuse(tems, {
@@ -220,18 +208,49 @@ const TemdexPage: NextPage<TemDexPageProps> = ({ tems }) => {
 
   // ---------------------------------------------------------------------------
 
-  const tipExampleForAND = () =>
+  const findWaterAndToxic = () =>
     setQuery((v) => ({
       ...v,
+      sortKey: sortItems["relevance"],
+      sortOrder: "des",
       filterKey: "types",
       value: "water & toxic",
     }));
 
-  const tipExampleForOR = () =>
+  const compareTems = () =>
+    setQuery((v) => ({
+      ...v,
+      sortKey: sortItems["relevance"],
+      sortOrder: "des",
+      filterKey: "name",
+      value: "babawa | cycrox | raignet",
+    }));
+
+  const traitCamaraderieOrRested = () =>
+    setQuery((v) => ({
+      ...v,
+      sortKey: sortItems["relevance"],
+      sortOrder: "des",
+      filterKey: "traits",
+      value: "camaraderie | rested",
+    }));
+
+  const sortByBaseAttack = () =>
     setQuery((v) => ({
       ...v,
       filterKey: "name",
-      value: "babawa | cycrox | raignet",
+      value: "",
+      sortKey: sortItems["base attack"],
+      sortOrder: "des",
+    }));
+
+  const sortByHpTvs = () =>
+    setQuery((v) => ({
+      ...v,
+      filterKey: "name",
+      value: "",
+      sortKey: sortItems["HP TVs"],
+      sortOrder: "des",
     }));
 
   // ---------------------------------------------------------------------------
@@ -261,87 +280,107 @@ const TemdexPage: NextPage<TemDexPageProps> = ({ tems }) => {
   /**
    * Scrolls to the top of the results when there is a new query.
    */
-  useEffect(() => {
-    if (results.length === numOfItems.current) return;
+  // useEffect(() => {
+  //   if (results.length === numOfItems.current) return;
 
-    document
-      .querySelector("#temtem-list")
-      ?.scrollIntoView({ behavior: "smooth" });
-  }, [results]);
+  //   document
+  //     .querySelector("#temtem-list")
+  //     ?.scrollIntoView({ behavior: "smooth" });
+  // }, [results]);
 
   return (
     <div className={temsPageBox}>
-      <div className={pageContent}>
-        <div className={headerBackground} style={{ height }}>
-          <TemDexPageBanner />
-        </div>
+      <div className={headerSection}>
         <div className={header}>
           <div className={headerContent}>
             <h1 className={H1}>temdex</h1>
+
             <p className={subTitle}>
               A showcase of all available temtems! Check out their luma variant
               and animations, filter, and sort to find the perfect temtem for
               your team.
             </p>
 
-            <p className={subTitle}>
-              TIP: If you select a filter category, you can use boolean
-              operations to be more specific with your search.
-            </p>
-
-            <p onClick={tipExampleForAND}>
-              Find all tems whose type is water AND toxic.
-            </p>
-            <p onClick={tipExampleForOR}>
-              Display a list of tems you want to compare.
+            <p className={tipBox}>
+              <span className={tip}>TIP</span> You can use boolean operations to
+              be more specific with your search. See Sample Queries for
+              examples.
             </p>
           </div>
+          <div className={queriesContainer}>
+            <h2 className={queryHeader}>
+              {/* <IconSearch size={24} strokeWidth={4} /> */}
+              Sample Queries
+            </h2>
+
+            <button
+              className={tipsButton["blue"]}
+              type="button"
+              onClick={findWaterAndToxic}
+            >
+              Find all tems whose
+              <span className={italic}> type </span>
+              is water & toxic
+            </button>
+
+            <button
+              className={tipsButton["red"]}
+              type="button"
+              onClick={compareTems}
+            >
+              Compare a list of tems
+            </button>
+
+            <button
+              className={tipsButton["green"]}
+              type="button"
+              onClick={traitCamaraderieOrRested}
+            >
+              Find tems that have the trait Camaraderie or Rested
+            </button>
+
+            <button
+              className={tipsButton["yellow"]}
+              type="button"
+              onClick={sortByBaseAttack}
+            >
+              Find tems with the highest base attack
+            </button>
+
+            <button
+              className={tipsButton["purple"]}
+              type="button"
+              onClick={sortByHpTvs}
+            >
+              Order tems by highest attack TV yield
+            </button>
+          </div>
         </div>
+      </div>
 
-        <div className={stickyBox}>
-          {sortOpened && (
-            <SortMenu
-              sortKey={query.sortKey}
-              sortOrder={query.sortOrder}
-              setQuery={setQuery}
-              className={sortSafeMark}
-            />
-          )}
-          <SearchInput
-            value={query.value}
-            filter={query.filterKey}
-            setQuery={setQuery}
-          />
-          <button
-            className={sortButton + sortSafeMark}
-            type="button"
-            onClick={toggleSortOpened}
-          >
-            <span className={iconBox}>
-              <IconSortAscending2 size={24} pointerEvents="none" />
-            </span>
-            <span className={searchButtonText}>sort</span>
-          </button>
-        </div>
+      <div className={stickyBox}>
+        <SearchInput
+          query={query}
+          filter={query.filterKey}
+          setQuery={setQuery}
+        />
+      </div>
 
-        <div ref={endOfHeaderRef}></div>
-
+      <div className={pageContent}>
         <div className={resultsOverview} id="temtem-list">
           {renderList.length === 0 && (
             <p>
-              <span className={redBolden}>0</span> temtems found. 😵
+              <span className={redBolden}>0</span> temtem found. 😵
             </p>
           )}
           {renderList.length > 0 && (
             <>
               <p>
-                <span className={bolden}>{results.length}</span> temtem(s) found
+                <span className={bolden}>{results.length}</span> temtem found
               </p>
-              <p>
-                by{" "}
-                <span className={sortingDesc}>
-                  {debouncedQuery.sortKey.value}
-                </span>
+              <p style={{ position: "relative" }}>
+                <span className={sortedByLabel}>Sorted by </span>
+                <span className={sortingDesc}>{query.sortKey.value}</span>
                 <span className={italic}> {sortDesc.desc}</span>
               </p>
             </>
@@ -368,6 +407,7 @@ const TemdexPage: NextPage<TemDexPageProps> = ({ tems }) => {
               />
             );
           })}
+          {renderList.length === 1 && <div></div>}
         </ul>
       </div>
     </div>

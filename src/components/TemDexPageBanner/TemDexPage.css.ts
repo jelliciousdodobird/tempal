@@ -14,7 +14,16 @@ export const container = style([
 ]);
 
 export const buttonStyle = style({
+  zIndex: 1100,
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+
+  padding: "1rem",
+
+  background: "red",
+
   ":hover": {
-    background: "black",
+    background: "white",
   },
 });

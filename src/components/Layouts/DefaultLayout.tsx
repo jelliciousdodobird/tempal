@@ -23,9 +23,9 @@ export const DefaultLayout = ({ children }: Props) => {
       <main className={pageContainer} id="page-container">
         {children}
       </main>
-      <footer>
+      {/* <footer>
         <Footer />
-      </footer>
+      </footer> */}
     </div>
   );
 };
