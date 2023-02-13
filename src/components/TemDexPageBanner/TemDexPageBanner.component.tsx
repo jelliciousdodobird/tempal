@@ -1,4 +1,4 @@
-import { buttonStyle, container } from "./TemDexPage.css";
+// import { buttonStyle, container } from "./TemDexPage.css";
 import { ReactNode, RefObject, useEffect } from "react";
 
 import {
@@ -30,7 +30,7 @@ export const TemDexPageBanner = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   return (
-    <div className={container}>
+    <div className={"container"}>
       {/* <Canvas ref={canvasRef} shadows style={{ touchAction: "none" }}>
         <Scene canvasRef={canvasRef} />
       </Canvas> */}

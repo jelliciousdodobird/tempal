@@ -1,9 +1,15 @@
-import { colord } from "colord";
+// import { colord } from "colord";
 import num2fraction from "num2fraction";
 
 export interface HasId {
   id: string;
 }
+
+export const formatTemName = (name: string) => {
+  const index = name.indexOf("(");
+  const formattedName = index !== -1 ? name.slice(0, index) : name;
+  return formattedName;
+};
 
 export const getRandomIntInclusive = (min: number, max: number) => {
   min = Math.ceil(min);
@@ -41,17 +47,17 @@ export const clamp = (num: number, min: number, max: number) =>
 export const prettyNumber = (num: number) =>
   num.toFixed(2).replace(/[.,]00$/, "");
 
-export function* generateColors(num_of_colors: number) {
-  const step = num_of_colors < 360 ? 360 / num_of_colors : 1;
+// export function* generateColors(num_of_colors: number) {
+//   const step = num_of_colors < 360 ? 360 / num_of_colors : 1;
 
-  const colors = [...Array(num_of_colors).keys()].map((i) =>
-    colord(`hsla(${(i * step) % 360}, 100%, 50%, 1)`)
-  );
+//   const colors = [...Array(num_of_colors).keys()].map((i) =>
+//     colord(`hsla(${(i * step) % 360}, 100%, 50%, 1)`)
+//   );
 
-  for (let color of colors) {
-    yield color;
-  }
-}
+//   for (let color of colors) {
+//     yield color;
+//   }
+// }
 
 /**
  * Turns an array of item objects with type T into

@@ -1,32 +1,32 @@
 import { memo, useMemo, useState } from "react";
 
-import { Stats, StatsWithTotal } from "../../../pages/temdex/index.page";
+// import { Stats, StatsWithTotal } from "../../../pages/temdex/index.page";
 import { zeroPad } from "../../../utils/utils";
 
-import Image from "next/future/image";
-import {
-  elementTypeLabel,
-  container,
-  cardBackground,
-  backgroundImageContainer,
-  backgroundBlur,
-  headerContent,
-  lumaImgIcon,
-  specieImage,
-  specieImageContainer,
-  mainContent,
-  cardTitle,
-  nameTextStyle,
-  numberTextStyle,
-  elementRow,
-  contentContainer,
-  tabContent,
-  buttonContainer,
-  toggleImgButton,
-  loadingContainer,
-} from "./Temcard.css";
+import Image from "next/image";
+// import {
+//   elementTypeLabel,
+//   container,
+//   cardBackground,
+//   backgroundImageContainer,
+//   backgroundBlur,
+//   headerContent,
+//   lumaImgIcon,
+//   specieImage,
+//   specieImageContainer,
+//   mainContent,
+//   cardTitle,
+//   nameTextStyle,
+//   numberTextStyle,
+//   elementRow,
+//   contentContainer,
+//   tabContent,
+//   buttonContainer,
+//   toggleImgButton,
+//   loadingContainer,
+// } from "./Temcard.css";
 
-import { TemType } from "../../../utils/types";
+import { Stats, StatsWithTotal, TemType } from "../../../utils/types";
 
 import { Tabber } from "../Tabber/Tabber.component";
 import { TraitView } from "../TraitView/TraitView.component";
@@ -112,11 +112,11 @@ export const TemCard = memo(
     );
 
     return (
-      <li className={container} id={id} tabIndex={1}>
-        <div className={cardBackground}>
-          <div className={backgroundImageContainer}>
+      <li className={`container`} id={id} tabIndex={1}>
+        <div className={`cardBackground`}>
+          <div className={`backgroundImageContainer`}>
             <Image
-              className={backgroundBlur}
+              className={`backgroundBlur`}
               alt=""
               src={staticImg}
               width={128}
@@ -126,16 +126,16 @@ export const TemCard = memo(
           </div>
         </div>
 
-        <div className={contentContainer}>
-          <div className={headerContent}>
-            <div className={cardTitle}>
-              <span className={numberTextStyle}>#{formattedNumber}</span>
-              <span className={nameTextStyle}>{formattedName}</span>
+        <div className={`contentContainer`}>
+          <div className={`headerContent`}>
+            <div className={`cardTitle`}>
+              <span className={`numberTextStyle`}>#{formattedNumber}</span>
+              <span className={`nameTextStyle`}>{formattedName}</span>
             </div>
 
-            <div className={specieImageContainer}>
+            <div className={`specieImageContainer`}>
               <Image
-                className={specieImage}
+                className={`specieImage`}
                 alt={formattedName}
                 src={displayImg}
                 width={128}
@@ -143,11 +143,11 @@ export const TemCard = memo(
                 quality={100}
                 onLoadingComplete={stopLoading}
               />
-              {imgLoading && <div className={loadingContainer}></div>}
-              <div className={buttonContainer}>
+              {imgLoading && <div className={`loadingContainer`}></div>}
+              <div className={`buttonContainer`}>
                 <button
                   disabled={imgLoading}
-                  className={toggleImgButton}
+                  className={`toggleImgButton`}
                   type="button"
                   onClick={toggleLuma}
                 >
@@ -159,7 +159,7 @@ export const TemCard = memo(
                 </button>
                 <button
                   disabled={imgLoading}
-                  className={toggleImgButton}
+                  className={`toggleImgButton`}
                   type="button"
                   onClick={toggleAnimate}
                 >
@@ -172,18 +172,18 @@ export const TemCard = memo(
               </div>
             </div>
 
-            <div className={elementRow}>
-              <span className={elementTypeLabel[type1]}>{type1}</span>
+            <div className={`elementRow`}>
+              <span className={`elementTypeLabel[type1]`}>{type1}</span>
               {type2 && (
-                <span className={elementTypeLabel[type2]}>{type2}</span>
+                <span className={`elementTypeLabel[type2]`}>{type2}</span>
               )}
             </div>
           </div>
 
-          {/* <div className={buttonContainer}>
+          {/* <div className={`buttonContainer`}>
             <button
               disabled={imgLoading}
-              className={toggleImgButton}
+              className={`toggleImgButton`}
               type="button"
               onClick={toggleLuma}
             >
@@ -195,7 +195,7 @@ export const TemCard = memo(
             </button>
             <button
               disabled={imgLoading}
-              className={toggleImgButton}
+              className={`toggleImgButton`}
               type="button"
               onClick={toggleAnimate}
             >
@@ -227,20 +227,20 @@ const TabContent = ({ id, tabComponent }: TabContentProps) => {
   const [tabSelected, setTabSelected] = useState<CardTab>("stats");
 
   return (
-    <div className={mainContent}>
+    <div className={`mainContent`}>
       <Tabber
         uid={id}
         tabSelected={tabSelected}
         setTabSelected={setTabSelected}
       />
 
-      <div className={tabContent} key={tabSelected}>
+      <div className={`tabContent`} key={tabSelected}>
         {tabComponent[tabSelected]}
       </div>
 
       {/* <AnimatePresence mode="wait">
         <motion.div
-          className={tabContent}
+          className={`tabContent`}
           key={tabSelected}
           initial={{ y: 10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}

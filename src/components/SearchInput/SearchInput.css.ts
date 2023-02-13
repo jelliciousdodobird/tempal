@@ -1,241 +1,242 @@
-import { style, styleVariants } from "@vanilla-extract/css";
-import { centerer, flexCenter } from "../../styles/utility-styles.css";
-import { hsla } from "../../styles/theme.util";
-import { darkTheme, lightTheme, theme } from "../../styles/themes.css";
+// import { style, styleVariants } from "@vanilla-extract/css";
+// import { centerer, flexCenter } from "../../styles/utility-styles.css";
+// import { hsla } from "../../styles/theme.util";
+// import { darkTheme, lightTheme, theme } from "../../styles/themes.css";
 
-const subMenuHeight = "3rem";
-// export const glowBase = style({
+// const subMenuHeight = "3rem";
+// // export const glowBase = style({
+// //   width: "100%",
+// //   height: "100%",
+// //   borderRadius: "5rem",
+
+// //   // boxShadow: "rgba(0, 0, 0, 0.4) 0px 0px 30px 0px",
+// //   background: hsla(theme.colors.white[0], 0.3),
+// //   backdropFilter: "blur(5px)",
+
+// //   padding: 2,
+// // });
+
+// export const searchContainer = style({
+//   position: "relative",
+
 //   width: "100%",
-//   height: "100%",
-//   borderRadius: "5rem",
+//   // height: "100%",
 
-//   // boxShadow: "rgba(0, 0, 0, 0.4) 0px 0px 30px 0px",
-//   background: hsla(theme.colors.white[0], 0.3),
-//   backdropFilter: "blur(5px)",
+//   // height: "6rem",
+//   // borderRadius: "5rem",
 
-//   padding: 2,
+//   // boxShadow: "rgba(0, 0, 0, 0.5) 0px 0px 30px 0px",
+
+//   background: hsla(theme.colors.white[0]),
+//   // backdropFilter: "blur(5px)",
+
+//   // padding: 6,
+
+//   // display: "flex",
+//   // flexDirection: "column",
+//   // alignItems: "center",
+//   // gap: 8,
+
+//   // color: hsla(theme.colors.black[5]),
 // });
 
-export const searchContainer = style({
-  position: "relative",
+// export const searchContent = style([
+//   centerer,
+//   {
+//     // border: "1px solid gold",
+//     // padding: 6,
 
-  width: "100%",
-  // height: "100%",
+//     position: "relative",
 
-  // height: "6rem",
-  // borderRadius: "5rem",
+//     width: "100%",
+//     height: "100%",
 
-  // boxShadow: "rgba(0, 0, 0, 0.5) 0px 0px 30px 0px",
+//     paddingTop: "1rem",
+//     paddingBottom: "1rem",
 
-  background: hsla(theme.colors.white[0]),
-  // backdropFilter: "blur(5px)",
+//     display: "flex",
+//     // alignItems: "center",
+//     flexDirection: "row",
 
-  // padding: 6,
+//     gap: "1rem",
 
-  // display: "flex",
-  // flexDirection: "column",
-  // alignItems: "center",
-  // gap: 8,
+//     color: hsla(theme.colors.black[5]),
 
-  // color: hsla(theme.colors.black[5]),
-});
+//     "@media": {
+//       "(max-width: 650px)": {
+//         flexDirection: "column",
+//       },
+//     },
+//   },
+// ]);
 
-export const searchContent = style([
-  centerer,
-  {
-    // border: "1px solid gold",
-    // padding: 6,
+// export const searchBar = style({
+//   // border: "1px solid red",
 
-    position: "relative",
+//   // borderBottom: `2px solid ${hsla(theme.colors.white[3])}`,
 
-    width: "100%",
-    height: "100%",
+//   width: "100%",
 
-    paddingTop: "1rem",
-    paddingBottom: "1rem",
+//   display: "flex",
+//   alignItems: "center",
+//   gap: 8,
+// });
 
-    display: "flex",
-    // alignItems: "center",
-    flexDirection: "row",
+// export const searchOptions = style({
+//   // border: "1px solid blue",
 
-    gap: "1rem",
+//   position: "relative",
 
-    color: hsla(theme.colors.black[5]),
+//   width: "min-content",
 
-    "@media": {
-      "(max-width: 650px)": {
-        flexDirection: "column",
-      },
-    },
-  },
-]);
+//   display: "flex",
+//   // justifyContent: "space-between",
+//   alignItems: "center",
 
-export const searchBar = style({
-  // border: "1px solid red",
+//   gap: 8,
+//   "@media": {
+//     "(max-width: 650px)": {
+//       width: "100%",
+//     },
+//   },
+// });
 
-  // borderBottom: `2px solid ${hsla(theme.colors.white[3])}`,
+// export const searchInput = style({
+//   // borderBottom: `1px solid ${hsla(theme.colors.white[3])}`,
 
-  width: "100%",
+//   // position: "relative",
+//   // borderRadius: 8,
 
-  display: "flex",
-  alignItems: "center",
-  gap: 8,
-});
+//   // background: hsla(theme.colors.white[0], 1),
+//   // backdropFilter: "blur(5px)",
 
-export const searchOptions = style({
-  // border: "1px solid blue",
+//   background: "white",
 
-  position: "relative",
+//   // padding: "0 16px",
 
-  width: "min-content",
+//   width: "100%",
+//   height: "100%",
 
-  display: "flex",
-  // justifyContent: "space-between",
-  alignItems: "center",
+//   fontSize: 14,
 
-  gap: 8,
-  "@media": {
-    "(max-width: 650px)": {
-      width: "100%",
-    },
-  },
-});
+//   color: hsla(theme.colors.surface[1]),
 
-export const searchInput = style({
-  // borderBottom: `1px solid ${hsla(theme.colors.white[3])}`,
+//   selectors: {
+//     '&[type="search"]::-webkit-search-decoration, &[type="search"]::-webkit-search-cancel-button, &[type="search"]::-webkit-search-results-button, &[type="search"]::-webkit-search-results-decoration':
+//       {
+//         WebkitAppearance: "none",
+//       },
+//   },
 
-  // position: "relative",
-  // borderRadius: 8,
+//   ":focus": {
+//     // borderBottom: `1px solid ${hsla(theme.colors.primary[3])}`,
+//   },
+// });
 
-  // background: hsla(theme.colors.white[0], 1),
-  // backdropFilter: "blur(5px)",
+// export const selectMenuFont = style({
+//   fontSize: 12,
+//   color: hsla(theme.colors.black[5]),
+//   textTransform: "capitalize",
+// });
 
-  background: "white",
+// export const selectMenuBox = style({ position: "relative", height: "100%" });
 
-  // padding: "0 16px",
+// export const selectValueButton = style([
+//   selectMenuFont,
+//   {
+//     userSelect: "none",
 
-  width: "100%",
-  height: "100%",
+//     // padding: "0 "
+//     cursor: "pointer",
 
-  fontSize: 14,
+//     borderRadius: 4,
 
-  color: hsla(theme.colors.surface[1]),
+//     height: "100%",
+//     width: "5rem",
+//     background: hsla(theme.colors.white[5]),
 
-  selectors: {
-    '&[type="search"]::-webkit-search-decoration, &[type="search"]::-webkit-search-cancel-button, &[type="search"]::-webkit-search-results-button, &[type="search"]::-webkit-search-results-decoration':
-      {
-        WebkitAppearance: "none",
-      },
-  },
+//     fontWeight: 600,
+//   },
+// ]);
 
-  ":focus": {
-    // borderBottom: `1px solid ${hsla(theme.colors.primary[3])}`,
-  },
-});
+// export const dropdownBox = style({
+//   border: `1px solid ${hsla(theme.colors.white[3])}`,
+//   overflow: "hidden",
+//   // position: "absolute",
+//   // left: 0,
 
-export const selectMenuFont = style({
-  fontSize: 12,
-  color: hsla(theme.colors.black[5]),
-  textTransform: "capitalize",
-});
+//   // height: subMenuHeight,
 
-export const selectMenuBox = style({ position: "relative", height: "100%" });
+//   userSelect: "none",
 
-export const selectValueButton = style([
-  selectMenuFont,
-  {
-    userSelect: "none",
+//   // marginTop: 4,
+//   borderRadius: 6,
+//   // padding: "8px 0",
+//   // width: "100%",
 
-    // padding: "0 "
-    cursor: "pointer",
+//   // boxShadow: "rgba(0, 0, 0, 0.4) 0px 0px 30px 0px",
 
-    borderRadius: 4,
+//   background: hsla(theme.colors.white[0]),
 
-    height: "100%",
-    width: "5rem",
-    background: hsla(theme.colors.white[5]),
+//   display: "flex",
+//   // flexDirection: "column",
+// });
 
-    fontWeight: 600,
-  },
-]);
+// export const selectItem = style([
+//   selectMenuFont,
+//   {
+//     cursor: "pointer",
+//     padding: "0 10px",
+//     height: "2rem",
 
-export const dropdownBox = style({
-  border: `1px solid ${hsla(theme.colors.white[3])}`,
-  overflow: "hidden",
-  // position: "absolute",
-  // left: 0,
+//     display: "flex",
+//     alignItems: "center",
 
-  // height: subMenuHeight,
+//     selectors: {
+//       '&[data-selected="true"]': {
+//         // color: "red",
+//         fontWeight: 600,
 
-  userSelect: "none",
+//         background: hsla(theme.colors.white[3]),
+//         // color: hsla(theme.colors.positive[4]),
+//       },
+//     },
 
-  // marginTop: 4,
-  borderRadius: 6,
-  // padding: "8px 0",
-  // width: "100%",
+//     ":hover": {
+//       background: hsla(theme.colors.white[5]),
+//     },
+//   },
+// ]);
 
-  // boxShadow: "rgba(0, 0, 0, 0.4) 0px 0px 30px 0px",
+// export const sortButton = style([
+//   flexCenter,
+//   {
+//     // outline: `1px solid ${hsla(theme.colors.white[3])}`,
 
-  background: hsla(theme.colors.white[0]),
+//     boxShadow: `0 0 0 1px ${hsla(theme.colors.white[3])}`,
 
-  display: "flex",
-  // flexDirection: "column",
-});
+//     cursor: "pointer",
+//     background: "transparent",
 
-export const selectItem = style([
-  selectMenuFont,
-  {
-    cursor: "pointer",
-    padding: "0 10px",
-    height: "2rem",
+//     borderRadius: 6,
+//     height: "2rem",
+//     padding: "5px 10px",
 
-    display: "flex",
-    alignItems: "center",
+//     // fontSize: 12,
 
-    selectors: {
-      '&[data-selected="true"]': {
-        // color: "red",
-        fontWeight: 600,
+//     display: "flex",
+//     gap: 4,
 
-        background: hsla(theme.colors.white[3]),
-        // color: hsla(theme.colors.positive[4]),
-      },
-    },
+//     ":hover": {
+//       background: hsla(theme.colors.white[3]),
+//     },
+//   },
+// ]);
 
-    ":hover": {
-      background: hsla(theme.colors.white[5]),
-    },
-  },
-]);
+// export const sortingDesc = style({
+//   whiteSpace: "nowrap",
+//   fontSize: 12,
 
-export const sortButton = style([
-  flexCenter,
-  {
-    // outline: `1px solid ${hsla(theme.colors.white[3])}`,
-
-    boxShadow: `0 0 0 1px ${hsla(theme.colors.white[3])}`,
-
-    cursor: "pointer",
-    background: "transparent",
-
-    borderRadius: 6,
-    height: "2rem",
-    padding: "5px 10px",
-
-    // fontSize: 12,
-
-    display: "flex",
-    gap: 4,
-
-    ":hover": {
-      background: hsla(theme.colors.white[3]),
-    },
-  },
-]);
-
-export const sortingDesc = style({
-  whiteSpace: "nowrap",
-  fontSize: 12,
-
-  textTransform: "capitalize",
-});
+//   textTransform: "capitalize",
+// });
+export default {};
