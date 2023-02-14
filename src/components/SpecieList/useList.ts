@@ -1,6 +1,5 @@
 "use client";
 import Fuse from "fuse.js";
-import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { MinimalTemSpecie } from "../../app/species/layout";
 import { FilterType } from "./SpecieList.types";
@@ -53,8 +52,6 @@ export const useList = (species: MinimalTemSpecie[]) => {
     [searcher, species]
   );
 
-  // const params = useSearchParams();
-  // const query = getQueryFromUrlParams(params);
   const { query } = useUrlQuery();
 
   const comparator = useCallback(

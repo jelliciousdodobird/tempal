@@ -34,17 +34,6 @@ export const cleanQuery = (query: DirtyQuery): SearchQuery => {
   };
 };
 
-// export const getQueryFromUrlParams = (
-//   params: ReadOnlyURLSearchParams
-// ): SearchQuery => {
-//   const filterType = params.get("filterType");
-//   const filterValue = params.get("filterValue");
-//   const sortType = params.get("sortType");
-//   const sortOrder = params.get("sortOrder");
-
-//   return cleanQuery({ filterType, sortType, sortOrder, filterValue });
-// };
-
 export const getMinimalQuery = (query: SearchQuery): Partial<SearchQuery> => {
   const partialQuery: Partial<SearchQuery> = { ...query };
   if (partialQuery.filterType === default_query.filterType)
@@ -71,16 +60,6 @@ export const getMinimalQueryString = (query: SearchQuery) => {
   return minimalQueryToUrl(minimalQuery);
 };
 
-// export const getQueryFromUrl = (): SearchQuery => {
-//   const url = new URL(window.location.href);
-//   const filterType = url.searchParams.get("filterType");
-//   const filterValue = url.searchParams.get("filterValue");
-//   const sortType = url.searchParams.get("sortType");
-//   const sortOrder = url.searchParams.get("sortOrder");
-
-//   return cleanQuery({ filterType, sortType, sortOrder, filterValue });
-// };
-
 export const getQuery = (
   params?: ReadOnlyURLSearchParams | URLSearchParams
 ): SearchQuery => {
@@ -94,6 +73,11 @@ export const getQuery = (
   return cleanQuery({ filterType, sortType, sortOrder, filterValue });
 };
 
+/**
+ * Generates a new url given the updatedQuery with respect to the current url pathname and search params. This is done outside of react state.
+ * @param updatedQuery what query values you want to change
+ * @returns
+ */
 export const getUpdatedQueryUrl = (updatedQuery: Partial<SearchQuery>) => {
   const url = new URL(window.location.href);
   const pathname = url.pathname;
@@ -105,7 +89,6 @@ export const getUpdatedQueryUrl = (updatedQuery: Partial<SearchQuery>) => {
   });
 
   return pathname + queryString;
-  // router.replace(pathname + queryString);
 };
 
 export const getComparator = (sortType: SortType, sortOrder: SortOrder) => {

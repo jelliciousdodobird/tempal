@@ -4,12 +4,7 @@ import { Combobox } from "@headlessui/react";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  usePathname,
-  useRouter,
-  useSearchParams,
-  useSelectedLayoutSegment,
-} from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { MinimalTemSpecie } from "../../app/species/layout";
 import { useDebounce } from "../../hooks/useDebounce";
@@ -17,13 +12,7 @@ import { formatTemName } from "../../utils/utils";
 import { ElementTypeLabel } from "../ElementTypeLabel/ElementTypeLabel";
 import { SortMenu } from "../SortMenu/SortMenu.component";
 import { SearchQuery } from "./SpecieList.types";
-import {
-  getMinimalQueryString,
-  // getQueryFromUrlParams,
-  cleanQuery,
-  getQuery,
-  // getQueryFromUrl,
-} from "./SpecieList.utils";
+import { getUpdatedQueryUrl } from "./SpecieList.utils";
 
 import { useList } from "./useList";
 import { useUrlQuery } from "./useUrlQuery";
@@ -65,14 +54,6 @@ export const SpecieList = ({ species }: { species: MinimalTemSpecie[] }) => {
   const goToPath = (specie: MinimalTemSpecie) => {
     router.push("/species/" + specie.name + minimalQueryUrl);
   };
-
-  useEffect(() => {
-    console.log("list");
-  });
-
-  useEffect(() => {
-    console.log("first mount");
-  }, []);
 
   return (
     <div className="flex flex-col gap-4 h-full py-4 pr-4 border-r border-neutral-800">
@@ -164,29 +145,16 @@ const SearchInput = () => {
   };
 
   const setUrlQuery = (newQuery: Partial<SearchQuery>) => {
-    console.log("update");
     updateQueryUrl({ query: newQuery, updateType: "replace" });
   };
 
   const resetQueryFilter = () => setUrlQuery({ filterValue: "" });
 
   useEffect(() => {
-    // To avoid unneccesary routing changes and rerenders,
-    // we only update the url when the debouncedFilterValue changes,
-    // but to ensure we don't have stale values for:
-    // (1) the current pathname
-    // (2) other current query values (sortType, sortOrder, filterType)
-    // we use the URL() and getQuery():
-    const url = new URL(window.location.href);
-    const pathname = url.pathname;
-    const searchParams = url.searchParams;
-    const currentQuery = getQuery(searchParams);
-    const queryString = getMinimalQueryString({
-      ...currentQuery,
-      filterValue: debouncedFilterValue,
-    });
+    // by using getUpdatedQueryUrl() we can generate the url using native api's (outside of react state):
+    const url = getUpdatedQueryUrl({ filterValue: debouncedFilterValue });
 
-    router.replace(pathname + queryString);
+    router.replace(url);
   }, [debouncedFilterValue]);
 
   return (

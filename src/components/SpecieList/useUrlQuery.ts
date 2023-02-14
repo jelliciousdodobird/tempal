@@ -16,11 +16,6 @@ export type UrlOption = {
   updateType?: "push" | "replace";
 };
 
-export const default_url_options: UrlOption = {
-  href: "",
-  query: {},
-};
-
 export const useUrlQuery = () => {
   const router = useRouter();
   const pathname = usePathname();
