@@ -36,7 +36,6 @@ export const loadImage = (
     });
   };
   img.onerror = (err) => {
-    console.log("img error");
     console.error(err);
   };
 };
@@ -46,18 +45,6 @@ export const clamp = (num: number, min: number, max: number) =>
 
 export const prettyNumber = (num: number) =>
   num.toFixed(2).replace(/[.,]00$/, "");
-
-// export function* generateColors(num_of_colors: number) {
-//   const step = num_of_colors < 360 ? 360 / num_of_colors : 1;
-
-//   const colors = [...Array(num_of_colors).keys()].map((i) =>
-//     colord(`hsla(${(i * step) % 360}, 100%, 50%, 1)`)
-//   );
-
-//   for (let color of colors) {
-//     yield color;
-//   }
-// }
 
 /**
  * Turns an array of item objects with type T into

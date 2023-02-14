@@ -1,18 +1,17 @@
 "use client";
 
 import { Combobox } from "@headlessui/react";
+
 import clsx from "clsx";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useMemo } from "react";
 import { MinimalTemSpecie } from "../../app/species/layout";
-import { useDebounce } from "../../hooks/useDebounce";
 import { formatTemName } from "../../utils/utils";
 import { ElementTypeLabel } from "../ElementTypeLabel/ElementTypeLabel";
+import { filterType_shorthand } from "../SearchFilterSelectMenu/SearchFilterSelectMenu.component";
+import { SearchInput } from "../SearchInput/SearchInput.component";
 import { SortMenu } from "../SortMenu/SortMenu.component";
-import { SearchQuery } from "./SpecieList.types";
-import { getUpdatedQueryUrl } from "./SpecieList.utils";
 
 import { useList } from "./useList";
 import { useUrlQuery } from "./useUrlQuery";
@@ -20,28 +19,7 @@ import { useUrlQuery } from "./useUrlQuery";
 export const SpecieList = ({ species }: { species: MinimalTemSpecie[] }) => {
   const router = useRouter();
   const { renderList } = useList(species);
-  const { minimalQueryUrl } = useUrlQuery();
-
-  const uniqueTypes = useMemo(
-    () =>
-      Array.from(
-        new Set(species.flatMap((tem) => tem.types.map((type) => type)))
-      ),
-    [species]
-  );
-
-  const uniqueTraits = useMemo(
-    () =>
-      Array.from(
-        new Set(species.flatMap((tem) => tem.traits.map((type) => type)))
-      ),
-    [species]
-  );
-
-  const uniqueNames = useMemo(
-    () => Array.from(new Set(species.map((tem) => tem.name))),
-    [species]
-  );
+  const { query, minimalQueryUrl } = useUrlQuery();
 
   const selectedSpecie = useMemo(
     () => ({
@@ -63,21 +41,35 @@ export const SpecieList = ({ species }: { species: MinimalTemSpecie[] }) => {
         by="name"
       >
         <SearchInput />
-
         <SortMenu />
 
+        {!!query.filterValue && (
+          <div className="text-neutral-500 text-sm">
+            {"Showing tems with the "}
+            <span className="text-pink-500 font-bold uppercase">
+              {filterType_shorthand[query.filterType]}
+            </span>
+            {" = "}
+            <span className="text-pink-500 font-bold ">
+              {query.filterValue}
+            </span>
+          </div>
+        )}
+        {!query.filterValue && (
+          <div className="text-neutral-500 text-sm">{"Showing all tems:"}</div>
+        )}
         <Combobox.Options
           static
           as="div"
           className={clsx(
-            "relative flex flex-col w-full overflow-hidden",
+            "relative flex flex-col w-full overflow-hidden flex-1",
             "bg-neutral-900"
           )}
         >
           <div className="absolute inset-0 pointer-events-none [background-image:linear-gradient(180deg,#171717,transparent_4rem,transparent_calc(100%-4rem),#171717_100%)]" />
           <ul
             className={clsx(
-              "flex flex-col gap-4 py-8 custom-scrollbar-tiny overflow-y-auto overflow-x-hidden flex-growzz pr-3",
+              "flex flex-col gap-4 py-8 custom-scrollbar-tiny overflow-y-auto overflow-x-hidden h-full pr-3",
               "outline-none appearance-none"
             )}
           >
@@ -130,48 +122,5 @@ const SpecieItemLink = ({ specie }: ItemProps) => {
         </li>
       )}
     </Combobox.Option>
-  );
-};
-
-const SearchInput = () => {
-  const router = useRouter();
-  const { query, updateQueryUrl } = useUrlQuery();
-
-  const [filterValue, setFilterValue] = useState<string>(query.filterValue);
-  const debouncedFilterValue = useDebounce(filterValue, 1000);
-  const currentQuery: SearchQuery = {
-    ...query,
-    filterValue: debouncedFilterValue,
-  };
-
-  const setUrlQuery = (newQuery: Partial<SearchQuery>) => {
-    updateQueryUrl({ query: newQuery, updateType: "replace" });
-  };
-
-  const resetQueryFilter = () => setUrlQuery({ filterValue: "" });
-
-  useEffect(() => {
-    // by using getUpdatedQueryUrl() we can generate the url using native api's (outside of react state):
-    const url = getUpdatedQueryUrl({ filterValue: debouncedFilterValue });
-
-    router.replace(url);
-  }, [debouncedFilterValue]);
-
-  return (
-    <>
-      <div className="flex w-full">
-        <Combobox.Input
-          autoComplete="off"
-          placeholder={"filtering by " + currentQuery.filterType}
-          className={clsx(
-            "outline-none appearance-none",
-            "flex px-3 min-h-[2.5rem] w-full rounded-md text-base caret-white bg-neutral-800"
-          )}
-          value={filterValue}
-          displayValue={() => filterValue}
-          onChange={(e) => setFilterValue(e.target.value)}
-        />
-      </div>
-    </>
   );
 };

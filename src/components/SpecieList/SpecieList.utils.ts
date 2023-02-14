@@ -64,7 +64,6 @@ export const getQuery = (
   params?: ReadOnlyURLSearchParams | URLSearchParams
 ): SearchQuery => {
   const searchParams = params ?? new URLSearchParams(window.location.href);
-
   const filterType = searchParams.get("filterType");
   const filterValue = searchParams.get("filterValue");
   const sortType = searchParams.get("sortType");
@@ -76,7 +75,7 @@ export const getQuery = (
 /**
  * Generates a new url given the updatedQuery with respect to the current url pathname and search params. This is done outside of react state.
  * @param updatedQuery what query values you want to change
- * @returns
+ * @returns a url string in the form "/current/path/name" + "?" + "filterType=value&filterValue=value&sortType=value&sortOrder=value". Note, it is possible for this function to return just "/?" which will send you to the index page.
  */
 export const getUpdatedQueryUrl = (updatedQuery: Partial<SearchQuery>) => {
   const url = new URL(window.location.href);
@@ -127,7 +126,9 @@ export const sortItems: Record<SortType, SortKey> = {
   name: {
     value: "name",
     label: "Name",
-    accessor: (item: MinimalTemSpecie) => item.name,
+    accessor: (item: MinimalTemSpecie) => {
+      return item.name;
+    },
   },
   "base HP": {
     value: "base HP",

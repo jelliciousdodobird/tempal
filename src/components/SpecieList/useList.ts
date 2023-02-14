@@ -21,51 +21,48 @@ export const useList = (species: MinimalTemSpecie[]) => {
 
   const search = useCallback(
     (key: FilterType, query: string) => {
-      const basicQuery = { [key]: query };
-
-      const andTokens = query.split("&").map((v) => v.trim());
-      const orTokens = query.split("|").map((v) => v.trim());
+      const basicQuery = { [key]: adjustForNumberKey(key, query) };
+      const andTokens = filterTrim(query.split(and));
+      const orTokens = filterTrim(query.split(or));
 
       let finalQuery: string | Fuse.Expression = basicQuery;
       if (andTokens.length > 1 && orTokens.length > 1) {
         finalQuery = { "": "invalid key" };
       } else if (andTokens.length > 1) {
         finalQuery = {
-          $and: andTokens.map((v) => ({ [key]: v })),
+          $and: andTokens.map((v) => ({ [key]: adjustForNumberKey(key, v) })),
         };
       } else if (orTokens.length > 1) {
         finalQuery = {
-          $or: andTokens.map((v) => ({ [key]: v })),
+          $or: orTokens.map((v) => ({ [key]: adjustForNumberKey(key, v) })),
         };
       }
 
       const searchResults = searcher.search(finalQuery);
+
       const results = searchResults
         ? searchResults.map((v) => v.item)
         : species;
       const data = query === "" ? species : results;
 
-      // if (data !== species) setRange(STARTING_LIMIT); // reset the range
       return data;
     },
-
     [searcher, species]
   );
 
   const { query } = useUrlQuery();
 
   const comparator = useCallback(
-    () => getComparator(query.sortType, query.sortOrder),
+    getComparator(query.sortType, query.sortOrder),
     [query.sortType, query.sortOrder]
   );
 
-  const resultsSortedByRelevance = useMemo(
-    () => search(query.filterType, query.filterValue),
-    [search, query.filterType, query.filterValue]
-  );
+  const resultsSortedByRelevance: MinimalTemSpecie[] = useMemo(() => {
+    return search(query.filterType, query.filterValue);
+  }, [search, query.filterType, query.filterValue]);
 
   const renderList = useMemo(
-    () => [...resultsSortedByRelevance].sort(comparator()),
+    () => [...resultsSortedByRelevance].sort(comparator),
     [resultsSortedByRelevance, comparator]
   );
 
@@ -76,9 +73,34 @@ const fuseKeysConfig: Record<
   FilterType,
   Fuse.FuseOptionKey<MinimalTemSpecie>
 > = {
-  name: { name: "name" },
-  number: { name: "number" },
+  name: {
+    name: "name",
+    getFn: (item) => {
+      if (item.evolution.evolves) {
+        return item.evolution.evolutionTree.map((evol) => evol.name).join(" ");
+      }
+      return item.name;
+    },
+  },
+  number: {
+    name: "number",
+  },
   types: { name: "types" },
   traits: { name: "traits" },
 };
+
 const fuseKeyData = Object.values(fuseKeysConfig).map((v) => v);
+
+const and = /\band\b|&/; // matches " and " or "&" (NOTE THE SPACES)
+const or = /\bor\b|\|/; //  matches " or "  or "|" (NOTE THE SPACES)
+const filterTrim = (stringArr: string[]) =>
+  stringArr.map((v) => v.trim()).filter((v) => v !== "");
+
+/**
+ * Adjusts the query for an exact match if the filter key is "number". See https://fusejs.io/examples.html#extended-search
+ * @param key
+ * @param query
+ * @returns
+ */
+const adjustForNumberKey = (key: FilterType, query: string) =>
+  key === "number" ? "=" + query : query;

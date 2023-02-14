@@ -1,4 +1,4 @@
-import { Menu, Popover } from "@headlessui/react";
+import { Popover } from "@headlessui/react";
 import { IconArrowDown, IconArrowUp } from "@tabler/icons";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
@@ -32,11 +32,11 @@ export const SortMenu = ({}: SortMenuProps) => {
 
   return (
     <Popover className="flex flex-col relative w-full bg-neutral-800 rounded-md">
-      <Popover.Button className="flex justify-between items-center gap-4 min-h-[2.5rem] text-sm w-full px-3">
-        <span className="grid place-items-center text-base font-bold uppercase">
-          sort by
+      <Popover.Button className="flex items-center  min-h-[2.5rem] text-sm w-full">
+        <span className="grid place-items-center rounded-tl-md rounded-bl-md w-20 h-full font-bold text-sm uppercase text-neutral-300 bg-neutral-700 ">
+          sort
         </span>
-        <span className="text-sm capitalize">
+        <span className="px-3 text-sm capitalize flex-1zz">
           {sortType}
           <span
             className={clsx(
