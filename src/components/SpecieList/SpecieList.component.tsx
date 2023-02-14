@@ -15,20 +15,23 @@ import { MinimalTemSpecie } from "../../app/species/layout";
 import { useDebounce } from "../../hooks/useDebounce";
 import { formatTemName } from "../../utils/utils";
 import { ElementTypeLabel } from "../ElementTypeLabel/ElementTypeLabel";
-
+import { SortMenu } from "../SortMenu/SortMenu.component";
+import { SearchQuery } from "./SpecieList.types";
 import {
-  cleanQuery,
-  getMinimalQuery,
   getMinimalQueryString,
-  getQueryFromUrlParams,
-  SearchQuery,
-  useList,
-} from "./useList";
+  // getQueryFromUrlParams,
+  cleanQuery,
+  getQuery,
+  // getQueryFromUrl,
+} from "./SpecieList.utils";
+
+import { useList } from "./useList";
+import { useUrlQuery } from "./useUrlQuery";
 
 export const SpecieList = ({ species }: { species: MinimalTemSpecie[] }) => {
   const router = useRouter();
-  const { renderList, paramQuery } = useList(species);
-  const minimalQuery = getMinimalQueryString(paramQuery);
+  const { renderList } = useList(species);
+  const { minimalQueryUrl } = useUrlQuery();
 
   const uniqueTypes = useMemo(
     () =>
@@ -59,8 +62,13 @@ export const SpecieList = ({ species }: { species: MinimalTemSpecie[] }) => {
     [species]
   );
 
-  const goToPath = (specie: MinimalTemSpecie) =>
-    router.push("/species/" + specie.name + minimalQuery);
+  const goToPath = (specie: MinimalTemSpecie) => {
+    router.push("/species/" + specie.name + minimalQueryUrl);
+  };
+
+  useEffect(() => {
+    console.log("list");
+  });
 
   useEffect(() => {
     console.log("first mount");
@@ -74,6 +82,8 @@ export const SpecieList = ({ species }: { species: MinimalTemSpecie[] }) => {
         by="name"
       >
         <SearchInput />
+
+        <SortMenu />
 
         <Combobox.Options
           static
@@ -144,41 +154,47 @@ const SpecieItemLink = ({ specie }: ItemProps) => {
 
 const SearchInput = () => {
   const router = useRouter();
-  const pathname = usePathname();
-  const params = useSearchParams();
+  const { query, updateQueryUrl } = useUrlQuery();
 
-  const paramQuery = getQueryFromUrlParams(params);
-  const [filterValue, setFilterValue] = useState<string>(paramQuery.value);
-
+  const [filterValue, setFilterValue] = useState<string>(query.filterValue);
   const debouncedFilterValue = useDebounce(filterValue, 1000);
-  const currentQuery = { ...paramQuery, value: debouncedFilterValue };
-
-  const setUrlQuery = (newQuery: Partial<SearchQuery>) => {
-    const query = cleanQuery({ ...currentQuery, ...newQuery });
-    const queryString = getMinimalQueryString(query);
-    router.replace(pathname + queryString);
+  const currentQuery: SearchQuery = {
+    ...query,
+    filterValue: debouncedFilterValue,
   };
 
-  const resetQueryFilter = () => setUrlQuery({ value: "" });
+  const setUrlQuery = (newQuery: Partial<SearchQuery>) => {
+    console.log("update");
+    updateQueryUrl({ query: newQuery, updateType: "replace" });
+  };
+
+  const resetQueryFilter = () => setUrlQuery({ filterValue: "" });
 
   useEffect(() => {
-    const query = cleanQuery(currentQuery);
-    const queryString = getMinimalQueryString(query);
+    // To avoid unneccesary routing changes and rerenders,
+    // we only update the url when the debouncedFilterValue changes,
+    // but to ensure we don't have stale values for:
+    // (1) the current pathname
+    // (2) other current query values (sortType, sortOrder, filterType)
+    // we use the URL() and getQuery():
+    const url = new URL(window.location.href);
+    const pathname = url.pathname;
+    const searchParams = url.searchParams;
+    const currentQuery = getQuery(searchParams);
+    const queryString = getMinimalQueryString({
+      ...currentQuery,
+      filterValue: debouncedFilterValue,
+    });
+
     router.replace(pathname + queryString);
-  }, [
-    currentQuery.filterKey,
-    currentQuery.sortOrder,
-    currentQuery.sortType,
-    currentQuery.value,
-    pathname,
-  ]);
+  }, [debouncedFilterValue]);
 
   return (
     <>
       <div className="flex w-full">
         <Combobox.Input
           autoComplete="off"
-          placeholder={"filtering by " + currentQuery.filterKey}
+          placeholder={"filtering by " + currentQuery.filterType}
           className={clsx(
             "outline-none appearance-none",
             "flex px-3 min-h-[2.5rem] w-full rounded-md text-base caret-white bg-neutral-800"
@@ -187,25 +203,6 @@ const SearchInput = () => {
           displayValue={() => filterValue}
           onChange={(e) => setFilterValue(e.target.value)}
         />
-      </div>
-
-      <span>SORT</span>
-      <div className="flex gap-2 flex-wrap">
-        <span onClick={() => setUrlQuery({ sortType: "name" })}>name</span>
-        <span onClick={() => setUrlQuery({ sortType: "number" })}>number</span>
-        <span onClick={() => setUrlQuery({ sortType: "base HP" })}>
-          base HP
-        </span>
-        <span onClick={() => setUrlQuery({ sortType: "speed TVs" })}>
-          speed TVs
-        </span>
-      </div>
-      <span>Filter</span>
-      <div className="flex gap-2 flex-wrap">
-        <span onClick={() => setUrlQuery({ filterKey: "name" })}>name</span>
-        <span onClick={() => setUrlQuery({ filterKey: "number" })}>number</span>
-        <span onClick={() => setUrlQuery({ filterKey: "types" })}>types</span>
-        <span onClick={() => setUrlQuery({ filterKey: "traits" })}>traits</span>
       </div>
     </>
   );

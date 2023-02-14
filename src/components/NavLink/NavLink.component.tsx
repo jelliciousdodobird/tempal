@@ -4,7 +4,12 @@ import clsx from "clsx";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { getMinimalQuery, getQueryFromUrlParams } from "../SpecieList/useList";
+import {
+  getMinimalQuery,
+  getQuery,
+  // getQueryFromUrlParams,
+} from "../SpecieList/SpecieList.utils";
+// import { getMinimalQuery, getQueryFromUrlParams } from "../SpecieList/useList";
 
 type NavLinkProps = {
   href: string;
@@ -16,7 +21,7 @@ export const NavLink = ({ href, label }: NavLinkProps) => {
   const params = useSearchParams();
 
   const active = pathname === href;
-  const searchQuery = getQueryFromUrlParams(params);
+  const searchQuery = getQuery(params);
   const minimalQuery = getMinimalQuery(searchQuery);
 
   return (
