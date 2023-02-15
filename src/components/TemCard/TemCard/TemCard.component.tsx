@@ -26,7 +26,7 @@ import Image from "next/image";
 //   loadingContainer,
 // } from "./Temcard.css";
 
-import { Stats, StatsWithTotal, TemType } from "../../../utils/types";
+// import { Stats, StatsWithTotal, TypeElement } from "../../../utils/types";
 
 import { Tabber } from "../Tabber/Tabber.component";
 import { TraitView } from "../TraitView/TraitView.component";
@@ -37,14 +37,19 @@ import {
   IconPlayerPlay,
   IconStar,
   IconStarOff,
-} from "@tabler/icons";
+} from "@tabler/icons-react";
+import {
+  Stats,
+  StatsWithTotal,
+  TypeElement,
+} from "../../../utils/augmented-types/temtems";
 
 export interface TemCardProps {
   id: string;
 
   name: string;
   number: number;
-  types: [TemType, TemType | null];
+  types: [TypeElement, TypeElement | null];
   traits: [string, string];
   stats: StatsWithTotal;
   tvYields: Stats;
@@ -77,8 +82,10 @@ export const TemCard = memo(
     const [showLuma, setShowLuma] = useState(false);
     const [animate, setAnimate] = useState(false);
 
-    const type1 = (types[0] ? types[0].toLowerCase() : "neutral") as TemType;
-    const type2 = (types[1] ? types[1].toLowerCase() : null) as TemType;
+    const type1 = (
+      types[0] ? types[0].toLowerCase() : "neutral"
+    ) as TypeElement;
+    const type2 = (types[1] ? types[1].toLowerCase() : null) as TypeElement;
 
     const index = name.indexOf("(");
     const formattedName = index !== -1 ? name.slice(0, index) : name;

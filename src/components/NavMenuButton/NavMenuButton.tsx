@@ -1,7 +1,7 @@
 "use client";
 
 import * as Toggle from "@radix-ui/react-toggle";
-import { IconMenu, IconX } from "@tabler/icons";
+import { IconMenu, IconX } from "@tabler/icons-react";
 import clsx from "clsx";
 import { create } from "zustand";
 

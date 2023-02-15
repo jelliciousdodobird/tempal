@@ -304,4 +304,4 @@
 //     borderRadius: 12,
 //   },
 // ]);
-export default {};
+export {};

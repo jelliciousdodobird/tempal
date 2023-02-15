@@ -61,4 +61,4 @@
 //   width: "100%",
 //   backgroundColor: hsla(theme.colors.black[5]),
 // });
-export default {};
+export {};

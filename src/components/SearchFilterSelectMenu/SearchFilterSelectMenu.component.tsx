@@ -1,6 +1,6 @@
-import { Listbox } from "@headlessui/react";
-import { IconCheck } from "@tabler/icons";
 import clsx from "clsx";
+import { Listbox } from "@headlessui/react";
+import { IconCheck } from "@tabler/icons-react";
 import { Fragment } from "react";
 import { FilterType } from "../SpecieList/SpecieList.types";
 

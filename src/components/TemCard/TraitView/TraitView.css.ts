@@ -69,4 +69,4 @@
 //   fontSize: 11,
 // });
 
-export default {};
+export {};

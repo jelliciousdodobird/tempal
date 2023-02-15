@@ -17,14 +17,19 @@ import Image from "next/image";
 
 import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
 
-import { TemType, TypeMatchups } from "../../../utils/types";
+// import { TemType, TypeMatchups } from "../../../utils/types";
 import { calculateMatchupModifiers } from "../../../utils/damage-calcs";
-import { matchupAlteringTraits, temTypes } from "../../../utils/data";
+// import { matchupAlteringTraits, temTypes } from "../../../utils/data";
+import { matchupAlteringTraits } from "../../../utils/data";
 import { usePopup } from "../../../hooks/usePopup";
 
 import { TemCardProps } from "../TemCard/TemCard.component";
 // import { bold, italic } from "../../../styles/utility-styles.css";
-import { IconX } from "@tabler/icons";
+import { IconX } from "@tabler/icons-react";
+import {
+  TypeElement,
+  TypeMatchups,
+} from "../../../utils/augmented-types/temtems";
 
 interface MatchupViewProps {
   traits: TemCardProps["traits"];
@@ -137,7 +142,8 @@ const MatchupList = ({
               <span className={`elementBox`}>
                 <Image
                   alt={key}
-                  src={temTypes[key as TemType].imgUrl}
+                  // src={temTypes[key as TemType].imgUrl}
+                  src={"n"}
                   width={18}
                   height={18}
                   quality={100}
@@ -145,7 +151,7 @@ const MatchupList = ({
               </span>
 
               <div className={`matchupTypeValue`}>
-                {prettyFraction(matchups[key as TemType])}
+                {prettyFraction(matchups[key as TypeElement])}
               </div>
             </li>
           ))}

@@ -1,5 +1,6 @@
-import { IconArrowDown, IconArrowUp, TablerIcon } from "@tabler/icons";
-import { MinimalTemSpecie } from "../../app/species/layout";
+import { Icon, IconArrowDown, IconArrowUp } from "@tabler/icons-react";
+import { MinTemtem } from "../../app/species/layout";
+
 import {
   DirtyQuery,
   SearchQuery,
@@ -91,7 +92,7 @@ export const getUpdatedQueryUrl = (updatedQuery: Partial<SearchQuery>) => {
 };
 
 export const getComparator = (sortType: SortType, sortOrder: SortOrder) => {
-  return (a: MinimalTemSpecie, b: MinimalTemSpecie) => {
+  return (a: MinTemtem, b: MinTemtem) => {
     const sortKey = sortItems[sortType];
     const x = sortKey.accessor(a);
     const y = sortKey.accessor(b);
@@ -106,7 +107,7 @@ export const getComparator = (sortType: SortType, sortOrder: SortOrder) => {
 
 export const sortOrderDescription: Record<
   SortOrder,
-  { word: string; desc: string; icon: TablerIcon }
+  { word: string; desc: string; icon: Icon }
 > = {
   asc: { word: "ascending", desc: "low to high", icon: IconArrowUp },
   des: { word: "descending", desc: "high to low", icon: IconArrowDown },
@@ -116,88 +117,88 @@ export const sortItems: Record<SortType, SortKey> = {
   relevance: {
     value: "relevance",
     label: "Relevance",
-    accessor: (item: MinimalTemSpecie) => 0,
+    accessor: (item: MinTemtem) => 0,
   },
   number: {
     value: "number",
     label: "Number",
-    accessor: (item: MinimalTemSpecie) => item.number,
+    accessor: (item: MinTemtem) => item.number,
   },
   name: {
     value: "name",
     label: "Name",
-    accessor: (item: MinimalTemSpecie) => {
+    accessor: (item: MinTemtem) => {
       return item.name;
     },
   },
   "base HP": {
     value: "base HP",
     label: "HP",
-    accessor: (item: MinimalTemSpecie) => item.stats.hp,
+    accessor: (item: MinTemtem) => item.stats.hp,
   },
   "base stamina": {
     value: "base stamina",
     label: "Stamina",
-    accessor: (item: MinimalTemSpecie) => item.stats.sta,
+    accessor: (item: MinTemtem) => item.stats.sta,
   },
   "base speed": {
     value: "base speed",
     label: "Speed",
-    accessor: (item: MinimalTemSpecie) => item.stats.spd,
+    accessor: (item: MinTemtem) => item.stats.spd,
   },
   "base attack": {
     value: "base attack",
     label: "Attack",
-    accessor: (item: MinimalTemSpecie) => item.stats.atk,
+    accessor: (item: MinTemtem) => item.stats.atk,
   },
   "base defense": {
     value: "base defense",
     label: "Defense",
-    accessor: (item: MinimalTemSpecie) => item.stats.def,
+    accessor: (item: MinTemtem) => item.stats.def,
   },
   "base sp. attack": {
     value: "base sp. attack",
     label: "Sp. Atk",
-    accessor: (item: MinimalTemSpecie) => item.stats.spatk,
+    accessor: (item: MinTemtem) => item.stats.spatk,
   },
   "base sp. defense": {
     value: "base sp. defense",
     label: "Sp. Def",
-    accessor: (item: MinimalTemSpecie) => item.stats.spdef,
+    accessor: (item: MinTemtem) => item.stats.spdef,
   },
   "HP TVs": {
     value: "HP TVs",
     label: "HP",
-    accessor: (item: MinimalTemSpecie) => item.tvYields.hp,
+    accessor: (item: MinTemtem) => item.tvYields.hp,
   },
   "stamina TVs": {
     value: "stamina TVs",
     label: "Stamina",
-    accessor: (item: MinimalTemSpecie) => item.tvYields.sta,
+    accessor: (item: MinTemtem) => item.tvYields.sta,
   },
   "speed TVs": {
     value: "speed TVs",
     label: "Speed",
-    accessor: (item: MinimalTemSpecie) => item.tvYields.spd,
+    accessor: (item: MinTemtem) => item.tvYields.spd,
   },
   "attack TVs": {
     value: "attack TVs",
     label: "Attack",
-    accessor: (item: MinimalTemSpecie) => item.tvYields.atk,
+    accessor: (item: MinTemtem) => item.tvYields.atk,
   },
   "defense TVs": {
     value: "defense TVs",
     label: "Defense",
-    accessor: (item: MinimalTemSpecie) => item.tvYields.def,
+    accessor: (item: MinTemtem) => item.tvYields.def,
   },
   "sp. attack TVs": {
     value: "sp. attack TVs",
     label: "Sp. Atk",
-    accessor: (item: MinimalTemSpecie) => item.tvYields.spatk,
+    accessor: (item: MinTemtem) => item.tvYields.spatk,
   },
   "sp. defense TVs": {
     value: "sp. defense TVs",
     label: "Sp. Def",
-    accessor: (item: MinimalTemSpecie) => item.tvYields.spdef,
+    accessor: (item: MinTemtem) => item.tvYields.spdef,
   },
 };

@@ -1,13 +1,38 @@
 import { SpecieList } from "../../components/SpecieList/SpecieList.component";
-import { formatTemType } from "../../utils/api-format";
-import { Stats, StatsWithTotal, TemType } from "../../utils/types";
+import { Fields, Temtem } from "../../utils/augmented-types/temtems";
+import { fetchTemtem } from "../../utils/fetch";
 
 type SpecieLayoutProps = {
   children: React.ReactNode;
 };
 
+const fields: Fields[] = [
+  "name",
+  "number",
+  "types",
+  "traits",
+  "stats",
+  "tvYields",
+  "techniques",
+  "evolution",
+  "wikiRenderStaticUrl",
+];
+
+export type MinTemtem = Pick<
+  Temtem,
+  | "name"
+  | "number"
+  | "types"
+  | "traits"
+  | "stats"
+  | "tvYields"
+  | "techniques"
+  | "evolution"
+  | "wikiRenderStaticUrl"
+>;
+
 export default async function SpecieLayout({ children }: SpecieLayoutProps) {
-  const allSpecies = await fetchAllSpecies();
+  const allSpecies: MinTemtem[] = await fetchTemtem({ fields });
 
   return (
     // <div className="relative flex flex-col gap-8 min-h-full pb-8">
@@ -19,88 +44,3 @@ export default async function SpecieLayout({ children }: SpecieLayoutProps) {
     </div>
   );
 }
-
-export type RawTechnique = {
-  name: string;
-  source: string;
-  levels: number;
-};
-
-export type RawEvolutionTree = {
-  number: number;
-  name: string;
-  stage: number;
-  levels: number;
-  trading: boolean;
-  traitMapping: { [trait: string]: string };
-};
-
-export type RawEvolution = {
-  stage: number;
-  evolutionTree: RawEvolutionTree[];
-  evolves: boolean;
-  type: string;
-};
-
-export type RawMinimalTemSpecie = {
-  name: string;
-  number: number;
-  types: string[];
-  traits: string[];
-  stats: StatsWithTotal;
-  tvYields: Stats;
-  techniques: RawTechnique[];
-  evolution: RawEvolution;
-  wikiRenderStaticUrl: string;
-};
-
-export type MinimalTemSpecie = Omit<RawMinimalTemSpecie, "types"> & {
-  types: TemType[];
-};
-
-const fetchAllSpecies = async (): Promise<MinimalTemSpecie[]> => {
-  const params = new URLSearchParams({
-    fields:
-      "name,number,types,traits,stats,tvYields,techniques,evolution,wikiRenderStaticUrl",
-  });
-
-  const res = await fetch("https://temtem-api.mael.tech/api/temtems?" + params);
-  const rawData: RawMinimalTemSpecie[] = await res.json();
-  const data: MinimalTemSpecie[] = rawData.map((specie) => ({
-    ...specie,
-    types: specie.types.map((t) => formatTemType(t)),
-  }));
-
-  return data;
-};
-
-const stuff = [
-  "number",
-  "name",
-  "types",
-  "portraitWikiUrl",
-  "wikiUrl",
-  "stats",
-  "traits",
-  "details",
-  "techniques",
-  "trivia",
-  "evolution",
-  "wikiPortraitUrlLarge",
-  "locations",
-  "icon",
-  "lumaIcon",
-  "genderRatio",
-  "catchRate",
-  "hatchMins",
-  "tvYields",
-  "gameDescription",
-  "wikiRenderStaticUrl",
-  "wikiRenderAnimatedUrl",
-  "wikiRenderStaticLumaUrl",
-  "wikiRenderAnimatedLumaUrl",
-  "renderStaticImage",
-  "renderStaticLumaImage",
-  "renderAnimatedImage",
-  "renderAnimatedLumaImage",
-];

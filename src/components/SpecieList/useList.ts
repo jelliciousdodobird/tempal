@@ -1,26 +1,59 @@
 "use client";
+
 import Fuse from "fuse.js";
-import { Key, useCallback, useMemo } from "react";
-import { MinimalTemSpecie } from "../../app/species/layout";
+import { useCallback, useMemo } from "react";
+import { MinTemtem } from "../../app/species/layout";
 import { FilterType } from "./SpecieList.types";
 import { getComparator } from "./SpecieList.utils";
 import { useUrlQuery } from "./useUrlQuery";
 
-export const useList = (species: MinimalTemSpecie[]) => {
-  const searcher = useMemo(
-    () =>
-      new Fuse(species, {
-        keys: fuseKeyData,
-        useExtendedSearch: true,
-        includeScore: true,
-        shouldSort: true,
-        threshold: 0.25,
-      }),
-    [species]
-  );
+const getSearch = (species: MinTemtem[]) => {
+  const searcher = new Fuse(species, {
+    keys: fuseKeyData,
+    useExtendedSearch: true,
+    includeScore: true,
+    shouldSort: true,
+    threshold: 0.25,
+  });
 
-  const search = useCallback(
-    (key: FilterType, query: string) => {
+  return (key: FilterType, query: string) => {
+    const basicQuery = getKeyedQuery(key, query);
+    const andTokens = filterTrim(query.split(and));
+    const orTokens = filterTrim(query.split(or));
+
+    let finalQuery: string | Fuse.Expression = basicQuery;
+    if (andTokens.length > 1 && orTokens.length > 1) {
+      finalQuery = { "": "invalid key" };
+    } else if (andTokens.length > 1) {
+      finalQuery = {
+        $and: andTokens.map((v) => getKeyedQuery(key, v)),
+      };
+    } else if (orTokens.length > 1) {
+      finalQuery = {
+        $or: orTokens.map((v) => getKeyedQuery(key, v)),
+      };
+    }
+
+    const searchResults = searcher.search(finalQuery);
+
+    const results = searchResults ? searchResults.map((v) => v.item) : species;
+    const data = query === "" ? species : results;
+
+    return data;
+  };
+};
+
+export const useList = (species: MinTemtem[]) => {
+  const search = useMemo(() => {
+    const searcher = new Fuse(species, {
+      keys: fuseKeyData,
+      useExtendedSearch: true,
+      includeScore: true,
+      shouldSort: true,
+      threshold: 0.25,
+    });
+
+    return (key: FilterType, query: string) => {
       const basicQuery = getKeyedQuery(key, query);
       const andTokens = filterTrim(query.split(and));
       const orTokens = filterTrim(query.split(or));
@@ -46,18 +79,17 @@ export const useList = (species: MinimalTemSpecie[]) => {
       const data = query === "" ? species : results;
 
       return data;
-    },
-    [searcher, species]
-  );
+    };
+  }, [species]);
 
   const { query } = useUrlQuery();
 
-  const comparator = useCallback(
-    getComparator(query.sortType, query.sortOrder),
+  const comparator = useMemo(
+    () => getComparator(query.sortType, query.sortOrder),
     [query.sortType, query.sortOrder]
   );
 
-  const resultsSortedByRelevance: MinimalTemSpecie[] = useMemo(() => {
+  const resultsSortedByRelevance: MinTemtem[] = useMemo(() => {
     return search(query.filterType, query.filterValue);
   }, [search, query.filterType, query.filterValue]);
 
@@ -73,9 +105,9 @@ export type FuseKey = FilterType | "name_no_evo";
 export type KeyedQuery = { [key in FuseKey]?: string };
 export type KeyedQueryObject = { key: FuseKey; query: string };
 
-const fuseKeysConfig: Record<FuseKey, Fuse.FuseOptionKey<MinimalTemSpecie>> = {
+const fuseKeysConfig: Record<FuseKey, Fuse.FuseOptionKey<MinTemtem>> = {
   name_no_evo: {
-    // name_no_evo is a special case (it does not exist on MinimalTemSpecie):
+    // name_no_evo is a special case (it does not exist on MinTemtem):
     name: "name_no_evo",
     getFn: (item) => item.name,
   },
@@ -83,8 +115,9 @@ const fuseKeysConfig: Record<FuseKey, Fuse.FuseOptionKey<MinimalTemSpecie>> = {
     // by default, we want the filterType=name to include evolutions so we define getFn like so:
     name: "name",
     getFn: (item) =>
-      item.evolution.evolves
-        ? item.evolution.evolutionTree.map((evol) => evol.name)
+      item.evolution.evolutionTree
+        ? // ? item.evolution.evolutionTree.map((evol) => evol.name)
+          item.evolution.evolutionTree.map((evol) => evol.name)
         : item.name,
   },
   techniques: {

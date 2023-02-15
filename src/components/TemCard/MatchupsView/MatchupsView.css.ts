@@ -305,4 +305,4 @@
 //     borderRadius: 4,
 //   },
 // ]);
-export default {};
+export {};

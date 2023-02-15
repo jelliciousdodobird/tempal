@@ -1,5 +1,5 @@
 import { useSearchParams } from "next/navigation";
-import { MinimalTemSpecie } from "../../app/species/layout";
+import { MinTemtem } from "../../app/species/layout";
 
 export const validFilterTypes = [
   "name",
@@ -44,7 +44,7 @@ export const isSortOrder = (str: NullableString): str is SortOrder =>
 export interface SortKey {
   value: SortType;
   label: string;
-  accessor: (item: MinimalTemSpecie) => string | number;
+  accessor: (item: MinTemtem) => string | number;
 }
 
 export type SearchQuery = {

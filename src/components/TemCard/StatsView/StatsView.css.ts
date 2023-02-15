@@ -163,4 +163,4 @@
 //     fontWeight: 600,
 //   },
 // ]);
-export default {};
+export {};

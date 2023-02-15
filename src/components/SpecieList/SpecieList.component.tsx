@@ -6,17 +6,16 @@ import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Fragment, useMemo } from "react";
-import { MinimalTemSpecie } from "../../app/species/layout";
+import { MinTemtem } from "../../app/species/layout";
 import { formatTemName } from "../../utils/utils";
 import { ElementTypeLabel } from "../ElementTypeLabel/ElementTypeLabel";
 import { filterType_shorthand } from "../SearchFilterSelectMenu/SearchFilterSelectMenu.component";
 import { SearchInput } from "../SearchInput/SearchInput.component";
 import { SortMenu } from "../SortMenu/SortMenu.component";
-
 import { useList } from "./useList";
 import { useUrlQuery } from "./useUrlQuery";
 
-export const SpecieList = ({ species }: { species: MinimalTemSpecie[] }) => {
+export const SpecieList = ({ species }: { species: MinTemtem[] }) => {
   const router = useRouter();
   const { renderList } = useList(species);
   const { query, minimalQueryUrl } = useUrlQuery();
@@ -29,7 +28,8 @@ export const SpecieList = ({ species }: { species: MinimalTemSpecie[] }) => {
     [species]
   );
 
-  const goToPath = (specie: MinimalTemSpecie) => {
+  // const goToPath = (specie: MinimalTemSpecie) => {
+  const goToPath = (specie: MinTemtem) => {
     router.push("/species/" + specie.name + minimalQueryUrl);
   };
 
@@ -84,7 +84,8 @@ export const SpecieList = ({ species }: { species: MinimalTemSpecie[] }) => {
 };
 
 type ItemProps = {
-  specie: MinimalTemSpecie;
+  specie: MinTemtem;
+  // specie: MinimalTemSpecie;
 };
 
 const SpecieItemLink = ({ specie }: ItemProps) => {
@@ -107,9 +108,6 @@ const SpecieItemLink = ({ specie }: ItemProps) => {
               className="flex object-contain w-full h-full"
             />
           </div>
-          {/* <span className="min-w-[2rem] font-mono font-medium">
-            {specie.number}
-          </span> */}
           <span className="flex flex-col flex-1">
             <span className="flex text-base">{formatTemName(specie.name)}</span>
 

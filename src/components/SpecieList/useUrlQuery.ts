@@ -1,12 +1,12 @@
+"use client";
+
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { DirtyQuery, SearchQuery } from "./SpecieList.types";
+import { SearchQuery } from "./SpecieList.types";
 import {
   cleanQuery,
-  default_query,
   getMinimalQuery,
   getMinimalQueryString,
   getQuery,
-  // getQueryFromUrlParams,
   minimalQueryToUrl,
 } from "./SpecieList.utils";
 

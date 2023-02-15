@@ -1,5 +1,5 @@
 import { Popover } from "@headlessui/react";
-import { IconArrowDown, IconArrowUp } from "@tabler/icons";
+import { IconArrowDown, IconArrowUp } from "@tabler/icons-react";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import {

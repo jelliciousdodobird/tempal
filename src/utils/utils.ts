@@ -1,4 +1,3 @@
-// import { colord } from "colord";
 import num2fraction from "num2fraction";
 
 export interface HasId {

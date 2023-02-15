@@ -44,7 +44,7 @@ export const SearchInput = () => {
     // because this useEffect will trigger (and therefore getUpdatedQueryUrl()) before the address bar updates with "/species".
     // To work around this we'll check if the url returned has atleast "species" otherwise we don't update the url by pushing.
     if (url.includes("species")) router.replace(url);
-  }, [debouncedFilterValue]);
+  }, [router, debouncedFilterValue]);
 
   return (
     <div
