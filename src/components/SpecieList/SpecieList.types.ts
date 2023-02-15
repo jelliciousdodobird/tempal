@@ -1,7 +1,13 @@
 import { useSearchParams } from "next/navigation";
 import { MinimalTemSpecie } from "../../app/species/layout";
 
-export const validFilterTypes = ["name", "types", "traits", "number"] as const;
+export const validFilterTypes = [
+  "name",
+  "types",
+  "traits",
+  "techniques",
+  "number",
+] as const;
 export const validSortOrders = ["asc", "des"] as const;
 export const validSortTypes = [
   "relevance",

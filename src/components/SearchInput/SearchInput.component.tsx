@@ -77,6 +77,7 @@ export const auto_suggestions: Record<FilterType, string> = {
   name: "",
   types: "",
   traits: "",
+  techniques: "",
   number: "",
 };
 
@@ -84,5 +85,6 @@ export const placeholder_text: Record<FilterType, string> = {
   name: "tateru, saku, saipat, etc",
   types: "fire, water, wind, metal, etc",
   traits: "botanist, furor, hover",
-  number: "0 - 164",
+  techniques: "water cannon",
+  number: "1 - 164",
 };

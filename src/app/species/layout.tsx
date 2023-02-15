@@ -42,7 +42,7 @@ export type RawEvolution = {
   type: string;
 };
 
-export type MinimalTemSpecieRaw = {
+export type RawMinimalTemSpecie = {
   name: string;
   number: number;
   types: string[];
@@ -54,12 +54,8 @@ export type MinimalTemSpecieRaw = {
   wikiRenderStaticUrl: string;
 };
 
-export type MinimalTemSpecie = Omit<
-  MinimalTemSpecieRaw,
-  "types" | "techniques"
-> & {
+export type MinimalTemSpecie = Omit<RawMinimalTemSpecie, "types"> & {
   types: TemType[];
-  techniques: string[];
 };
 
 const fetchAllSpecies = async (): Promise<MinimalTemSpecie[]> => {
@@ -69,12 +65,42 @@ const fetchAllSpecies = async (): Promise<MinimalTemSpecie[]> => {
   });
 
   const res = await fetch("https://temtem-api.mael.tech/api/temtems?" + params);
-  const rawData: MinimalTemSpecieRaw[] = await res.json();
+  const rawData: RawMinimalTemSpecie[] = await res.json();
   const data: MinimalTemSpecie[] = rawData.map((specie) => ({
     ...specie,
     types: specie.types.map((t) => formatTemType(t)),
-    techniques: specie.techniques.map(({ name }) => name),
   }));
 
   return data;
 };
+
+const stuff = [
+  "number",
+  "name",
+  "types",
+  "portraitWikiUrl",
+  "wikiUrl",
+  "stats",
+  "traits",
+  "details",
+  "techniques",
+  "trivia",
+  "evolution",
+  "wikiPortraitUrlLarge",
+  "locations",
+  "icon",
+  "lumaIcon",
+  "genderRatio",
+  "catchRate",
+  "hatchMins",
+  "tvYields",
+  "gameDescription",
+  "wikiRenderStaticUrl",
+  "wikiRenderAnimatedUrl",
+  "wikiRenderStaticLumaUrl",
+  "wikiRenderAnimatedLumaUrl",
+  "renderStaticImage",
+  "renderStaticLumaImage",
+  "renderAnimatedImage",
+  "renderAnimatedLumaImage",
+];

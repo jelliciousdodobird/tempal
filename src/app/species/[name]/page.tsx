@@ -1,6 +1,6 @@
 import { formatTemType } from "../../../utils/api-format";
 import { TemType } from "../../../utils/types";
-import { MinimalTemSpecieRaw } from "../layout";
+import { RawMinimalTemSpecie } from "../layout";
 
 type SpecieParam = {
   name: string;
@@ -14,7 +14,7 @@ export default async function Tem({ params }: Props) {
   const data = await fetchTem(params.name);
 
   return (
-    <pre className="relative flex flex-col gap-8 min-h-full pb-8">
+    <pre className="relative flex flex-col gap-8 min-h-full pb-8 overflow-x-hiddenzz">
       {JSON.stringify(data, null, 2)}
     </pre>
   );
@@ -28,7 +28,7 @@ export default async function Tem({ params }: Props) {
 //   return posts.map((tem) => ({ name: tem.name, data: tem }));
 // }
 
-export type FullTemSpecieRaw = MinimalTemSpecieRaw & {
+export type FullTemSpecieRaw = RawMinimalTemSpecie & {
   wikiRenderAnimatedUrl: string;
   wikiRenderStaticLumaUrl: string;
   wikiRenderAnimatedLumaUrl: string;

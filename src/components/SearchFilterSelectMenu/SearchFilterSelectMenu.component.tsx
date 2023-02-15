@@ -68,5 +68,5 @@ export const filterType_shorthand: Record<FilterType, string> = {
   types: "types",
   traits: "trait",
   number: "#",
-  // techniques: "tech",
+  techniques: "tech",
 };
