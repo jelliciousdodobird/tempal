@@ -1,7 +1,5 @@
 "use client";
 
-import { Combobox } from "@headlessui/react";
-
 import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -14,6 +12,7 @@ import { SearchInput } from "../SearchInput/SearchInput.component";
 import { SortMenu } from "../SortMenu/SortMenu.component";
 import { useList } from "./useList";
 import { useUrlQuery } from "./useUrlQuery";
+import { Combobox } from "@headlessui/react";
 
 export const SpecieList = ({ species }: { species: MinTemtem[] }) => {
   const router = useRouter();
@@ -85,7 +84,6 @@ export const SpecieList = ({ species }: { species: MinTemtem[] }) => {
 
 type ItemProps = {
   specie: MinTemtem;
-  // specie: MinimalTemSpecie;
 };
 
 const SpecieItemLink = ({ specie }: ItemProps) => {

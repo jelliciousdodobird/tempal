@@ -1,4 +1,12 @@
+import { Temtem } from "../../../utils/augmented-types/temtems";
 import { fetchTemtem } from "../../../utils/fetch";
+
+// CANT DO THIS YET: Needs Next.js 13.2
+// export async function generateMetadata({ params, ...props }: Props) {
+//   return { title: params };
+// }
+
+export const revalidate = 43200; // revalidate this page every 12 hours (in seconds)
 
 type SpecieParam = {
   name: string;
@@ -7,11 +15,6 @@ type SpecieParam = {
 type Props = {
   params: SpecieParam;
 };
-
-// CANT DO THIS YET: Needs Next.js 13.2
-// export async function generateMetadata({ params, ...props }: Props) {
-//   return { title: params };
-// }
 
 export default async function Tem({ params }: Props) {
   const data = await fetchTemtem({ names: [params.name] });
@@ -23,7 +26,9 @@ export default async function Tem({ params }: Props) {
   );
 }
 
-// export async function generateStaticParams() {
-//   const posts = await fetchTems();
-//   return posts.map((tem) => ({ name: tem.name, data: tem }));
-// }
+export async function generateStaticParams() {
+  const temNames: Pick<Temtem, "name">[] = await fetchTemtem({
+    fields: ["name"],
+  });
+  return temNames.map(({ name }) => ({ name }));
+}

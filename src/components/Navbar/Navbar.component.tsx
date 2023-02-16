@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { Logo } from "../Logo/Logo.component";
-import { NavItem, NavList } from "../NavList/NavList.component";
-import { NavMenuButton } from "../NavMenuButton/NavMenuButton";
+import { NavItem } from "../NavList/NavList.component";
+import { NavMenu } from "../NavMenu/NavMenu.component";
 
 const links: NavItem[] = [
   { label: "species", href: "/species" },
@@ -24,8 +24,7 @@ export const Navbar = () => {
         </Link>
 
         <nav className="flex gap-0 sm:gap-4 h-min">
-          <NavMenuButton />
-          <NavList links={links} />
+          <NavMenu links={links} />
         </nav>
       </div>
     </div>

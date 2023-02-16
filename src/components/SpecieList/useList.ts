@@ -1,47 +1,11 @@
 "use client";
 
 import Fuse from "fuse.js";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import { MinTemtem } from "../../app/species/layout";
 import { FilterType } from "./SpecieList.types";
 import { getComparator } from "./SpecieList.utils";
 import { useUrlQuery } from "./useUrlQuery";
-
-const getSearch = (species: MinTemtem[]) => {
-  const searcher = new Fuse(species, {
-    keys: fuseKeyData,
-    useExtendedSearch: true,
-    includeScore: true,
-    shouldSort: true,
-    threshold: 0.25,
-  });
-
-  return (key: FilterType, query: string) => {
-    const basicQuery = getKeyedQuery(key, query);
-    const andTokens = filterTrim(query.split(and));
-    const orTokens = filterTrim(query.split(or));
-
-    let finalQuery: string | Fuse.Expression = basicQuery;
-    if (andTokens.length > 1 && orTokens.length > 1) {
-      finalQuery = { "": "invalid key" };
-    } else if (andTokens.length > 1) {
-      finalQuery = {
-        $and: andTokens.map((v) => getKeyedQuery(key, v)),
-      };
-    } else if (orTokens.length > 1) {
-      finalQuery = {
-        $or: orTokens.map((v) => getKeyedQuery(key, v)),
-      };
-    }
-
-    const searchResults = searcher.search(finalQuery);
-
-    const results = searchResults ? searchResults.map((v) => v.item) : species;
-    const data = query === "" ? species : results;
-
-    return data;
-  };
-};
 
 export const useList = (species: MinTemtem[]) => {
   const search = useMemo(() => {
@@ -89,9 +53,10 @@ export const useList = (species: MinTemtem[]) => {
     [query.sortType, query.sortOrder]
   );
 
-  const resultsSortedByRelevance: MinTemtem[] = useMemo(() => {
-    return search(query.filterType, query.filterValue);
-  }, [search, query.filterType, query.filterValue]);
+  const resultsSortedByRelevance: MinTemtem[] = useMemo(
+    () => search(query.filterType, query.filterValue),
+    [search, query.filterType, query.filterValue]
+  );
 
   const renderList = useMemo(
     () => [...resultsSortedByRelevance].sort(comparator),
@@ -101,42 +66,32 @@ export const useList = (species: MinTemtem[]) => {
   return { renderList };
 };
 
-export type FuseKey = FilterType | "name_no_evo";
+export type FuseKey = FilterType | "name_with_evo";
 export type KeyedQuery = { [key in FuseKey]?: string };
 export type KeyedQueryObject = { key: FuseKey; query: string };
 
 const fuseKeysConfig: Record<FuseKey, Fuse.FuseOptionKey<MinTemtem>> = {
-  name_no_evo: {
-    // name_no_evo is a special case (it does not exist on MinTemtem):
-    name: "name_no_evo",
-    getFn: (item) => item.name,
-  },
-  name: {
-    // by default, we want the filterType=name to include evolutions so we define getFn like so:
-    name: "name",
+  name_with_evo: {
+    // name_with_evo is a special case for the filterType=name (it does not exist on MinTemtem):
+    name: "name_with_evo",
     getFn: (item) =>
-      item.evolution.evolutionTree
-        ? // ? item.evolution.evolutionTree.map((evol) => evol.name)
-          item.evolution.evolutionTree.map((evol) => evol.name)
-        : item.name,
+      item.evolution.evolutionTree?.map((evol) => evol.name) ?? item.name,
   },
+  name: { name: "name" },
+  types: { name: "types" },
+  traits: { name: "traits" },
+  number: { name: "number" },
   techniques: {
     name: "techniques",
     getFn: (item) => item.techniques.map((tech) => tech.name),
   },
-
-  types: { name: "types" },
-  traits: { name: "traits" },
-
-  number: { name: "number" },
 };
 
 const fuseKeyData = Object.values(fuseKeysConfig).map((v) => v);
 
-export const extendSearchTokens = /d/;
 export const and = /\band\b|&/g; // matches " and " or "&" (NOTE THE SPACES)
 export const or = /\bor\b|\|/g; //  matches " or "  or "|" (NOTE THE SPACES)
-export const noEvoFlag = /\./g;
+export const evolutionFlag = /\+/g; //  matches a "+" (plus sign)
 
 const filterTrim = (strings: string[]) =>
   strings.map((v) => v.trim()).filter((v) => v !== "");
@@ -151,14 +106,14 @@ const removeAllBooleans = (query: string) =>
  */
 const forceExactMatch = (query: string) => "=" + query;
 
-const forceNoEvo = (query: string): KeyedQueryObject => ({
-  key: "name_no_evo",
-  query: query.replace(noEvoFlag, ""),
+const forceShowEvolutions = (query: string): KeyedQueryObject => ({
+  key: "name_with_evo",
+  query: query.replace(evolutionFlag, ""),
 });
 
 // special conditions to check for:
-const noEvoCondition = (key: FuseKey, query: string) =>
-  key === "name" && !!query.match(noEvoFlag);
+const shouldShowEvolution = (key: FuseKey, query: string) =>
+  key === "name" && !!query.match(evolutionFlag);
 
 const exactNumberCondition = (key: FuseKey) => key === "number";
 
@@ -172,11 +127,11 @@ const getKeyedQuery = (key: FuseKey, query: string): KeyedQuery => {
   // forces an exact match when search in the key "number"
   if (exactNumberCondition(key)) query = forceExactMatch(query);
 
-  // adjust query&key for no evolution condition:
-  if (noEvoCondition(key, query)) {
-    const noEvolution = forceNoEvo(query);
-    query = noEvolution.query;
-    key = noEvolution.key;
+  // adjust query&key for evolution condition:
+  if (shouldShowEvolution(key, query)) {
+    const evolutionGroupQuery = forceShowEvolutions(query);
+    query = evolutionGroupQuery.query;
+    key = evolutionGroupQuery.key;
   }
 
   query = removeAllBooleans(query);
