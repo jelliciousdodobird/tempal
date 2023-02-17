@@ -13,11 +13,27 @@ export const FavoritesButton = ({ temName }: FavoritesButtonProps) => {
   const { favoriteTems, addToFavorites, removeFromFavorites } =
     useFavoritesStore();
 
-  if (!mounted) return <>skeleton</>;
+  const updateFavorites = ({ temName }: FavoritesButtonProps) => {
+    const i = favoriteTems.findIndex((name) => name === temName);
+    i === -1 ? addToFavorites(temName) : removeFromFavorites(temName);
+  };
+
+  if (!mounted)
+    return <div className="w-10 h-10 bg-slate-500 animate-pulse"></div>;
 
   return (
-    <button type="button" className="">
-      <IconHeartFilled />
+    <button
+      type="button"
+      className="w-10 h-10 flex justify-center items-center rounded-full shadow-md transition ease-in-out delay-150 hover:scale-125 hover:bg-white/5 hover:backdrop-blur hover:shadow-white/5 duration-300"
+      onClick={() => {
+        updateFavorites({ temName });
+      }}
+    >
+      <IconHeartFilled
+        className={`w-6 h-6 ${
+          favoriteTems.includes(temName) ? "text-red-700" : "text-inherit"
+        }`}
+      />
     </button>
   );
 };
