@@ -4,6 +4,8 @@ export interface HasId {
   id: string;
 }
 
+export type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>;
+
 export const formatTemName = (name: string) => {
   const index = name.indexOf("(");
   const formattedName = index !== -1 ? name.slice(0, index) : name;

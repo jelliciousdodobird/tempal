@@ -7,10 +7,8 @@ import { NavMenuButton } from "../NavMenuButton/NavMenuButton";
 export const NavMenu = ({ links }: { links: NavItem[] }) => {
   return (
     <Menu>
-      <Menu>
-        <NavMenuButton />
-        <NavList links={links} />
-      </Menu>
+      <NavMenuButton />
+      <NavList links={links} />
     </Menu>
   );
 };

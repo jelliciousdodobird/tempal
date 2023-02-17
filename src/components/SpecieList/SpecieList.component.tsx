@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Fragment, useMemo } from "react";
+import { forwardRef, Fragment, useMemo } from "react";
 import { MinTemtem } from "../../app/species/layout";
 import { formatTemName } from "../../utils/utils";
 import { ElementTypeLabel } from "../ElementTypeLabel/ElementTypeLabel";
@@ -14,30 +14,36 @@ import { useList } from "./useList";
 import { useUrlQuery } from "./useUrlQuery";
 import { Combobox } from "@headlessui/react";
 
-export const SpecieList = ({ species }: { species: MinTemtem[] }) => {
-  const router = useRouter();
-  const { renderList } = useList(species);
-  const { query, minimalQueryUrl } = useUrlQuery();
+type Props = {
+  species: MinTemtem[];
+};
+export const SpecieList = forwardRef<HTMLDivElement, Props>(
+  ({ species }, ref) => {
+    const router = useRouter();
+    const { renderList } = useList(species);
+    const { query, minimalQueryUrl } = useUrlQuery();
 
-  const selectedSpecie = useMemo(
-    () => ({
-      ...species[0],
-      name: "",
-    }),
-    [species]
-  );
+    const selectedSpecie = useMemo(
+      () => ({
+        ...species[0],
+        name: "",
+      }),
+      [species]
+    );
 
-  // const goToPath = (specie: MinimalTemSpecie) => {
-  const goToPath = (specie: MinTemtem) => {
-    router.push("/species/" + specie.name + minimalQueryUrl);
-  };
+    const goToPath = (specie: MinTemtem) => {
+      router.push("/species/" + specie.name + minimalQueryUrl);
+    };
 
-  return (
-    <div className="flex flex-col gap-4 h-full py-4 pr-4 border-r border-neutral-800">
+    return (
+      // <div className="flex flex-col gap-4 h-full py-4 border-r border-neutral-800">
       <Combobox
+        ref={ref}
         value={selectedSpecie}
-        onChange={(val) => goToPath(val)}
+        onChange={(val: MinTemtem) => goToPath(val)}
         by="name"
+        as="div"
+        className="flex flex-col h-full overflow-hidden"
       >
         <SearchInput />
         <SortMenu />
@@ -68,7 +74,7 @@ export const SpecieList = ({ species }: { species: MinTemtem[] }) => {
           <div className="absolute inset-0 pointer-events-none [background-image:linear-gradient(180deg,#171717,transparent_4rem,transparent_calc(100%-4rem),#171717_100%)]" />
           <ul
             className={clsx(
-              "flex flex-col gap-4 py-8 custom-scrollbar-tiny overflow-y-auto overflow-x-hidden h-full pr-3",
+              "flex flex-col gap-4 py-8 custom-scrollbar-tiny overflow-y-auto overflow-x-hidden h-full pr-4",
               "outline-none appearance-none"
             )}
           >
@@ -78,10 +84,10 @@ export const SpecieList = ({ species }: { species: MinTemtem[] }) => {
           </ul>
         </Combobox.Options>
       </Combobox>
-    </div>
-  );
-};
-
+      // </div>
+    );
+  }
+);
 type ItemProps = {
   specie: MinTemtem;
 };
@@ -92,7 +98,7 @@ const SpecieItemLink = ({ specie }: ItemProps) => {
       {({ active }) => (
         <li
           className={clsx(
-            "flex items-center gap-4 px-3 min-h-[5rem] rounded cursor-pointer whitespace-nowrap text-sm",
+            "flex items-center gap-4 px-2 min-h-[5rem] rounded cursor-pointer whitespace-nowrap text-sm",
             active ? "bg-neutral-800" : "bg-transparent"
           )}
         >

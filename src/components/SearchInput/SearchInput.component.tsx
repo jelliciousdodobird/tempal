@@ -58,6 +58,7 @@ export const SearchInput = () => {
         list={filterValues}
       />
       <Combobox.Input
+        spellCheck={false}
         autoComplete="off"
         placeholder={placeholder_text[query.filterType]}
         className={clsx(

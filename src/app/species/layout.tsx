@@ -1,4 +1,6 @@
+import { SidebarTabs } from "../../components/SidebarTabs/SidebarTabs.component";
 import { SpecieList } from "../../components/SpecieList/SpecieList.component";
+import { MyTeams } from "../../components/MyTeams/MyTeams.component";
 import { Fields, Temtem } from "../../utils/augmented-types/temtems";
 import { fetchTemtem } from "../../utils/fetch";
 
@@ -35,12 +37,15 @@ export default async function SpecieLayout({ children }: SpecieLayoutProps) {
   const allSpecies: MinTemtem[] = await fetchTemtem({ fields });
 
   return (
-    // <div className="relative flex flex-col gap-8 min-h-full pb-8">
-    <div className="pack-content flex">
-      <div className="sticky top-0 max-h-[calc(100vh-4rem)] flex-1 min-w-[20rem] max-w-[20rem]">
-        <SpecieList species={allSpecies} />
+    <div className="pack-content flex gap-4 h-full">
+      <div className="sticky top-0 min-h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] min-w-[20rem] max-w-[20rem]">
+        {/* <SpecieList species={allSpecies} /> */}
+        <SidebarTabs species={allSpecies} />
       </div>
-      {children}
+      <div className="flex flex-col gap-4 py-4 flex-1">
+        {/* <TemTeamTabs /> */}
+        {children}
+      </div>
     </div>
   );
 }
