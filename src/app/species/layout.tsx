@@ -37,8 +37,8 @@ export default async function SpecieLayout({ children }: SpecieLayoutProps) {
   const allSpecies: MinTemtem[] = await fetchTemtem({ fields });
 
   return (
-    <div className="pack-content flex gap-4 h-full">
-      <div className="sticky top-0 min-h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] min-w-[20rem] max-w-[20rem]">
+    <div className="pack-content flex gap-8 h-full">
+      <div className="sticky top-16 min-h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] min-w-[20rem] max-w-[20rem]">
         {/* <SpecieList species={allSpecies} /> */}
         <SidebarTabs species={allSpecies} />
       </div>

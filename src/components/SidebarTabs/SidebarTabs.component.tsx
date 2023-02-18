@@ -3,9 +3,11 @@
 import * as Tabs from "@radix-ui/react-tabs";
 import {
   Icon,
+  IconCards,
   IconHeartFilled,
   IconList,
   IconSearch,
+  IconSwords,
 } from "@tabler/icons-react";
 import clsx from "clsx";
 import { ReactNode } from "react";
@@ -17,16 +19,16 @@ import { MyTeams } from "../MyTeams/MyTeams.component";
 const sidebarItems: SidebarItemProps[] = [
   { id: "search", label: "search", icon: <IconSearch /> },
   { id: "fav", label: "favorites", icon: <IconHeartFilled /> },
-  { id: "teams", label: "teams", icon: <IconList /> },
+  { id: "teams", label: "teams", icon: <IconCards /> },
 ];
 
 export const SidebarTabs = ({ species }: { species: MinTemtem[] }) => {
   return (
     <Tabs.Root
       defaultValue="search"
-      className="flex flex-col h-full border-r border-neutral-800"
+      className="flex flex-col h-full border-rzzborder-lzzborder-neutral-800 pt-4"
     >
-      <Tabs.List className="flex">
+      <Tabs.List className="flex gap-1 p-1 bg-neutral-800/30 rounded-xl mb-4">
         {sidebarItems.map((props) => (
           <SidebarTrigger key={props.id} {...props} />
         ))}
@@ -57,9 +59,10 @@ export const SidebarTrigger = ({ id, label, icon }: SidebarItemProps) => {
       value={id}
       className={clsx(
         "outline-none appearance-none",
-        "grid place-items-center",
-        "h-12 flex-1 data-[state=active]:bg-neutral-800",
-        "focus-visible:ring-2 ring-red-500 focus-visible:ring-offset-2 ring-offset-blue-500"
+        "grid place-items-center h-12 flex-1 rounded-xl",
+        "ring-primary-500 ring-offset-neutral-900",
+        "hover:bg-neutral-800/50",
+        "focus-visible:ring-2 focus-visible:ring-offset-2 data-[state=active]:bg-neutral-800"
       )}
     >
       {icon}

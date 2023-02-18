@@ -14,11 +14,11 @@ export const Navbar = () => {
   return (
     <div
       className={clsx(
-        "bg-neutral-900/90 backdrop-blur-md",
+        "h-16 bg-neutral-900/90 backdrop-blur-md",
         "border-b border-white/[7%]"
       )}
     >
-      <div className="flex justify-between items-center h-16 pack-content">
+      <div className="flex justify-between items-center pack-content h-full">
         <Link href="/">
           <Logo />
         </Link>
