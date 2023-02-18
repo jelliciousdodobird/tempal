@@ -1,8 +1,9 @@
-import { Popover } from "@headlessui/react";
+import { Menu, Popover, Switch } from "@headlessui/react";
 import { IconArrowDown, IconArrowUp } from "@tabler/icons-react";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import {
+  FilterType,
   SearchQuery,
   SortKey,
   SortOrder,
@@ -14,11 +15,11 @@ import {
   sortOrderDescription,
 } from "../SpecieList/SpecieList.utils";
 import { useUrlQuery } from "../SpecieList/useUrlQuery";
-import { createElement } from "react";
+import { createElement, Fragment, ReactNode } from "react";
 
-type SortMenuProps = {};
+type SortMenuProps = { showQuerySummary: boolean };
 
-export const SortMenu = ({}: SortMenuProps) => {
+export const SortMenu = ({ showQuerySummary = false }: SortMenuProps) => {
   const { query, updateQueryUrl } = useUrlQuery();
 
   const { sortType, sortOrder } = query;
@@ -30,32 +31,30 @@ export const SortMenu = ({}: SortMenuProps) => {
 
   const sortOrderDesc = sortOrderDescription[sortOrder];
 
-  return (
-    <Popover className="flex flex-col relative w-full bg-neutral-800 rounded-md">
-      <Popover.Button className="flex items-center  min-h-[2.5rem] text-sm w-full">
-        <span className="grid place-items-center rounded-tl-md rounded-bl-md w-20 h-full font-bold text-sm uppercase text-neutral-300 bg-neutral-700 ">
-          sort
-        </span>
-        <span className="px-3 text-sm capitalize flex-1zz">
-          {sortType}
-          <span
-            className={clsx(
-              "normal-case",
-              sortOrder === "asc" ? "text-red-500" : "text-green-500"
-            )}
-          >{` (${sortOrderDesc.desc})`}</span>
-        </span>
-      </Popover.Button>
+  const checked = sortOrder === "asc";
 
-      <div className="relative h-min">
-        <Popover.Panel
+  const toggle = (value: boolean) => {
+    updateQueryUrl({
+      query: { sortOrder: value ? "asc" : "des" },
+      updateType: "replace",
+    });
+  };
+
+  return (
+    <Menu as="div" className="w-full">
+      <div className="relative w-full">
+        <Menu.Items
           as="ul"
           className={clsx(
-            "absolute z-10 w-full max-h-[15rem] mt-4",
+            "outline-none appearance-none",
+            "absolute z-10 w-full max-h-[15rem] rounded-lg",
             "overflow-y-auto overflow-x-hidden custom-scrollbar-tiny",
-            "bg-neutral-800"
+            "bg-black/50 backdrop-blur-md"
           )}
         >
+          <li className="sticky top-0">
+            How would you like to sort the results?
+          </li>
           <li className="">
             <span className="">Keys</span>
             <ul>
@@ -88,9 +87,42 @@ export const SortMenu = ({}: SortMenuProps) => {
               <SortItem {...props} sortKey={sortItems["sp. defense TVs"]} />
             </ul>
           </li>
-        </Popover.Panel>
+        </Menu.Items>
       </div>
-    </Popover>
+      <div className="text-neutral-500 text-sm rounded-lg p-4 border border-neutral-500/20">
+        {showQuerySummary ? (
+          <>
+            {fns[query.filterValue === "" ? "" : query.filterType](
+              query.filterValue
+            )}
+            {" sorted by "}
+            <Menu.Button
+              as="span"
+              tabIndex={0}
+              className="cursor-pointer outline-none appearance-none hover:underline focus-visible:ring-1 focus-visible:underline font-bold rounded text-white ring-white"
+            >
+              {sortType}
+            </Menu.Button>
+            {" from "}
+            <Switch
+              as="span"
+              checked={checked}
+              onChange={toggle}
+              className={clsx(
+                "cursor-pointer outline-none appearance-none hover:underline focus-visible:ring-1 focus-visible:underline font-bold rounded px-1 ring-white",
+                checked
+                  ? "text-red-500 bg-red-900/50"
+                  : "text-green-500 bg-green-900/50"
+              )}
+            >
+              {sortOrderDesc.desc}
+            </Switch>
+          </>
+        ) : (
+          <span>No results found.</span>
+        )}
+      </div>
+    </Menu>
   );
 };
 
@@ -124,25 +156,91 @@ export const SortItem = ({
 
   return (
     <li>
-      <button
-        type="button"
-        className="flex items-center w-full focus:bg-neutral-500 hover:bg-neutral-500 h-10 px-8"
-        onClick={toggleItem}
-      >
-        <span className="" data-selected={itemSelected}>
-          {label}
-        </span>
-        <span className="">
-          {itemSelected && (
-            <IconArrowUp
-              className={clsx(
-                "transition-[transform]",
-                selectedSortOrder === "asc" ? "rotate-0" : "rotate-180"
+      <Menu.Item>
+        {({ active }) => (
+          <button
+            type="button"
+            className={clsx(
+              "flex items-center w-full h-10 px-8",
+              active ? "bg-neutral-900/50" : ""
+            )}
+            onClick={toggleItem}
+          >
+            <span className="" data-selected={itemSelected}>
+              {label}
+            </span>
+            <span className="">
+              {itemSelected && (
+                <IconArrowUp
+                  className={clsx(
+                    "transition-[transform]",
+                    selectedSortOrder === "asc" ? "rotate-0" : "rotate-180"
+                  )}
+                />
               )}
-            />
-          )}
-        </span>
-      </button>
+            </span>
+          </button>
+        )}
+      </Menu.Item>
     </li>
   );
+};
+
+export const FilterValue = ({ children }: { children: string }) => (
+  <span className="text-yellow-400 bg-yellow-900/50 rounded px-1 font-bold">
+    {children}
+  </span>
+);
+export const FilterTypeSpan = ({ children }: { children: ReactNode }) => (
+  <span className="font-bold text-white">{children}</span>
+);
+
+export const fns: Record<FilterType | "", (value: string) => ReactNode> = {
+  name: (filterValue) => (
+    <>
+      {"Showing tems whose "}
+      <FilterTypeSpan>{"name"}</FilterTypeSpan>
+      {" is "}
+      <FilterValue>{filterValue}</FilterValue>
+    </>
+  ),
+
+  number: (filterValue) => (
+    <>
+      {"Showing tems with the tempedia "}
+      <FilterTypeSpan>{"number "}</FilterTypeSpan>
+      <FilterValue>{filterValue}</FilterValue>
+    </>
+  ),
+
+  techniques: (filterValue) => (
+    <>
+      {"Showing tems that know the "}
+      <FilterTypeSpan>{"technique "}</FilterTypeSpan>
+      <FilterValue>{filterValue}</FilterValue>
+    </>
+  ),
+
+  traits: (filterValue) => (
+    <>
+      {"Showing tems that have the "}
+      <FilterTypeSpan>{"trait "}</FilterTypeSpan>
+      <FilterValue>{filterValue}</FilterValue>
+    </>
+  ),
+
+  types: (filterValue) => (
+    <>
+      {"Showing tems that are "}
+      <FilterValue>{filterValue}</FilterValue>
+      <FilterTypeSpan>{" types"}</FilterTypeSpan>
+    </>
+  ),
+  "": (filterValue) => (
+    <>
+      {"Showing "}
+      <FilterValue>{"all"}</FilterValue>
+      {" temtems"}
+    </>
+  ),
 };

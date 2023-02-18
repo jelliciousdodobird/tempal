@@ -24,7 +24,7 @@ html {
   /* layout defaults: */
   @apply flex flex-col h-full overflow-hidden;
   /* style defaults: */
-  @apply font-base text-white selection:bg-black selection:text-white bg-neutral-900;
+  @apply font-base text-white selection:bg-primary-600 selection:text-black bg-neutral-900;
 }
 
 body {

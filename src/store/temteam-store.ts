@@ -3,7 +3,10 @@ import { nanoid } from "nanoid";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Stats } from "../utils/augmented-types/temtems";
+import { getRandomTeamName } from "../utils/generation";
 import { AtLeast, HasId } from "../utils/utils";
+
+export const FULL_TEAM = 8;
 
 export type CustomTem = {
   id: string;
@@ -32,7 +35,7 @@ export type TemTeamsState = {
   teams: TemTeam[];
 
   // manipulates the TemTeam list
-  addTemTeam: () => void;
+  addTemTeam: (toTop?: boolean) => void;
   removeTemTeam: (teamId: string) => void;
 
   // manipulates individual tems relative to the active TemTeam
@@ -47,14 +50,18 @@ export const useTemTeamsStore = create<TemTeamsState>()(
       activeTeamId: "",
       setActiveTeamId: (teamId) => set((state) => ({ activeTeamId: teamId })),
 
-      teams: [] as TemTeam[],
-      addTemTeam: () =>
+      teams: createEmptyTeams(3),
+      addTemTeam: (toTop = false) =>
         set((state) => {
+          toTop = typeof toTop === "boolean" ? toTop : false;
           const { teams } = state;
-          const temTeam = createTemTeam();
+
+          const teamName = `Team ${getRandomTeamName()}`;
+          const temTeam = createEmptyTeam(teamName);
+
           return {
             activeTeamId: temTeam.id, // set the activeId to new temteam
-            teams: [temTeam, ...teams], // add to the beginning
+            teams: toTop ? [temTeam, ...teams] : [...teams, temTeam], // add to the start or end if the list
           };
         }),
       removeTemTeam: (teamId) =>
@@ -145,54 +152,76 @@ export const useTemTeamsStore = create<TemTeamsState>()(
           };
         }),
     }),
-    { name: "main-store", version: 1 }
+    { name: "my-teams", version: 1 }
   )
 );
 
-export const getDefaultStats = (): Stats => ({
-  hp: 0,
-  sta: 0,
-  spd: 0,
-  atk: 0,
-  def: 0,
-  spatk: 0,
-  spdef: 0,
-});
+export function getDefaultStats(): Stats {
+  return {
+    hp: 0,
+    sta: 0,
+    spd: 0,
+    atk: 0,
+    def: 0,
+    spatk: 0,
+    spdef: 0,
+  };
+}
 
-export const getMaxSVs = (): Stats => ({
-  hp: 50,
-  sta: 50,
-  spd: 50,
-  atk: 50,
-  def: 50,
-  spatk: 50,
-  spdef: 50,
-});
+export function getMaxSVs(): Stats {
+  return {
+    hp: 50,
+    sta: 50,
+    spd: 50,
+    atk: 50,
+    def: 50,
+    spatk: 50,
+    spdef: 50,
+  };
+}
 
-export const createCustomTem = (nameOfTem: string): CustomTem => ({
-  id: nanoid(),
-  order: 0,
-  name: nameOfTem,
-  nickname: "",
-  trait: "",
-  gear: "",
-  techniques: [],
-  svSpread: getMaxSVs(),
-  tvSpread: getDefaultStats(),
-  notes: "",
-});
+export function createCustomTem(nameOfTem: string, order = 0): CustomTem {
+  return {
+    id: nanoid(),
+    order: order,
+    name: nameOfTem,
+    nickname: "",
+    trait: "",
+    gear: "",
+    techniques: [],
+    svSpread: getMaxSVs(),
+    tvSpread: getDefaultStats(),
+    notes: "",
+  };
+}
 
-export const createTemTeam = (): TemTeam => ({
-  id: nanoid(),
-  order: 0,
-  teamName: "",
-  team: [],
-});
+export function createTemTeam(teamName = ""): TemTeam {
+  return {
+    id: nanoid(),
+    order: 0,
+    teamName,
+    team: [],
+  };
+}
 
-export const getItemAndIndex = <T extends HasId>(
+export function createEmptyTeam(teamName = ""): TemTeam {
+  const temTeam = createTemTeam(teamName);
+  temTeam.team = [...Array(FULL_TEAM).keys()].map((i) =>
+    createCustomTem("", i)
+  );
+  return temTeam;
+}
+
+export function createEmptyTeams(numOfTeams = 3): TemTeam[] {
+  return [...Array(numOfTeams).keys()].map(() =>
+    createEmptyTeam(`Team ${getRandomTeamName()}`)
+  );
+}
+
+export function getItemAndIndex<T extends HasId>(
   arr: T[],
   id: string
-): [T | undefined, number] => {
+): [T | undefined, number] {
   const index = arr.findIndex((item) => item.id === id);
   return [arr[index], index];
-};
+}

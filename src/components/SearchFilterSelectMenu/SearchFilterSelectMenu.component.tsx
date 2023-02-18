@@ -22,7 +22,7 @@ export const SearchFilterSelectMenu = ({
       onChange={onChange}
       className="flex flex-col h-full"
     >
-      <Listbox.Button className="relative rounded-tl-md rounded-bl-md w-20 h-full font-bold text-sm uppercase text-neutral-300 bg-neutral-700">
+      <Listbox.Button className="relative rounded-tl-lg rounded-bl-lg w-20 h-full font-bold text-sm uppercase text-neutral-300 bg-neutral-700 outline-none appearance-none focus-visible:ring-1 ring-white ring-inset">
         {filterType_shorthand[value]}
       </Listbox.Button>
 

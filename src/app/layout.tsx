@@ -21,7 +21,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html lang="en" className={customFonts}>
       <body>
         <ReactQueryProvider>
-          <header className="flex flex-col w-full">
+          <header className="sticky top-0 flex flex-col w-full">
             <Navbar />
           </header>
           <main className="-z-10 isolate flex-1">{children}</main>

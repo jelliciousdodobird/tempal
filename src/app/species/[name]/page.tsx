@@ -28,7 +28,6 @@ export default async function Tem({ params }: Props) {
     <div className="relative flex flex-col gap-8 min-h-fullzz pb-8 overflow-x-hiddenzz w-full">
       <AddTemToTeamButton temName={params.name} />
       <FavoritesButton temName={params.name} />
-      {/* {JSON.stringify(data, null, 2)} */}
 
       <div className="flex w-[100px] h-[100px] rounded-fullzzbg-neutral-700">
         <Image
@@ -52,6 +51,8 @@ export default async function Tem({ params }: Props) {
         />
       </div>
       <div>{tem.portraitWikiUrl}</div>
+
+      <div>{JSON.stringify(tem, null, 2)}</div>
     </div>
   );
 }
