@@ -24,7 +24,7 @@ export const FavoritesButton = ({ temName }: FavoritesButtonProps) => {
   return (
     <button
       type="button"
-      className="w-10 h-10 flex justify-center items-center rounded-full shadow-md transition ease-in-out delay-150 hover:scale-125 hover:bg-white/5 hover:backdrop-blur hover:shadow-white/5 duration-300"
+      className="w-10 h-10 flex justify-center items-center rounded-full shadow-md transition ease-in-out delay-150 hover:scale-110 hover:bg-white/5 hover:backdrop-blur  duration-300"
       onClick={() => {
         updateFavorites({ temName });
       }}
