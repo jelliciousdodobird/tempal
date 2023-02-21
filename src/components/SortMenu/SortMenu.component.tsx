@@ -17,7 +17,7 @@ import {
 } from "../SpecieList/SpecieList.types";
 import {
   getUpdatedQueryUrl,
-  sortItems,
+  SORT_TYPE_MAP,
   sortOrderDescription,
 } from "../SpecieList/SpecieList.utils";
 
@@ -75,33 +75,33 @@ export const SortMenu = ({}: SortMenuProps) => {
         <li className="">
           <span className="">Keys</span>
           <ul>
-            <SortItem {...props} sortKey={sortItems["relevance"]} />
-            <SortItem {...props} sortKey={sortItems["name"]} />
-            <SortItem {...props} sortKey={sortItems["number"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["relevance"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["name"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["number"]} />
           </ul>
         </li>
         <li className="">
           <span className="">Base Stats</span>
           <ul>
-            <SortItem {...props} sortKey={sortItems["base HP"]} />
-            <SortItem {...props} sortKey={sortItems["base stamina"]} />
-            <SortItem {...props} sortKey={sortItems["base speed"]} />
-            <SortItem {...props} sortKey={sortItems["base attack"]} />
-            <SortItem {...props} sortKey={sortItems["base defense"]} />
-            <SortItem {...props} sortKey={sortItems["base sp. attack"]} />
-            <SortItem {...props} sortKey={sortItems["base sp. defense"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["base HP"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["base stamina"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["base speed"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["base attack"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["base defense"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["base sp. attack"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["base sp. defense"]} />
           </ul>
         </li>
         <li className="">
           <span className="">Training Values</span>
           <ul>
-            <SortItem {...props} sortKey={sortItems["HP TVs"]} />
-            <SortItem {...props} sortKey={sortItems["stamina TVs"]} />
-            <SortItem {...props} sortKey={sortItems["speed TVs"]} />
-            <SortItem {...props} sortKey={sortItems["attack TVs"]} />
-            <SortItem {...props} sortKey={sortItems["defense TVs"]} />
-            <SortItem {...props} sortKey={sortItems["sp. attack TVs"]} />
-            <SortItem {...props} sortKey={sortItems["sp. defense TVs"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["HP TVs"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["stamina TVs"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["speed TVs"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["attack TVs"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["defense TVs"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["sp. attack TVs"]} />
+            <SortItem {...props} sortKey={SORT_TYPE_MAP["sp. defense TVs"]} />
           </ul>
         </li>
       </Menu.Items>

@@ -1,5 +1,6 @@
 import { Icon, IconArrowDown, IconArrowUp } from "@tabler/icons-react";
 import { MinTemtem } from "../../app/species/layout";
+import Fuse from "fuse.js";
 
 import {
   DirtyQuery,
@@ -92,10 +93,10 @@ export const getUpdatedQueryUrl = (updatedQuery: Partial<SearchQuery>) => {
 };
 
 export const getComparator = (sortType: SortType, sortOrder: SortOrder) => {
-  return (a: MinTemtem, b: MinTemtem) => {
-    const sortKey = sortItems[sortType];
-    const x = sortKey.accessor(a);
-    const y = sortKey.accessor(b);
+  return (a: Fuse.FuseResult<MinTemtem>, b: Fuse.FuseResult<MinTemtem>) => {
+    const sortKey = SORT_TYPE_MAP[sortType];
+    const x = sortKey.resultAccessor(a);
+    const y = sortKey.resultAccessor(b);
     const order = sortOrder === "asc" ? 1 : -1;
 
     if (typeof x === "number" && typeof y === "number") return order * (x - y);
@@ -113,90 +114,124 @@ export const sortOrderDescription: Record<
   des: { word: "descending", desc: "high to low", icon: IconArrowDown },
 };
 
-export const sortItems: Record<SortType, SortKey> = {
+export const SORT_TYPE_MAP: Record<SortType, SortKey> = {
   relevance: {
     value: "relevance",
     label: "Relevance",
-    accessor: (item: MinTemtem) => 1,
+    shortLabel: "Relevance",
+    resultAccessor: (item) => -(item.score ?? 0), // lower score means higher relevance
+    accessor: (tem) => 0, // lower score means higher relevance
   },
   number: {
     value: "number",
     label: "Number",
-    accessor: (item: MinTemtem) => item.number,
+    shortLabel: "Num",
+    resultAccessor: (item) => item.item.number,
+    accessor: (tem) => tem.number,
   },
   name: {
     value: "name",
     label: "Name",
-    accessor: (item: MinTemtem) => item.name,
+    shortLabel: "Name",
+    resultAccessor: (item) => item.item.name,
+    accessor: (tem) => tem.name,
   },
   "base HP": {
     value: "base HP",
     label: "HP",
-    accessor: (item: MinTemtem) => item.stats.hp,
+    shortLabel: "HP",
+    resultAccessor: (item) => item.item.stats.hp,
+    accessor: (tem) => tem.stats.hp,
   },
   "base stamina": {
     value: "base stamina",
     label: "Stamina",
-    accessor: (item: MinTemtem) => item.stats.sta,
+    shortLabel: "STA",
+    resultAccessor: (item) => item.item.stats.sta,
+    accessor: (tem) => tem.stats.sta,
   },
   "base speed": {
     value: "base speed",
     label: "Speed",
-    accessor: (item: MinTemtem) => item.stats.spd,
+    shortLabel: "SPD",
+    resultAccessor: (item) => item.item.stats.spd,
+    accessor: (tem) => tem.stats.spd,
   },
   "base attack": {
     value: "base attack",
     label: "Attack",
-    accessor: (item: MinTemtem) => item.stats.atk,
+    shortLabel: "ATK",
+    resultAccessor: (item) => item.item.stats.atk,
+    accessor: (tem) => tem.stats.atk,
   },
   "base defense": {
     value: "base defense",
     label: "Defense",
-    accessor: (item: MinTemtem) => item.stats.def,
+    shortLabel: "DEF",
+    resultAccessor: (item) => item.item.stats.def,
+    accessor: (tem) => tem.stats.def,
   },
   "base sp. attack": {
     value: "base sp. attack",
     label: "Sp. Atk",
-    accessor: (item: MinTemtem) => item.stats.spatk,
+    shortLabel: "SP ATK",
+    resultAccessor: (item) => item.item.stats.spatk,
+    accessor: (tem) => tem.stats.spatk,
   },
   "base sp. defense": {
     value: "base sp. defense",
     label: "Sp. Def",
-    accessor: (item: MinTemtem) => item.stats.spdef,
+    shortLabel: "SP DEF",
+    resultAccessor: (item) => item.item.stats.spdef,
+    accessor: (tem) => tem.stats.spdef,
   },
   "HP TVs": {
     value: "HP TVs",
     label: "HP",
-    accessor: (item: MinTemtem) => item.tvYields.hp,
+    shortLabel: "HP",
+    resultAccessor: (item) => item.item.tvYields.hp,
+    accessor: (tem) => tem.tvYields.hp,
   },
   "stamina TVs": {
     value: "stamina TVs",
     label: "Stamina",
-    accessor: (item: MinTemtem) => item.tvYields.sta,
+    shortLabel: "STA",
+    resultAccessor: (item) => item.item.tvYields.sta,
+    accessor: (tem) => tem.tvYields.sta,
   },
   "speed TVs": {
     value: "speed TVs",
     label: "Speed",
-    accessor: (item: MinTemtem) => item.tvYields.spd,
+    shortLabel: "SPD",
+    resultAccessor: (item) => item.item.tvYields.spd,
+    accessor: (tem) => tem.tvYields.spd,
   },
   "attack TVs": {
     value: "attack TVs",
     label: "Attack",
-    accessor: (item: MinTemtem) => item.tvYields.atk,
+    shortLabel: "ATK",
+    resultAccessor: (item) => item.item.tvYields.atk,
+    accessor: (tem) => tem.tvYields.atk,
   },
   "defense TVs": {
     value: "defense TVs",
     label: "Defense",
-    accessor: (item: MinTemtem) => item.tvYields.def,
+    shortLabel: "DEF",
+    resultAccessor: (item) => item.item.tvYields.def,
+    accessor: (tem) => tem.tvYields.def,
   },
   "sp. attack TVs": {
     value: "sp. attack TVs",
     label: "Sp. Atk",
-    accessor: (item: MinTemtem) => item.tvYields.spatk,
+    shortLabel: "SP ATK",
+    resultAccessor: (item) => item.item.tvYields.spatk,
+    accessor: (tem) => tem.tvYields.spatk,
   },
   "sp. defense TVs": {
     value: "sp. defense TVs",
     label: "Sp. Def",
-    accessor: (item: MinTemtem) => item.tvYields.spdef,
+    shortLabel: "SP DEF",
+    resultAccessor: (item) => item.item.tvYields.spdef,
+    accessor: (tem) => tem.tvYields.spdef,
   },
 };

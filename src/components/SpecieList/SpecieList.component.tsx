@@ -14,7 +14,7 @@ import { Combobox } from "@headlessui/react";
 import { IconFilter } from "@tabler/icons-react";
 import { SortType } from "./SpecieList.types";
 import { SORT_LABELS } from "../SortMenu/SortMenu.component";
-import { sortItems } from "./SpecieList.utils";
+import { SORT_TYPE_MAP } from "./SpecieList.utils";
 
 type Props = {
   species: MinTemtem[];
@@ -96,7 +96,7 @@ const SpecieItemLink = ({ specie, show }: ItemProps) => {
   const showSortData =
     show !== "relevance" && show !== "name" && show !== "number";
 
-  const getStat = sortItems[show].accessor;
+  const getStat = SORT_TYPE_MAP[show].accessor;
 
   return (
     <Combobox.Option value={specie} as={Fragment}>
