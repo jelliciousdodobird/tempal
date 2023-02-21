@@ -1,6 +1,6 @@
+import Image from "next/image";
 import { AddTemToTeamButton } from "../../../components/AddTemToTeamButton/AddTemToTeamButton.component";
 import { fetchTemtem } from "../../../utils/fetch";
-import Image from "next/image";
 import { FavoritesButton } from "../../../components/FavoritesButton/FavoritesButton.component";
 import { ClientDebug } from "../../../components/ClientDebug/ClientDebug";
 import { Temtem } from "../../../utils/augmented-types/temtems";
@@ -10,7 +10,7 @@ import { Temtem } from "../../../utils/augmented-types/temtems";
 //   return { title: params };
 // }
 
-export const revalidate = 43200; // revalidate this page every 12 hours (in seconds)
+// export const revalidate = 43200; // revalidate this page every 12 hours (in seconds)
 
 type SpecieParam = {
   name: string;

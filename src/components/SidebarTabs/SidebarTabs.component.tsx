@@ -18,17 +18,17 @@ import { MyTeams } from "../MyTeams/MyTeams.component";
 
 const sidebarItems: SidebarItemProps[] = [
   { id: "search", label: "search", icon: <IconSearch /> },
-  { id: "fav", label: "favorites", icon: <IconHeartFilled /> },
   { id: "teams", label: "teams", icon: <IconCards /> },
+  { id: "fav", label: "favorites", icon: <IconHeartFilled /> },
 ];
 
 export const SidebarTabs = ({ species }: { species: MinTemtem[] }) => {
   return (
     <Tabs.Root
       defaultValue="search"
-      className="flex flex-col h-full border-rzzborder-lzzborder-neutral-800 pt-4"
+      className="flex flex-col gap-4 h-full pt-4"
     >
-      <Tabs.List className="flex gap-1 p-1 bg-neutral-800/30 rounded-xl mb-4">
+      <Tabs.List className="flex gap-1 p-1 bg-neutral-800/30 rounded-xl">
         {sidebarItems.map((props) => (
           <SidebarTrigger key={props.id} {...props} />
         ))}
@@ -37,11 +37,11 @@ export const SidebarTabs = ({ species }: { species: MinTemtem[] }) => {
       <Tabs.Content asChild value="search">
         <SpecieList species={species} />
       </Tabs.Content>
-      <Tabs.Content asChild value="fav">
-        <Favorites />
-      </Tabs.Content>
       <Tabs.Content asChild value="teams">
         <MyTeams />
+      </Tabs.Content>
+      <Tabs.Content asChild value="fav">
+        <Favorites />
       </Tabs.Content>
     </Tabs.Root>
   );

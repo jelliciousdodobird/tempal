@@ -117,7 +117,7 @@ export const sortItems: Record<SortType, SortKey> = {
   relevance: {
     value: "relevance",
     label: "Relevance",
-    accessor: (item: MinTemtem) => 0,
+    accessor: (item: MinTemtem) => 1,
   },
   number: {
     value: "number",
@@ -127,9 +127,7 @@ export const sortItems: Record<SortType, SortKey> = {
   name: {
     value: "name",
     label: "Name",
-    accessor: (item: MinTemtem) => {
-      return item.name;
-    },
+    accessor: (item: MinTemtem) => item.name,
   },
   "base HP": {
     value: "base HP",

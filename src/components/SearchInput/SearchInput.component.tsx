@@ -5,7 +5,7 @@ import debounce from "lodash.debounce";
 import { Combobox } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import { useState, useMemo, useRef, useCallback } from "react";
-import { SearchFilterSelectMenu } from "../SearchFilterSelectMenu/SearchFilterSelectMenu.component";
+import { FilterMenu } from "../FilterMenu/FilterMenu.component";
 import { getUpdatedQueryUrl } from "../SpecieList/SpecieList.utils";
 import { useUrlQuery } from "../SpecieList/useUrlQuery";
 import {
@@ -14,6 +14,7 @@ import {
   validFilterTypes,
 } from "../SpecieList/SpecieList.types";
 import { IconSearch, IconX } from "@tabler/icons-react";
+import { SortMenu } from "../SortMenu/SortMenu.component";
 
 const DEBOUNCED_TIME = 300;
 
@@ -84,37 +85,46 @@ export const SearchInput = () => {
   //     To solve this, I ignored all react state used safeUpdateUrlParams().
 
   return (
-    <div className="relative flex min-h-[3rem] w-full rounded-lg text-base caret-white bg-neutral-800">
-      <SearchFilterSelectMenu
-        value={query.filterType}
-        onChange={updateFilterType}
-        list={filterValues}
-      />
-      <Combobox.Input
-        ref={inputRef}
-        spellCheck={false}
-        autoComplete="off"
-        placeholder={placeholder_text[query.filterType]}
-        className={clsx(
-          "outline-none appearance-none",
-          "flex pl-3 h-full w-full text-base caret-white bg-neutral-800",
-          "placeholder:text-neutral-600"
-        )}
-        disabled
-        value={inputFilterValue}
-        displayValue={() => inputFilterValue}
-        onChange={(e) => {
-          setInputFilterValue(e.target.value);
-          debouncedUpdateUrl(e.target.value);
-        }}
-      />
-      <button
-        type="button"
-        className="grid place-items-center h-full px-2 rounded-tr-lg rounded-br-lg outline-none appearance-none focus-visible:ring-1 ring-white ring-inset"
-        onClick={resetQueryFilter}
-      >
-        {inputFilterValue === "" ? <IconSearch /> : <IconX />}
-      </button>
+    <div className="flex flex-col gap-2">
+      <div className="group relative flex min-h-[3rem] overflow-hidden w-full rounded-lg text-base caret-white bg-neutral-800">
+        <div className="absolute bottom-0 left-0 w-full h-[2px] group-focus-within:bg-neutral-500/50" />
+        <button
+          type="button"
+          className="grid place-items-center h-fullzz pl-3 pr-2 rounded-tl-lg rounded-bl-lg outline-none appearance-none focus-visible:ring-1 ring-white ring-inset text-neutral-500 "
+          onClick={resetQueryFilter}
+        >
+          {inputFilterValue === "" ? <IconSearch /> : <IconX />}
+        </button>
+        <Combobox.Input
+          ref={inputRef}
+          spellCheck={false}
+          autoComplete="off"
+          placeholder={placeholder_text[query.filterType]}
+          className={clsx(
+            "outline-none appearance-none",
+            "flex h-fullzz w-full text-base caret-white bg-neutral-800 pr-2 rounded-tr-lg rounded-br-lg",
+            "placeholder:text-neutral-600"
+          )}
+          disabled
+          value={inputFilterValue}
+          displayValue={() => inputFilterValue}
+          onChange={(e) => {
+            setInputFilterValue(e.target.value);
+            debouncedUpdateUrl(e.target.value);
+          }}
+        />
+      </div>
+
+      <div className="relative w-full z-10">
+        <div className="absolute w-full flex gap-2">
+          <FilterMenu
+            value={query.filterType}
+            onChange={updateFilterType}
+            list={filterValues}
+          />
+          <SortMenu />
+        </div>
+      </div>
     </div>
   );
 };
@@ -128,9 +138,9 @@ export const auto_suggestions: Record<FilterType, string> = {
 };
 
 export const placeholder_text: Record<FilterType, string> = {
-  name: "tateru, saku, saipat",
-  types: "fire, water, wind, mental",
-  traits: "botanist, furor, hover",
-  techniques: "scratch, water cannon",
+  name: "tateru, saku, raiber, rhoulder...",
+  types: "fire, water, wind, mental, digital...",
+  traits: "botanist, furor, hover, immunity...",
+  techniques: "scratch, block, heat up, kick...",
   number: "1 - 164",
 };

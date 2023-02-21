@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Listbox } from "@headlessui/react";
-import { IconCheck } from "@tabler/icons-react";
+import { IconCheck, IconFilter } from "@tabler/icons-react";
 import { Fragment } from "react";
 import { FilterType } from "../SpecieList/SpecieList.types";
 
@@ -10,26 +10,27 @@ type SearchFilterSelectMenuProps = {
   list: FilterType[];
 };
 
-export const SearchFilterSelectMenu = ({
+export const FilterMenu = ({
   value,
   onChange,
   list,
 }: SearchFilterSelectMenuProps) => {
   return (
-    <Listbox
-      as="div"
-      value={value}
-      onChange={onChange}
-      className="flex flex-col h-full"
-    >
-      <Listbox.Button className="relative rounded-tl-lg rounded-bl-lg w-20 h-full font-bold text-sm uppercase text-neutral-300 bg-neutral-700 outline-none appearance-none focus-visible:ring-1 ring-white ring-inset">
-        {filterType_shorthand[value]}
+    <Listbox value={value} onChange={onChange}>
+      <Listbox.Button
+        className={clsx(
+          "flex items-center gap-2 rounded-lg h-8 pl-2 pr-4 font-bold text-xs w-min text-yellow-500 bg-yellow-800/50",
+          "outline-none appearance-none focus-visible:ring-1 ring-white ring-inset"
+        )}
+      >
+        <IconFilter size={20} />
+        <span className="uppercase">{filterType_shorthand[value]}</span>
       </Listbox.Button>
 
       <Listbox.Options
         as="div"
         className={clsx(
-          "z-10 absolute flex flex-col left-0 top-[2.5rem] mt-4 w-full rounded-md overflow-hidden backdrop-blur-md shadow-lg bg-neutral-800/90",
+          "z-10 absolute flex flex-col left-0 top-[1rem]zz mt-4zz w-full rounded-md overflow-hidden backdrop-blur-md shadow-lg bg-neutral-800/90",
           "outline-none appearance-none"
         )}
       >
