@@ -1,5 +1,6 @@
 import { useSearchParams } from "next/navigation";
 import { MinTemtem } from "../../app/species/layout";
+import Fuse from "fuse.js";
 
 export const validFilterTypes = [
   "name",
@@ -44,7 +45,9 @@ export const isSortOrder = (str: NullableString): str is SortOrder =>
 export interface SortKey {
   value: SortType;
   label: string;
-  accessor: (item: MinTemtem) => string | number;
+  shortLabel: string;
+  resultAccessor: (item: Fuse.FuseResult<MinTemtem>) => string | number;
+  accessor: (tem: MinTemtem) => string | number;
 }
 
 export type SearchQuery = {

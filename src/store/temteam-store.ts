@@ -14,6 +14,7 @@ export type CustomTem = {
   name: string;
   nickname: string;
   trait: string;
+  level: number;
   gear: string;
   techniques: string[]; // must limit to 4
   svSpread: Stats; // 0 <=each stat <= 50
@@ -42,6 +43,7 @@ export type TemTeamsState = {
   addToTeam: (temToAdd: string) => void;
   removeFromTeam: (temId: string) => void;
   updateCustomTem: (updatedTem: AtLeast<CustomTem, "id">) => void;
+  addToTeamOnSlot: (temToAdd: string, slot: number) => void;
 };
 
 export const useTemTeamsStore = create<TemTeamsState>()(
@@ -151,6 +153,29 @@ export const useTemTeamsStore = create<TemTeamsState>()(
             ],
           };
         }),
+      addToTeamOnSlot: (temToAdd: string, slot: number) =>
+        set((state) => {
+          const { teams, activeTeamId } = state;
+          const [temTeam, i] = getItemAndIndex(teams, activeTeamId);
+          if (!temTeam) return state;
+
+          const updatedTemTeam = {
+            ...temTeam,
+            team: [
+              ...temTeam.team.slice(0, slot),
+              createCustomTem(temToAdd),
+              ...temTeam.team.slice(slot + 1),
+            ],
+          };
+
+          return {
+            teams: [
+              ...teams.slice(0, i),
+              updatedTemTeam,
+              ...teams.slice(i + 1),
+            ],
+          };
+        }),
     }),
     { name: "my-teams", version: 1 }
   )
@@ -188,7 +213,8 @@ export function createCustomTem(nameOfTem: string, order = 0): CustomTem {
     nickname: "",
     trait: "",
     gear: "",
-    techniques: [],
+    level: 100,
+    techniques: ["", "", "", ""],
     svSpread: getMaxSVs(),
     tvSpread: getDefaultStats(),
     notes: "",

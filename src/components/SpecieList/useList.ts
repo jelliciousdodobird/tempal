@@ -13,11 +13,20 @@ export const useList = (species: MinTemtem[]) => {
       keys: fuseKeyData,
       useExtendedSearch: true,
       includeScore: true,
-      shouldSort: true,
+      // shouldSort: true, // since we're sorting everything including the score ourselves
       threshold: 0.25,
     });
 
     return (key: FilterType, query: string) => {
+      if (query === "")
+        return species.map(
+          (item, i): Fuse.FuseResult<MinTemtem> => ({
+            item,
+            refIndex: i,
+            score: i, // lower score means higher relevance
+          })
+        );
+
       const basicQuery = getKeyedQuery(key, query);
       const andTokens = filterTrim(query.split(and));
       const orTokens = filterTrim(query.split(or));
@@ -37,12 +46,7 @@ export const useList = (species: MinTemtem[]) => {
 
       const searchResults = searcher.search(finalQuery);
 
-      const results = searchResults
-        ? searchResults.map((v) => v.item)
-        : species;
-      const data = query === "" ? species : results;
-
-      return data;
+      return searchResults;
     };
   }, [species]);
 
@@ -53,17 +57,17 @@ export const useList = (species: MinTemtem[]) => {
     [query.sortType, query.sortOrder]
   );
 
-  const resultsSortedByRelevance: MinTemtem[] = useMemo(
+  const results = useMemo(
     () => search(query.filterType, query.filterValue),
     [search, query.filterType, query.filterValue]
   );
 
-  const renderList = useMemo(
-    () => [...resultsSortedByRelevance].sort(comparator),
-    [resultsSortedByRelevance, comparator]
+  const processedList = useMemo(
+    () => [...results].sort(comparator).map((item) => item.item),
+    [results, comparator]
   );
 
-  return { renderList };
+  return { processedList };
 };
 
 export type FuseKey = FilterType | "name_with_evo";
