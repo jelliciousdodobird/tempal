@@ -15,6 +15,7 @@ import { IconFilter } from "@tabler/icons-react";
 import { SortType } from "./SpecieList.types";
 import { SORT_LABELS } from "../SortMenu/SortMenu.component";
 import { SORT_TYPE_MAP } from "./SpecieList.utils";
+import { ScrollShadow } from "../ScrollShadow/ScrollShadow.component";
 
 type Props = {
   species: MinTemtem[];
@@ -83,9 +84,7 @@ export const SpecieList = forwardRef<HTMLDivElement, Props>(function SpecieList(
           </ul>
         </div>
         {/* THIS IS THE SHADOW ON THE TOP AND BOTTOM OF THE SCROLL CONTAINER */}
-        {hasItems && (
-          <div className="absolute inset-0 pointer-events-none [background-image:linear-gradient(180deg,#171717,transparent_4rem,transparent_calc(100%-4rem),#171717_100%),linear-gradient(180deg,#171717,transparent_4rem,transparent_calc(100%-4rem),#171717_100%),linear-gradient(180deg,#171717,transparent_4rem,transparent_calc(100%-4rem),#171717_100%),linear-gradient(180deg,#171717,transparent_4rem,transparent_calc(100%-4rem),#171717_100%)]" />
-        )}
+        {hasItems && <ScrollShadow />}
       </div>
     </>
   );
