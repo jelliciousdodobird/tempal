@@ -20,7 +20,7 @@ export const SelectActiveTeamMenu = ({
 }: SelectProps) => {
   return (
     <Menu as="div" className="flex flex-col gap-1">
-      <Menu.Button className="flex justify-between items-center rounded-md pl-4 pr-1 bg-neutral-800 min-h-[3rem]">
+      <Menu.Button className="flex justify-between items-center rounded-lg pl-4 pr-1 bg-neutral-800 min-h-[3rem]">
         <span className="text-neutral-500 font-bold">
           {value ? value.teamName : "No team selected."}
         </span>
@@ -29,7 +29,7 @@ export const SelectActiveTeamMenu = ({
       <div className="relative">
         <Menu.Items
           className={clsx(
-            "flex flex-col rounded-md bg-neutral-800 backdrop-blur-md py-2",
+            "flex flex-col rounded-lg bg-neutral-800 backdrop-blur-md py-2",
             "absolute z-10 w-full max-h-[17.5rem]  shadow-lg",
             "bg-neutral-800",
             "outline-none appearance-none"

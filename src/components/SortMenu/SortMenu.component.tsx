@@ -24,25 +24,14 @@ import {
 type SortMenuProps = {};
 
 export const SortMenu = ({}: SortMenuProps) => {
-  const { query, updateQueryUrl } = useUrlQuery();
-
+  const { query } = useUrlQuery();
   const { sortType, sortOrder } = query;
+  const sortOrderDesc = sortOrderDescription[sortOrder];
 
   const props = {
     selectedSortType: sortType,
     selectedSortOrder: sortOrder,
   };
-
-  const sortOrderDesc = sortOrderDescription[sortOrder];
-
-  // const checked = sortOrder === "asc";
-
-  // const toggle = (value: boolean) => {
-  //   updateQueryUrl({
-  //     query: { sortOrder: value ? "asc" : "des" },
-  //     updateType: "replace",
-  //   });
-  // };
 
   return (
     <Menu>
@@ -168,6 +157,82 @@ export const SortItem = ({
   );
 };
 
+export const SORT_LABELS: Record<SortType, string> = {
+  relevance: "RELEVANCE",
+  number: "NUMBER",
+  name: "NAME",
+  "base HP": "HP",
+  "base stamina": "STA",
+  "base speed": "SPD",
+  "base attack": "ATK",
+  "base defense": "DEF",
+  "base sp. attack": "SP ATK",
+  "base sp. defense": "SP DEF",
+  "HP TVs": "HP TVs",
+  "stamina TVs": "STA TVs",
+  "speed TVs": "SPD TVs",
+  "attack TVs": "ATK TVs",
+  "defense TVs": "DEF TVs",
+  "sp. attack TVs": "SP ATK TVs",
+  "sp. defense TVs": "SP DEF TVs",
+};
+
+export const FilterValue = ({ children }: { children: string }) => (
+  <span className="text-yellow-400 bg-yellow-900/50 rounded px-1 font-bold">
+    {children}
+  </span>
+);
+
+export const FilterTypeSpan = ({ children }: { children: ReactNode }) => (
+  <span className="font-bold text-white">{children}</span>
+);
+
+export const fns: Record<FilterType | "", (value: string) => ReactNode> = {
+  name: (filterValue) => (
+    <>
+      {"Showing tems whose "}
+      <FilterTypeSpan>{"name"}</FilterTypeSpan>
+      {" is "}
+      <FilterValue>{filterValue}</FilterValue>
+    </>
+  ),
+  number: (filterValue) => (
+    <>
+      {"Showing tems with the tempedia "}
+      <FilterTypeSpan>{"number "}</FilterTypeSpan>
+      <FilterValue>{filterValue}</FilterValue>
+    </>
+  ),
+  techniques: (filterValue) => (
+    <>
+      {"Showing tems that know the "}
+      <FilterTypeSpan>{"technique "}</FilterTypeSpan>
+      <FilterValue>{filterValue}</FilterValue>
+    </>
+  ),
+  traits: (filterValue) => (
+    <>
+      {"Showing tems that have the "}
+      <FilterTypeSpan>{"trait "}</FilterTypeSpan>
+      <FilterValue>{filterValue}</FilterValue>
+    </>
+  ),
+  types: (filterValue) => (
+    <>
+      {"Showing tems that are "}
+      <FilterValue>{filterValue}</FilterValue>
+      <FilterTypeSpan>{" types"}</FilterTypeSpan>
+    </>
+  ),
+  "": (filterValue) => (
+    <>
+      {"Showing "}
+      <FilterValue>{"all"}</FilterValue>
+      {" temtems"}
+    </>
+  ),
+};
+
 /* <div className="text-neutral-500 text-sm rounded-lg p-4 border border-neutral-500/20">
         {showQuerySummary ? (
           <>
@@ -201,83 +266,3 @@ export const SortItem = ({
           <span>No results found.</span>
         )}
       </div> */
-
-export const FilterValue = ({ children }: { children: string }) => (
-  <span className="text-yellow-400 bg-yellow-900/50 rounded px-1 font-bold">
-    {children}
-  </span>
-);
-
-export const FilterTypeSpan = ({ children }: { children: ReactNode }) => (
-  <span className="font-bold text-white">{children}</span>
-);
-
-export const fns: Record<FilterType | "", (value: string) => ReactNode> = {
-  name: (filterValue) => (
-    <>
-      {"Showing tems whose "}
-      <FilterTypeSpan>{"name"}</FilterTypeSpan>
-      {" is "}
-      <FilterValue>{filterValue}</FilterValue>
-    </>
-  ),
-
-  number: (filterValue) => (
-    <>
-      {"Showing tems with the tempedia "}
-      <FilterTypeSpan>{"number "}</FilterTypeSpan>
-      <FilterValue>{filterValue}</FilterValue>
-    </>
-  ),
-
-  techniques: (filterValue) => (
-    <>
-      {"Showing tems that know the "}
-      <FilterTypeSpan>{"technique "}</FilterTypeSpan>
-      <FilterValue>{filterValue}</FilterValue>
-    </>
-  ),
-
-  traits: (filterValue) => (
-    <>
-      {"Showing tems that have the "}
-      <FilterTypeSpan>{"trait "}</FilterTypeSpan>
-      <FilterValue>{filterValue}</FilterValue>
-    </>
-  ),
-
-  types: (filterValue) => (
-    <>
-      {"Showing tems that are "}
-      <FilterValue>{filterValue}</FilterValue>
-      <FilterTypeSpan>{" types"}</FilterTypeSpan>
-    </>
-  ),
-  "": (filterValue) => (
-    <>
-      {"Showing "}
-      <FilterValue>{"all"}</FilterValue>
-      {" temtems"}
-    </>
-  ),
-};
-
-export const SORT_LABELS: Record<SortType, string> = {
-  relevance: "RELEVANCE",
-  number: "NUMBER",
-  name: "NAME",
-  "base HP": "HP",
-  "base stamina": "STA",
-  "base speed": "SPD",
-  "base attack": "ATK",
-  "base defense": "DEF",
-  "base sp. attack": "SP ATK",
-  "base sp. defense": "SP DEF",
-  "HP TVs": "HP TVs",
-  "stamina TVs": "STA TVs",
-  "speed TVs": "SPD TVs",
-  "attack TVs": "ATK TVs",
-  "defense TVs": "DEF TVs",
-  "sp. attack TVs": "S.ATK TVs",
-  "sp. defense TVs": "S.DEF TVs",
-};

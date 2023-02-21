@@ -14,6 +14,7 @@ export type CustomTem = {
   name: string;
   nickname: string;
   trait: string;
+  level: number;
   gear: string;
   techniques: string[]; // must limit to 4
   svSpread: Stats; // 0 <=each stat <= 50
@@ -212,7 +213,8 @@ export function createCustomTem(nameOfTem: string, order = 0): CustomTem {
     nickname: "",
     trait: "",
     gear: "",
-    techniques: [],
+    level: 100,
+    techniques: ["", "", "", ""],
     svSpread: getMaxSVs(),
     tvSpread: getDefaultStats(),
     notes: "",
