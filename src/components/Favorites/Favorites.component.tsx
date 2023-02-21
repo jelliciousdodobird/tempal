@@ -1,17 +1,23 @@
 "use client";
 import Image from "next/image";
-import { forwardRef, Fragment, useEffect, useMemo, useState } from "react";
+import {
+  forwardRef,
+  Fragment,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useHasMounted } from "../../hooks/useHasMounted";
 import { useFavoritesStore } from "../../store/favorites-store";
-import { fetchTemtem } from "../../utils/fetch";
-import { Temtem } from "../../utils/augmented-types/temtems";
-import { Combobox } from "@headlessui/react";
 import { MinTemtem } from "../../app/species/layout";
 import clsx from "clsx";
 import { ElementTypeLabel } from "../ElementTypeLabel/ElementTypeLabel";
-import { formatTemName } from "../../utils/utils";
-import { useRouter } from "next/navigation";
+import { formatTemName, zeroPad } from "../../utils/utils";
 import { useUrlQuery } from "../SpecieList/useUrlQuery";
+import Link from "next/link";
+import useVirtualScroll from "../../hooks/useVirtualScroll";
+import { useFetchTemQuery } from "../../hooks/useFetchTemQuery";
 
 type SpecieParam = {
   name: string;
@@ -21,35 +27,24 @@ type FavoritesTemsProps = {
   params: SpecieParam;
 };
 
-async function getFavData(favs: string[]) {
-  const data = await fetchTemtem({ names: favs });
-  return data;
-}
-
 export const Favorites = forwardRef<HTMLDivElement>(({ ...props }, ref) => {
-  const router = useRouter();
   const mounted = useHasMounted();
+
   const { favoriteTems, addToFavorites, removeFromFavorites } =
     useFavoritesStore();
-  const [data, setData] = useState<Temtem[]>([]);
+  const [data, setData] = useState<MinTemtem[]>([]);
 
-  useEffect(() => {
-    getFavData(favoriteTems).then((updatedData) => setData(updatedData));
-  }, [favoriteTems]);
+  const updateData = (temtem: MinTemtem) => {};
 
-  const selectedSpecie = useMemo(
-    () => ({
-      ...data[0],
-      name: "",
-    }),
-    [data]
-  );
+  const scrollRef = useRef<HTMLDivElement>(null!);
 
-  const { query, minimalQueryUrl } = useUrlQuery();
-
-  const goToPath = (specie: MinTemtem) => {
-    router.push("/species/" + specie.name + minimalQueryUrl);
-  };
+  const { blankHeight, listHeight, renderList } = useVirtualScroll<MinTemtem>({
+    scrollContainerRef: scrollRef,
+    list: data,
+    itemHeight: 80,
+    itemGutter: 14,
+    overscan: 2,
+  });
 
   if (!mounted) return <>skeleton</>;
 
@@ -58,79 +53,81 @@ export const Favorites = forwardRef<HTMLDivElement>(({ ...props }, ref) => {
       Favorites<div>{favoriteTems}</div>
       <div
         onClick={() => {
-          // getFavData(favoriteTems);
           console.log(data);
         }}
       >
         uwu
       </div>
-      <Combobox
+      <div
         ref={ref}
-        value={selectedSpecie}
-        onChange={(val: MinTemtem) => goToPath(val)}
-        by="name"
-        as="div"
-        className="flex flex-col gap-4 h-full overflow-hidden"
+        className={clsx(
+          "relative flex flex-col w-full overflow-hidden",
+          "bg-neutral-900"
+        )}
       >
-        <Combobox.Options
-          static
-          as="div"
+        <div
+          ref={scrollRef}
           className={clsx(
-            "relative flex flex-col w-full overflow-hidden flex-1",
-            "bg-neutral-900"
+            "flex flex-col gap-4 py-8 custom-scrollbar-tiny overflow-y-auto overflow-x-hidden",
+            "outline-none appearance-none"
           )}
-        >
-          <div className="absolute inset-0 pointer-events-none [background-image:linear-gradient(180deg,#171717,transparent_4rem,transparent_calc(100%-4rem),#171717_100%)]" />
-          <ul
-            className={clsx(
-              "flex flex-col gap-4 py-8 custom-scrollbar-tiny overflow-y-auto overflow-x-hidden h-full",
-              "outline-none appearance-none"
-            )}
-          >
-            {data.map((option) => (
-              <SpecieData key={option.name} specie={option} />
-            ))}
-          </ul>
-        </Combobox.Options>
-      </Combobox>
+        />
+        <ul className="relative flex flex-col gap-4 h-auto">
+          {favoriteTems.map((temtem, index) => (
+            <SpecieData temtem={temtem} key={index} />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 });
 
 type SpecieProps = {
-  specie: MinTemtem;
+  temtem: string;
 };
 
-const SpecieData = ({ specie }: SpecieProps) => {
-  return (
-    <Combobox.Option value={specie} as={Fragment}>
-      {({ active }) => (
-        <li
-          className={clsx(
-            "flex items-center gap-4 px-2 min-h-[5rem] rounded-lg cursor-pointer whitespace-nowrap text-sm",
-            active ? "bg-neutral-800" : "bg-transparent"
-          )}
-        >
-          <div className="flex w-16 h-16">
-            <Image
-              alt={specie.name + " image"}
-              src={specie.wikiRenderStaticUrl}
-              height={64}
-              width={64}
-              quality={100}
-              className="flex object-contain w-full h-full"
-            />
-          </div>
-          <span className="flex flex-col flex-1">
-            <span className="flex text-base">{formatTemName(specie.name)}</span>
+const SpecieData = ({ temtem }: SpecieProps) => {
+  const { minimalQueryUrl } = useUrlQuery();
+  const getUrl = (tem: MinTemtem) => "/species/" + tem.name + minimalQueryUrl;
 
-            <span className="flex gap-2">
-              {specie.types[0] && <ElementTypeLabel type={specie.types[0]} />}
-              {specie.types[1] && <ElementTypeLabel type={specie.types[1]} />}
-            </span>
-          </span>
-        </li>
+  const { data, isLoading, isError, isPaused } = useFetchTemQuery(temtem);
+
+  if (!data || isLoading || isError || isPaused) return <Fragment />;
+  if (data.length < 1) return <Fragment />;
+
+  const specie = data[0];
+
+  return (
+    <Link
+      tabIndex={-1}
+      href={getUrl(specie)}
+      className={clsx(
+        "flex items-center gap-4 pl-2 pr-4 min-h-[5rem] rounded-lg cursor-pointer whitespace-nowrap text-sm",
+        "outline-none appearance-none hover:bg-neutral-800/80"
       )}
-    </Combobox.Option>
+    >
+      <div className="flex w-16 h-16">
+        <Image
+          alt={specie.name + " image"}
+          src={specie.wikiRenderStaticUrl}
+          height={64}
+          width={64}
+          quality={100}
+          className="flex object-contain w-full h-full"
+        />
+      </div>
+      <span className="flex flex-col flex-1">
+        <span className="flex text-base font-bold">
+          <span className="relative top-[-1px] text-[18px] [line-height:1.5rem] text-neutral-600 font-extrabold font-mono pr-1">
+            {zeroPad(specie.number, 3)}
+          </span>
+          <span className="text">{formatTemName(specie.name)}</span>
+        </span>
+        <span className="flex gap-2">
+          {specie.types[0] && <ElementTypeLabel type={specie.types[0]} />}
+          {specie.types[1] && <ElementTypeLabel type={specie.types[1]} />}
+        </span>
+      </span>
+    </Link>
   );
 };
