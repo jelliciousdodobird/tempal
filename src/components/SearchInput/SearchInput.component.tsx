@@ -2,19 +2,18 @@
 
 import clsx from "clsx";
 import debounce from "lodash.debounce";
-import { Combobox } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import { useState, useMemo, useRef, useCallback } from "react";
 import { FilterMenu } from "../FilterMenu/FilterMenu.component";
 import { getUpdatedQueryUrl } from "../SpecieList/SpecieList.utils";
 import { useUrlQuery } from "../SpecieList/useUrlQuery";
+import { IconSearch, IconX } from "@tabler/icons-react";
+import { SortMenu } from "../SortMenu/SortMenu.component";
 import {
   FilterType,
   SearchQuery,
   validFilterTypes,
 } from "../SpecieList/SpecieList.types";
-import { IconSearch, IconX } from "@tabler/icons-react";
-import { SortMenu } from "../SortMenu/SortMenu.component";
 
 const DEBOUNCED_TIME = 300;
 
@@ -95,7 +94,8 @@ export const SearchInput = () => {
         >
           {inputFilterValue === "" ? <IconSearch /> : <IconX />}
         </button>
-        <Combobox.Input
+        <input
+          type="text"
           ref={inputRef}
           spellCheck={false}
           autoComplete="off"
@@ -105,9 +105,7 @@ export const SearchInput = () => {
             "flex h-fullzz w-full text-base caret-white bg-neutral-800 pr-2 rounded-tr-lg rounded-br-lg",
             "placeholder:text-neutral-600"
           )}
-          disabled
           value={inputFilterValue}
-          displayValue={() => inputFilterValue}
           onChange={(e) => {
             setInputFilterValue(e.target.value);
             debouncedUpdateUrl(e.target.value);

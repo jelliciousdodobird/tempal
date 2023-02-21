@@ -1,23 +1,21 @@
 "use client";
 
 import * as Tabs from "@radix-ui/react-tabs";
-import {
-  Icon,
-  IconCards,
-  IconHeartFilled,
-  IconList,
-  IconSearch,
-  IconSwords,
-} from "@tabler/icons-react";
 import clsx from "clsx";
+
 import { ReactNode } from "react";
 import { MinTemtem } from "../../app/species/layout";
 import { Favorites } from "../Favorites/Favorites.component";
 import { SpecieList } from "../SpecieList/SpecieList.component";
 import { MyTeams } from "../MyTeams/MyTeams.component";
+import {
+  IconCards,
+  IconHeartFilled,
+  IconListSearch,
+} from "@tabler/icons-react";
 
 const sidebarItems: SidebarItemProps[] = [
-  { id: "search", label: "search", icon: <IconSearch /> },
+  { id: "search", label: "search", icon: <IconListSearch /> },
   { id: "teams", label: "teams", icon: <IconCards /> },
   { id: "fav", label: "favorites", icon: <IconHeartFilled /> },
 ];

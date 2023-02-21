@@ -62,12 +62,12 @@ export const useList = (species: MinTemtem[]) => {
     [search, query.filterType, query.filterValue]
   );
 
-  const renderList = useMemo(
+  const processedList = useMemo(
     () => [...results].sort(comparator).map((item) => item.item),
     [results, comparator]
   );
 
-  return { renderList };
+  return { processedList };
 };
 
 export type FuseKey = FilterType | "name_with_evo";
