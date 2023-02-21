@@ -26,7 +26,10 @@ export const NavLink = ({ href, label }: NavLinkProps) => {
         <Link
           href={{
             pathname: href,
-            query: href.includes("/species") ? minimalQuery : "",
+            query:
+              href.includes("species") || href.includes("team")
+                ? minimalQuery
+                : "",
           }}
           className={clsx(
             "relative capitalize font-medium text-neutral-400",

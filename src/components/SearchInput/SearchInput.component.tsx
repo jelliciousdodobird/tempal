@@ -27,9 +27,9 @@ export const SearchInput = () => {
   const safeUpdateUrlParams = (query: Partial<SearchQuery>) => {
     const url = getUpdatedQueryUrl(query);
 
-    // url may be something like "/" but we only want to update the url if we're somehow in /species
-    // this edge case can come up in a useEffect() when this component has loaded before the URL gets to update to "/species"
-    if (url.includes("species")) router.replace(url);
+    // url may be something like "/" but we only want to update the url if we're in the route group (explore) so /specie or /team
+    // this edge case can come up in a useEffect() when this component has loaded before the URL gets to update to "/species" or "/team"
+    if (url.includes("species") || url.includes("team")) router.replace(url);
   };
 
   const setUrlQuery = (query: Partial<SearchQuery>) => {
@@ -89,7 +89,7 @@ export const SearchInput = () => {
         <div className="absolute bottom-0 left-0 w-full h-[2px] group-focus-within:bg-neutral-500/50" />
         <button
           type="button"
-          className="grid place-items-center h-fullzz pl-3 pr-2 rounded-tl-lg rounded-bl-lg outline-none appearance-none focus-visible:ring-1 ring-white ring-inset text-neutral-500 "
+          className="grid place-items-center pl-3 pr-2 rounded-tl-lg rounded-bl-lg outline-none appearance-none focus-visible:ring-1 ring-white ring-inset text-neutral-500 "
           onClick={resetQueryFilter}
         >
           {inputFilterValue === "" ? <IconSearch /> : <IconX />}
@@ -102,7 +102,7 @@ export const SearchInput = () => {
           placeholder={placeholder_text[query.filterType]}
           className={clsx(
             "outline-none appearance-none",
-            "flex h-fullzz w-full text-base caret-white bg-neutral-800 pr-2 rounded-tr-lg rounded-br-lg",
+            "flex w-full text-base caret-white bg-neutral-800 pr-2 rounded-tr-lg rounded-br-lg",
             "placeholder:text-neutral-600"
           )}
           value={inputFilterValue}

@@ -1,13 +1,11 @@
 "use client";
 import clsx from "clsx";
 import { IconTrash } from "@tabler/icons-react";
-import { forwardRef, useEffect } from "react";
+import { forwardRef } from "react";
 import { useHasMounted } from "../../hooks/useHasMounted";
 import { TemTeam, useTemTeamsStore } from "../../store/temteam-store";
-
 import { SelectActiveTeamMenu } from "../SelectActiveTeamMenu/SelectActiveTeamMenu.component";
 import { CustomizeTemtem } from "../CustomizeTemtem/CustomizeTemtem.component";
-import { ScrollShadow } from "../ScrollShadow/ScrollShadow.component";
 
 type Props = {};
 
@@ -26,20 +24,19 @@ export const MyTeams = forwardRef<HTMLDivElement, Props>(function MyTeams(
     removeFromTeam,
   } = useTemTeamsStore();
 
-  if (!mounted) return <>loading</>;
+  if (!mounted) return <></>;
 
   const activeTeam = teams.find((team) => team.id === activeTeamId);
   const changeActiveTeam = (team: TemTeam) => setActiveTeamId(team.id);
 
   return (
-    <div ref={ref} className="flex flex-col gap-4 overflow-hidden h-full pb-4">
+    <div ref={ref} className="flex flex-col gap-4 h-full overflow-hidden pb-4">
       <SelectActiveTeamMenu
         value={activeTeam}
         options={teams}
         onChange={changeActiveTeam}
         addToOptions={addTemTeam}
       />
-      {/* <div className="relative flex flex-col overflow-hidden"> */}
       <div className="overflow-y-auto custom-scrollbar-tiny no-scrollbar rounded-xl">
         {activeTeam && (
           <div className="flex flex-col gap-4">
@@ -58,9 +55,7 @@ export const MyTeams = forwardRef<HTMLDivElement, Props>(function MyTeams(
             </button>
           </div>
         )}
-        {/* <ScrollShadow /> */}
       </div>
-      {/* </div> */}
     </div>
   );
 });

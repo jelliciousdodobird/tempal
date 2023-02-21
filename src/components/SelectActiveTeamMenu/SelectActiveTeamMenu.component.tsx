@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Menu } from "@headlessui/react";
-import { IconPlus, IconSelector } from "@tabler/icons-react";
+import { IconSelector } from "@tabler/icons-react";
 import { TemPortrait } from "../TemPortrait/TemPortrait.component";
 import { TemTeam } from "../../store/temteam-store";
 

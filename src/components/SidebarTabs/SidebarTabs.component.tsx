@@ -2,9 +2,8 @@
 
 import * as Tabs from "@radix-ui/react-tabs";
 import clsx from "clsx";
-
 import { ReactNode } from "react";
-import { MinTemtem } from "../../app/species/layout";
+import { MinTemtem } from "../../app/(explore)/layout";
 import { Favorites } from "../Favorites/Favorites.component";
 import { SpecieList } from "../SpecieList/SpecieList.component";
 import { MyTeams } from "../MyTeams/MyTeams.component";
@@ -24,7 +23,7 @@ export const SidebarTabs = ({ species }: { species: MinTemtem[] }) => {
   return (
     <Tabs.Root
       defaultValue="search"
-      className="flex flex-col gap-4 h-full pt-4"
+      className="flex flex-col gap-4 h-full pt-2"
     >
       <Tabs.List className="flex gap-1 p-1 bg-neutral-800/30 rounded-xl">
         {sidebarItems.map((props) => (

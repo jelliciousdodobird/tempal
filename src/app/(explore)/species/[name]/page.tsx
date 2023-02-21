@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { AddTemToTeamButton } from "../../../components/AddTemToTeamButton/AddTemToTeamButton.component";
-import { fetchTemtem } from "../../../utils/fetch";
-import { FavoritesButton } from "../../../components/FavoritesButton/FavoritesButton.component";
-import { ClientDebug } from "../../../components/ClientDebug/ClientDebug";
-import { Temtem } from "../../../utils/augmented-types/temtems";
+import { AddTemToTeamButton } from "../../../../components/AddTemToTeamButton/AddTemToTeamButton.component";
+import { fetchTemtem } from "../../../../utils/fetch";
+import { FavoritesButton } from "../../../../components/FavoritesButton/FavoritesButton.component";
+import { ClientDebug } from "../../../../components/ClientDebug/ClientDebug";
+import { Temtem } from "../../../../utils/augmented-types/temtems";
 
 // CANT DO THIS YET: Needs Next.js 13.2
 // export async function generateMetadata({ params, ...props }: Props) {
@@ -26,7 +26,7 @@ export default async function Tem({ params }: Props) {
   const tem = data[0];
 
   return (
-    <div className="relative flex flex-col gap-8 min-h-fullzz pb-8 overflow-x-hiddenzz w-full">
+    <div className="relative flex flex-col gap-8 w-full pb-8">
       <AddTemToTeamButton temName={params.name} />
       <FavoritesButton temName={params.name} />
 
