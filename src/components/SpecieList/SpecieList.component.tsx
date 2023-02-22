@@ -4,7 +4,6 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import useVirtualScroll from "../../hooks/useVirtualScroll";
-import { forwardRef, useRef } from "react";
 import { MinTemtem } from "../../app/(explore)/layout";
 import { formatTemName, zeroPad } from "../../utils/utils";
 import { ElementTypeLabel } from "../ElementTypeLabel/ElementTypeLabel";
@@ -16,15 +15,31 @@ import { SortType } from "./SpecieList.types";
 import { SORT_LABELS } from "../SortMenu/SortMenu.component";
 import { SORT_TYPE_MAP } from "./SpecieList.utils";
 import { ScrollShadow } from "../ScrollShadow/ScrollShadow.component";
+import {
+  Dispatch,
+  forwardRef,
+  MutableRefObject,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 type Props = {
   species: MinTemtem[];
 };
+
+export const getSpecieLinkId = (name: string) => `specie-link-${name}`;
+
 export const SpecieList = forwardRef<HTMLDivElement, Props>(function SpecieList(
   { species },
   ref
 ) {
-  const scrollRef = useRef<HTMLDivElement>(null!);
+  const inputRef = useRef<HTMLInputElement>(null!);
+  const ignoreBlur = useRef(false); // helps the input element determine if it should defocus items
+  const [activeItemId, setActiveItemId] = useState("");
+
+  const scrollRef = useRef<HTMLDivElement>(null!); // scrollRef to handle virtualizing the list
 
   const { processedList } = useList(species);
   const { query, minimalQueryUrl } = useUrlQuery();
@@ -43,7 +58,13 @@ export const SpecieList = forwardRef<HTMLDivElement, Props>(function SpecieList(
 
   return (
     <div className="relative flex flex-col h-full overflow-hidden">
-      <SearchInput />
+      <SearchInput
+        ref={inputRef}
+        ignoreBlur={ignoreBlur}
+        renderList={renderList}
+        setActive={setActiveItemId}
+        active={activeItemId}
+      />
       <div
         ref={ref}
         className="relative flex flex-col h-full w-full overflow-hidden bg-neutral-900"
@@ -71,10 +92,15 @@ export const SpecieList = forwardRef<HTMLDivElement, Props>(function SpecieList(
             style={{
               minHeight: hasItems ? `${listHeight}px` : "100%",
             }}
+            onMouseLeave={() => setActiveItemId("")}
           >
             <li style={{ height: hasItems ? `${blankHeight}px` : "100%" }} />
             {renderList.map((tem) => (
               <SpecieItemLink
+                active={getSpecieLinkId(tem.name) === activeItemId}
+                setActiveItemId={setActiveItemId}
+                ignoreBlur={ignoreBlur}
+                inputRef={inputRef}
                 key={tem.name}
                 href={getUrl(tem)}
                 specie={tem}
@@ -94,23 +120,53 @@ type ItemProps = {
   href: string;
   specie: MinTemtem;
   show: SortType;
+
+  // these props help implement arrow key navigation for keyboard accessibility
+  ignoreBlur: MutableRefObject<boolean>;
+  inputRef: MutableRefObject<HTMLInputElement>;
+  active: boolean;
+  setActiveItemId: Dispatch<SetStateAction<string>>;
 };
 
-const SpecieItemLink = ({ specie, show, href }: ItemProps) => {
+const SpecieItemLink = ({
+  specie,
+  show,
+  href,
+  ignoreBlur,
+  inputRef,
+  active,
+  setActiveItemId,
+}: ItemProps) => {
   const showSortData =
     show !== "relevance" && show !== "name" && show !== "number";
 
   const getStat = SORT_TYPE_MAP[show].accessor;
+  const id = getSpecieLinkId(specie.name);
+
+  const activateSelf = () => setActiveItemId(id);
+
+  // This useEffect is to keep the focus on the input element.
+  // The input element will focus one of these links so that
+  // scrolling occurs if an link is near the top or bottom of the list.
+  // Then this link must send the focus back to the input element.
+  useEffect(() => {
+    if (active) {
+      inputRef?.current?.focus();
+      ignoreBlur.current = false;
+    }
+  }, [active]);
 
   return (
     <Link
+      id={id}
       tabIndex={-1}
       href={href}
       className={clsx(
         "group/tem-link flex items-center gap-4 pl-2 pr-4 min-h-[6rem] rounded-lg cursor-pointer whitespace-nowrap text-sm",
-        "outline-none appearance-none hover:bg-neutral-800/80"
-        // active ? "bg-neutral-800/80" : "bg-transparent"
+        "outline-none appearance-none hover:bg-neutral-800/80",
+        active ? "bg-neutral-800/80" : ""
       )}
+      onMouseEnter={activateSelf}
     >
       <div className="flex w-16 h-16">
         <Image
@@ -146,7 +202,13 @@ const SpecieItemLink = ({ specie, show, href }: ItemProps) => {
         </div>
       )}
       {!showSortData && (
-        <div className="flex rounded-xl text-neutral-600 group-hover/tem-link:animate-bounce-origin-right group-focus-visible/tem-link:animate-bounce-origin-right">
+        <div
+          className={clsx(
+            "flex rounded-xl text-neutral-600",
+            "group-hover/tem-link:animate-bounce-origin-right group-focus-visible/tem-link:animate-bounce-origin-right",
+            active && "animate-bounce-origin-right"
+          )}
+        >
           <IconChevronRight />
         </div>
       )}
