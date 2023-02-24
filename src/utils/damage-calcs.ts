@@ -1,20 +1,23 @@
+import { TypeElement, TypeMatchups } from "./augmented-types/temtems";
 import { matchupAlteringTraits, typeMatchupSquare } from "./data";
-import { TemType, TypeMatchups } from "./types";
 
-export const getTypeModifier = (attack: TemType, defend: TemType) =>
+export const getTypeModifier = (attack: TypeElement, defend: TypeElement) =>
   typeMatchupSquare[attack][defend];
 
 export const calculateBaseTypeModifier = (
-  attack: TemType,
-  defend1: TemType,
-  defend2?: TemType | null
+  attack: TypeElement,
+  defend1: TypeElement,
+  defend2?: TypeElement | null
 ) => {
   const d1 = getTypeModifier(attack, defend1);
   const d2 = defend2 ? getTypeModifier(attack, defend2) : 1;
   return d1 * d2;
 };
 
-export const calculateTraitTypeModifier = (trait: string, attack: TemType) => {
+export const calculateTraitTypeModifier = (
+  trait: string,
+  attack: TypeElement
+) => {
   const traitModifier = matchupAlteringTraits.get(trait);
 
   if (!traitModifier) return 1;
@@ -23,9 +26,9 @@ export const calculateTraitTypeModifier = (trait: string, attack: TemType) => {
 
 export const calculateTypeModifier = (
   trait: string,
-  attack: TemType,
-  defend1: TemType,
-  defend2?: TemType | null
+  attack: TypeElement,
+  defend1: TypeElement,
+  defend2?: TypeElement | null
 ) => {
   const baseTypeModifier = calculateBaseTypeModifier(attack, defend1, defend2);
   const traitTypeModifier = calculateTraitTypeModifier(trait, attack);
@@ -40,26 +43,26 @@ export const calculateTypeModifier = (
 
 export const calculateMatchupModifiers = (
   trait: string,
-  type1: TemType,
-  type2?: TemType | null
+  type1: TypeElement,
+  type2?: TypeElement | null
 ): TypeMatchups => {
   const matchups: TypeMatchups = {
-    neutral: 1,
-    wind: 1,
-    earth: 1,
-    water: 1,
-    fire: 1,
-    nature: 1,
-    electric: 1,
-    mental: 1,
-    digital: 1,
-    melee: 1,
-    crystal: 1,
-    toxic: 1,
+    Neutral: 1,
+    Wind: 1,
+    Earth: 1,
+    Water: 1,
+    Fire: 1,
+    Nature: 1,
+    Electric: 1,
+    Mental: 1,
+    Digital: 1,
+    Melee: 1,
+    Crystal: 1,
+    Toxic: 1,
   };
 
   Object.keys(matchups).forEach((key) => {
-    const attack = key as TemType;
+    const attack = key as TypeElement;
     matchups[attack] = calculateTypeModifier(trait, attack, type1, type2);
   });
 

@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* * {
+    @apply appearance-none outline-none;
+  } */
+}
+
+@layer utilities {
+  .pack-content {
+    @apply mx-auto max-w-[100rem] px-4 w-full;
+  }
+  .custom-scrollbar-tiny {
+    @apply scrollbar-thin scrollbar-thumb-neutral-600/50 hover:scrollbar-track-neutral-800/20 hover:scrollbar-thumb-neutral-500;
+  }
+}
+
+html {
+  /* layout defaults: */
+  @apply flex flex-col h-full overflow-hidden;
+  /* style defaults: */
+  @apply font-base text-white selection:bg-primary-600 selection:text-black bg-neutral-900;
+}
+
+body {
+  /* layout defaults: */
+  @apply flex flex-col flex-1 overflow-x-hidden overflow-y-scroll;
+  @apply relative isolate;
+}

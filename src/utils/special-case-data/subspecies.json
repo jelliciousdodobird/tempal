@@ -1,0 +1,314 @@
+[
+  {
+    "speciesName": "Chromeon",
+    "subspeciesName": "Chromeon (Crystal)",
+    "subspeciesType": "Crystal",
+    "learnsets": ["Crystal Torrent", "Crystal Bite", "Crystal Deluge"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/9/9d/Chromeon_%28Crystal%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/d/dc/Chromeon_Crystal_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/f/f9/Chromeon_Crystal_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/1/1e/LumaChromeon_Crystal_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/9/91/LumaChromeon_Crystal_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Chromeon",
+    "subspeciesName": "Chromeon (Digital)",
+    "subspeciesType": null,
+    "learnsets": ["Digital Torrent", "Digithreat", "Plasma Beam"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/7/7d/Chromeon_%28Digital%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/5/52/Chromeon_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/f/f5/Chromeon_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/4/45/LumaChromeon_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/c/ca/LumaChromeon_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Chromeon",
+    "subspeciesName": "Chromeon (Earth)",
+    "subspeciesType": "Earth",
+    "learnsets": ["Earth Torrent", "Dust Vortex", "Petrify"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/7/79/Chromeon_%28Earth%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/c/c7/Chromeon_Earth_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/c/c8/Chromeon_Earth_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/1/1c/LumaChromeon_Earth_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/8/8d/LumaChromeon_Earth_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Chromeon",
+    "subspeciesName": "Chromeon (Electric)",
+    "subspeciesType": "Electric",
+    "learnsets": ["Electric Torrent", "Thunder Strike"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/f/f1/Chromeon_%28Electric%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/d/db/Chromeon_Electric_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/c/c3/Chromeon_Electric_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/3/31/LumaChromeon_Electric_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/0/07/LumaChromeon_Electric_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Chromeon",
+    "subspeciesName": "Chromeon (Fire)",
+    "subspeciesType": "Fire",
+    "learnsets": ["Fire Torrent", "Hellfire", "Fiery Heist"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/6/6e/Chromeon_%28Fire%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/a/a4/Chromeon_Fire_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/8/81/Chromeon_Fire_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/b/b1/LumaChromeon_Fire_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/4/4d/LumaChromeon_Fire_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Chromeon",
+    "subspeciesName": "Chromeon (Melee)",
+    "subspeciesType": "Melee",
+    "learnsets": ["Melee Torrent", "Inner Spirit", "Soul Shout"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/4/45/Chromeon_%28Melee%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/6/6f/Chromeon_Melee_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/c/c1/Chromeon_Melee_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/c/c8/LumaChromeon_Melee_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/6/6e/LumaChromeon_Melee_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Chromeon",
+    "subspeciesName": "Chromeon (Mental)",
+    "subspeciesType": "Mental",
+    "learnsets": ["Mental Torrent", "Gamma Burst", "Denigrate"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/7/76/Chromeon_%28Mental%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/a/a0/Chromeon_Mental_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/3/39/Chromeon_Mental_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/9/97/LumaChromeon_Mental_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/8/85/LumaChromeon_Mental_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Chromeon",
+    "subspeciesName": "Chromeon (Nature)",
+    "subspeciesType": "Nature",
+    "learnsets": ["Nature Torrent", "Resin Trap"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/7/71/Chromeon_%28Nature%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/1/12/Chromeon_Nature_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/e/ea/Chromeon_Nature_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/a/aa/LumaChromeon_Nature_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/2/2a/LumaChromeon_Nature_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Chromeon",
+    "subspeciesName": "Chromeon (Neutral)",
+    "subspeciesType": "Neutral",
+    "learnsets": ["Neutral Torrent", "Undermine", "Awful Song"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/3/38/Chromeon_%28Neutral%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/4/43/Chromeon_Neutral_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/3/34/Chromeon_Neutral_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/8/8b/LumaChromeon_Neutral_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/e/e3/LumaChromeon_Neutral_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Chromeon",
+    "subspeciesName": "Chromeon (Toxic)",
+    "subspeciesType": "Toxic",
+    "learnsets": ["Toxic Torrent", "Venom Spread", "Rotten Goo"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/6/69/Chromeon_%28Toxic%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/4/43/Chromeon_Toxic_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/d/db/Chromeon_Toxic_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/3/3e/LumaChromeon_Toxic_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/f/f2/LumaChromeon_Toxic_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Chromeon",
+    "subspeciesName": "Chromeon (Water)",
+    "subspeciesType": "Water",
+    "learnsets": ["Water Torrent", "Water Cannon"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/1/1e/Chromeon_%28Water%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/a/a5/Chromeon_Water_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/7/79/Chromeon_Water_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/8/8c/LumaChromeon_Water_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/6/6f/LumaChromeon_Water_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Chromeon",
+    "subspeciesName": "Chromeon (Wind)",
+    "subspeciesType": "Wind",
+    "learnsets": ["Wind Torrent", "Blizzard", "Hypoxia"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/4/41/Chromeon_%28Wind%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/a/a2/Chromeon_Wind_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/8/8c/Chromeon_Wind_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/d/dd/LumaChromeon_Wind_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/3/38/LumaChromeon_Wind_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Koish",
+    "subspeciesName": "Koish (Crystal)",
+    "subspeciesType": "Crystal",
+    "learnsets": ["Crystal Stream", "Mineral Hail", "Crystallize"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/1/1c/Koish_%28Crystal%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/2/27/Koish_Crystal_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/9/98/Koish_Crystal_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/c/cd/LumaKoish_Crystal_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/9/94/LumaKoish_Crystal_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Koish",
+    "subspeciesName": "Koish (Digital)",
+    "subspeciesType": "Digital",
+    "learnsets": ["Digital Stream", "Autodestruction"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/b/ba/Koish_%28Digital%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/2/2b/Koish_Digital_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/5/56/Koish_Digital_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/b/b3/LumaKoish_Digital_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/0/08/LumaKoish_Digital_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Koish",
+    "subspeciesName": "Koish (Earth)",
+    "subspeciesType": "Earth",
+    "learnsets": ["Earth Stream", "Stone Ball", "Earth Wave"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/a/a7/Koish_%28Earth%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/e/eb/Koish_Earth_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/4/42/Koish_Earth_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/f/fd/LumaKoish_Earth_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/4/41/LumaKoish_Earth_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Koish",
+    "subspeciesName": "Koish (Electric)",
+    "subspeciesType": "Electric",
+    "learnsets": ["Electric Stream", "Electropunch"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/e/e5/Koish_%28Electric%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/7/79/Koish_Electric_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/b/be/Koish_Electric_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/f/ff/LumaKoish_Electric_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/6/63/LumaKoish_Electric_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Koish",
+    "subspeciesName": "Koish (Fire)",
+    "subspeciesType": "Fire",
+    "learnsets": ["Fire Stream", "Lava Wave"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/1/11/Koish_%28Fire%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/2/29/Koish_Fire_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/9/92/Koish_Fire_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/6/6d/LumaKoish_Fire_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/b/ba/LumaKoish_Fire_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Koish",
+    "subspeciesName": "Koish (Melee)",
+    "subspeciesType": "Melee",
+    "learnsets": ["Melee Stream", "Nito Seiho", "Haito Uchi"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/c/c3/Koish_%28Melee%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/1/1a/Koish_Melee_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/8/8e/Koish_Melee_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/4/44/LumaKoish_Melee_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/a/a3/LumaKoish_Melee_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Koish",
+    "subspeciesName": "Koish (Mental)",
+    "subspeciesType": "Mental",
+    "learnsets": ["Mental Stream", "Matter Teleport"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/3/32/Koish_%28Mental%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/0/0e/Koish_Mental_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/f/f7/Koish_Mental_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/5/54/LumaKoish_Mental_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/0/0c/LumaKoish_Mental_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Koish",
+    "subspeciesName": "Koish (Nature)",
+    "subspeciesType": "Nature",
+    "learnsets": ["Nature Stream", "Water Cutting Lily"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/8/8f/Koish_%28Nature%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/6/65/Koish_Nature_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/5/50/Koish_Nature_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/9/9c/LumaKoish_Nature_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/1/1b/LumaKoish_Nature_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Koish",
+    "subspeciesName": "Koish (Neutral)",
+    "subspeciesType": "Neutral",
+    "learnsets": ["Neutral Stream", "Harmful Lick", "Late Torment"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/8/80/Koish_%28Neutral%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/c/c1/Koish_Neutral_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/4/40/Koish_Neutral_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/3/3b/LumaKoish_Neutral_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/e/e4/LumaKoish_Neutral_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Koish",
+    "subspeciesName": "Koish (Toxic)",
+    "subspeciesType": "Toxic",
+    "learnsets": ["Toxic Stream", "Wastewater", "Toxic Ink"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/7/78/Koish_%28Toxic%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/d/d8/Koish_Toxic_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/d/d1/Koish_Toxic_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/f/f3/LumaKoish_Toxic_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/c/ca/LumaKoish_Toxic_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Koish",
+    "subspeciesName": "Koish (Water)",
+    "subspeciesType": null,
+    "learnsets": ["Water Stream", "Cold Geyser", "Waterjet"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/5/56/Koish_%28Water%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/c/c7/Koish_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/3/32/Koish_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/a/ac/LumaKoish_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/d/d3/LumaKoish_idle_animation.gif"
+    }
+  },
+  {
+    "speciesName": "Koish",
+    "subspeciesName": "Koish (Wind)",
+    "subspeciesType": "Wind",
+    "learnsets": ["Wind Stream", "Boomerang", "Debris Typhoon"],
+    "images": {
+      "portraitWikiUrl": "https://temtem.wiki.gg/images/f/f3/Koish_%28Wind%29.png",
+      "wikiRenderStaticUrl": "https://temtem.wiki.gg/images/9/92/Koish_Wind_full_render.png",
+      "wikiRenderAnimatedUrl": "https://temtem.wiki.gg/images/1/1f/Koish_Wind_idle_animation.gif",
+      "wikiRenderStaticLumaUrl": "https://temtem.wiki.gg/images/1/16/LumaKoish_Wind_full_render.png",
+      "wikiRenderAnimatedLumaUrl": "https://temtem.wiki.gg/images/5/52/LumaKoish_Wind_idle_animation.gif"
+    }
+  }
+]
