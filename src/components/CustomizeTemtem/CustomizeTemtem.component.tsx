@@ -1,22 +1,26 @@
 "use client";
 import clsx from "clsx";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useFetchTemQuery } from "../../hooks/useFetchTemQuery";
-import { CustomTem } from "../../store/temteam-store";
+import { CustomTem, useTemTeamsStore } from "../../store/temteam-store";
 import { formatTemName } from "../../utils/utils";
 import { ElementTypeLabel } from "../ElementTypeLabel/ElementTypeLabel";
 
-type CustomizeTemtemProps = { customTem: CustomTem };
+type CustomizeTemtemProps = { customTem: CustomTem; link: string };
 
 const NULL_TRAIT = "-";
 const NULL_GEAR = "-";
 const NULL_TECH = "-";
 const NULL_NAME = "Empty Slot";
+const NULL_LEVEL = "-";
 
-export const CustomizeTemtem = ({ customTem }: CustomizeTemtemProps) => {
+export const CustomizeTemtem = ({ customTem, link }: CustomizeTemtemProps) => {
   const { data, isLoading, isError, isPaused } = useFetchTemQuery(
     customTem.name
   );
+
+  const router = useRouter();
 
   if (!data || isLoading || isError || isPaused)
     return (
@@ -34,9 +38,7 @@ export const CustomizeTemtem = ({ customTem }: CustomizeTemtemProps) => {
           </div>
           <div className="flex flex-col gap-2 justify-between">
             <div className="flex flex-col">
-              <div className="text-left text-base font-bold">
-                {customTem.name || NULL_NAME}
-              </div>
+              <div className="text-left text-base font-bold">{NULL_NAME}</div>
             </div>
 
             <div className="relative flex justify-between gap-1 rounded-lg text-sm h-8 whitespace-nowrap text-neutral-300 bg-neutral-800">
@@ -44,7 +46,7 @@ export const CustomizeTemtem = ({ customTem }: CustomizeTemtemProps) => {
                 Level
               </span>
               <span className="flex items-center px-3 font-bold font-mono">
-                {customTem.level}
+                {NULL_LEVEL}
               </span>
             </div>
           </div>
@@ -56,7 +58,7 @@ export const CustomizeTemtem = ({ customTem }: CustomizeTemtemProps) => {
                 Trait
               </span>
               <span className="flex items-center px-3 w-full rounded-lg text-sm h-8 whitespace-nowrap text-neutral-500 bg-neutral-800">
-                {customTem.trait || NULL_TRAIT}
+                {NULL_TRAIT}
               </span>
             </div>
             <div className="relative inline-flex flex-col gap-1">
@@ -64,7 +66,7 @@ export const CustomizeTemtem = ({ customTem }: CustomizeTemtemProps) => {
                 Gear
               </span>
               <span className="flex items-center px-3 w-full rounded-lg text-sm h-8 whitespace-nowrap text-neutral-500 bg-neutral-800">
-                {customTem.gear || NULL_GEAR}
+                {NULL_GEAR}
               </span>
             </div>
           </div>
@@ -74,12 +76,12 @@ export const CustomizeTemtem = ({ customTem }: CustomizeTemtemProps) => {
               Techniques
             </span>
             <div className="grid grid-cols-2 w-full gap-2">
-              {customTem.techniques.map((tech, i) => (
+              {[...Array(4).keys()].map((tech) => (
                 <div
-                  key={tech + i}
+                  key={tech}
                   className="flex items-center px-3 w-full rounded-lg text-sm h-8 whitespace-nowrap text-neutral-500 bg-neutral-800"
                 >
-                  {tech || NULL_TECH}
+                  {NULL_TECH}
                 </div>
               ))}
             </div>
@@ -89,6 +91,9 @@ export const CustomizeTemtem = ({ customTem }: CustomizeTemtemProps) => {
     );
 
   const temData = data[0];
+  const activate = () => {
+    router.push(link);
+  };
 
   return (
     <button
@@ -98,6 +103,7 @@ export const CustomizeTemtem = ({ customTem }: CustomizeTemtemProps) => {
         "ring-inset ring-neutral-700/50 hover:ring-1 focus-visible:ring-1",
         "outline-none appearance-none"
       )}
+      onClick={activate}
     >
       <div className="grid grid-cols-2 gap-2 w-full">
         <div className="relative flex w-[100px] h-[100px] self-center justify-self-center">
@@ -166,9 +172,9 @@ export const CustomizeTemtem = ({ customTem }: CustomizeTemtemProps) => {
             Techniques
           </span>
           <div className="grid grid-cols-2 w-full gap-2">
-            {customTem.techniques.map((tech, i) => (
+            {customTem.techniques.map((tech, slot) => (
               <div
-                key={tech + i}
+                key={slot + tech}
                 className="flex items-center px-3 w-full rounded-lg text-sm h-8 whitespace-nowrap text-neutral-500 bg-neutral-800"
               >
                 {tech || NULL_TECH}

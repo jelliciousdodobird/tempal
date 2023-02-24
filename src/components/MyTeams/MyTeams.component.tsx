@@ -6,8 +6,15 @@ import { useHasMounted } from "../../hooks/useHasMounted";
 import { TemTeam, useTemTeamsStore } from "../../store/temteam-store";
 import { SelectActiveTeamMenu } from "../SelectActiveTeamMenu/SelectActiveTeamMenu.component";
 import { CustomizeTemtem } from "../CustomizeTemtem/CustomizeTemtem.component";
+import { useUrlQuery } from "../SpecieList/useUrlQuery";
 
 type Props = {};
+
+const getItemLink = (
+  teamId: string,
+  customTemId: string,
+  searchParams: string
+) => `/team/${teamId}/${customTemId}` + searchParams;
 
 export const MyTeams = forwardRef<HTMLDivElement, Props>(function MyTeams(
   props,
@@ -23,6 +30,7 @@ export const MyTeams = forwardRef<HTMLDivElement, Props>(function MyTeams(
     removeTemTeam,
     removeFromTeam,
   } = useTemTeamsStore();
+  const { minimalQueryUrl } = useUrlQuery();
 
   if (!mounted) return <></>;
 
@@ -41,7 +49,11 @@ export const MyTeams = forwardRef<HTMLDivElement, Props>(function MyTeams(
         {activeTeam && (
           <div className="flex flex-col gap-4">
             {activeTeam.team.map((tem) => (
-              <CustomizeTemtem key={tem.id} customTem={tem} />
+              <CustomizeTemtem
+                key={tem.id}
+                customTem={tem}
+                link={getItemLink(activeTeam.id, tem.id, minimalQueryUrl)}
+              />
             ))}
             <button
               onClick={() => removeTemTeam(activeTeam.id)}

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { AddTemToTeamButton } from "../../../../components/AddTemToTeamButton/AddTemToTeamButton.component";
-import { fetchTemtem } from "../../../../utils/fetch";
+import { fetchTemtem } from "../../../../utils/fetch-temtem";
 import { FavoritesButton } from "../../../../components/FavoritesButton/FavoritesButton.component";
 import { ClientDebug } from "../../../../components/ClientDebug/ClientDebug";
 import { Temtem } from "../../../../utils/augmented-types/temtems";
@@ -22,7 +22,6 @@ type Props = {
 
 export default async function Tem({ params }: Props) {
   const data = await fetchTemtem({ names: [params.name] });
-
   const tem = data[0];
 
   return (

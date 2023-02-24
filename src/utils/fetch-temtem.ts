@@ -4,7 +4,7 @@ import {
   Technique,
   Temtem,
 } from "./augmented-types/temtems";
-import SubspecieData from "../utils/special-case-data/subspecies.json";
+import SubspecieData from "./special-case-data/subspecies.json";
 
 export type TemtemQueryOptions = {
   names?: string[];

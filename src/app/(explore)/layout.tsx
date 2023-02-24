@@ -1,6 +1,6 @@
 import { SidebarTabs } from "../../components/SidebarTabs/SidebarTabs.component";
 import { Fields, Temtem } from "../../utils/augmented-types/temtems";
-import { fetchTemtem } from "../../utils/fetch";
+import { fetchTemtem } from "../../utils/fetch-temtem";
 
 type SpecieLayoutProps = {
   children: React.ReactNode;

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchTemtem } from "../utils/fetch";
+import { fetchTemtem } from "../utils/fetch-temtem";
 
 export const useFetchTemQuery = (name: string, staleTime = 60 * 60 * 1000) => {
   const enableQuery = name !== "";
