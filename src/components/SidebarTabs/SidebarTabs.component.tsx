@@ -4,7 +4,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import clsx from "clsx";
 import { ReactNode } from "react";
 import { MinTemtem } from "../../app/(explore)/layout";
-import { Favorites } from "../Favorites/Favorites.component";
+import Favorites from "../Favorites/Favorites.component";
 import { SpecieList } from "../SpecieList/SpecieList.component";
 import { MyTeams } from "../MyTeams/MyTeams.component";
 import {
