@@ -1,35 +1,30 @@
 import { prettyFraction } from "../../../utils/utils";
-import Image from "next/image";
-// import {
-//   matchupContainer,
-//   matchupListWrapper,
-//   matchupList,
-//   matchupItem,
-//   matchupLabel,
-//   matchupTypeValue,
-//   asteriskLabel,
-//   questionButton,
-//   modalContainer,
-//   tooltip,
-//   pg,
-//   elementBox,
-// } from "./MatchupsView.css";
+import Image from "next/future/image";
+import {
+  matchupContainer,
+  matchupListWrapper,
+  matchupList,
+  matchupItem,
+  matchupLabel,
+  matchupTypeValue,
+  asteriskLabel,
+  questionButton,
+  modalContainer,
+  tooltip,
+  pg,
+  elementBox,
+} from "./MatchupsView.css";
 
 import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
 
-// import { TemType, TypeMatchups } from "../../../utils/types";
+import { TemType, TypeMatchups } from "../../../utils/types";
 import { calculateMatchupModifiers } from "../../../utils/damage-calcs";
-// import { matchupAlteringTraits, temTypes } from "../../../utils/data";
-import { matchupAlteringTraits } from "../../../utils/data";
+import { matchupAlteringTraits, temTypes } from "../../../utils/data";
 import { usePopup } from "../../../hooks/usePopup";
 
 import { TemCardProps } from "../TemCard/TemCard.component";
-// import { bold, italic } from "../../../styles/utility-styles.css";
-import { IconX } from "@tabler/icons-react";
-import {
-  TypeElement,
-  TypeMatchups,
-} from "../../../utils/augmented-types/temtems";
+import { bold, italic } from "../../../styles/utility-styles.css";
+import { IconX } from "@tabler/icons";
 
 interface MatchupViewProps {
   traits: TemCardProps["traits"];
@@ -56,7 +51,7 @@ export const MatchupsView = ({ traits, types }: MatchupViewProps) => {
   );
 
   return (
-    <div className={`matchupContainer`}>
+    <div className={matchupContainer}>
       {matchupAlteringTraitExists ? (
         <>
           <MatchupList
@@ -81,14 +76,14 @@ export const MatchupsView = ({ traits, types }: MatchupViewProps) => {
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-// const getValueVariant = (num: number): keyof typeof matchupItem => {
-//   if (num > 2) return "super_effective";
-//   else if (num > 1) return "effective";
-//   else if (num === 1) return "neutral";
-//   else if (num >= 0.5) return "resistant";
-//   else if (num >= 0.25) return "super_resistant";
-//   else return "immune";
-// };
+const getValueVariant = (num: number): keyof typeof matchupItem => {
+  if (num > 2) return "super_effective";
+  else if (num > 1) return "effective";
+  else if (num === 1) return "neutral";
+  else if (num >= 0.5) return "resistant";
+  else if (num >= 0.25) return "super_resistant";
+  else return "immune";
+};
 
 const drawerAnimProps: HTMLMotionProps<"div"> = {
   variants: {
@@ -127,31 +122,30 @@ const MatchupList = ({
   asterisk = false,
 }: MatchupGridProps) => {
   return (
-    <div className={`matchupListWrapper`}>
-      <span className={`matchupLabel`}>
+    <div className={matchupListWrapper}>
+      <span className={matchupLabel}>
         {traitLabel}
-        {asterisk && <span className={`asteriskLabel`}>&#42;</span>}
+        {asterisk && <span className={asteriskLabel}>&#42;</span>}
       </span>
 
-      <ul className={`matchupList`}>
+      <ul className={matchupList}>
         {Object.entries(matchups)
           .filter(([, value]) => value !== 1)
           .sort((a, b) => b[1] - a[1])
           .map(([key, value]) => (
-            <li key={key} className={`matchupItem[getValueVariant(value)]`}>
-              <span className={`elementBox`}>
+            <li key={key} className={matchupItem[getValueVariant(value)]}>
+              <span className={elementBox}>
                 <Image
                   alt={key}
-                  // src={temTypes[key as TemType].imgUrl}
-                  src={"n"}
+                  src={temTypes[key as TemType].imgUrl}
                   width={18}
                   height={18}
                   quality={100}
                 />
               </span>
 
-              <div className={`matchupTypeValue`}>
-                {prettyFraction(matchups[key as TypeElement])}
+              <div className={matchupTypeValue}>
+                {prettyFraction(matchups[key as TemType])}
               </div>
             </li>
           ))}
@@ -162,12 +156,12 @@ const MatchupList = ({
 
 const TooltipPopup = () => {
   const { togglePopup, opened, safeMark } = usePopup();
-  // const btnClass = questionButton + safeMark;
-  // const modalClass = tooltip + safeMark;
+  const btnClass = questionButton + safeMark;
+  const modalClass = tooltip + safeMark;
 
   return (
-    <div className={`modalContainer`}>
-      <button className={`btnClass`} onClick={togglePopup} data-opened={opened}>
+    <div className={modalContainer}>
+      <button className={btnClass} onClick={togglePopup} data-opened={opened}>
         Whats all this mean?
         {opened && (
           <IconX
@@ -180,21 +174,21 @@ const TooltipPopup = () => {
 
       <AnimatePresence>
         {opened && (
-          <motion.div className={`modalClass`} {...drawerAnimProps}>
-            <p className={`pg`}>
+          <motion.div className={modalClass} {...drawerAnimProps}>
+            <p className={pg}>
               Each type listed represents the{" "}
-              <span className={`bold`}>attacking</span> type followed by a
+              <span className={bold}>attacking</span> type followed by a
               multiplier that accounts for both the{" "}
-              <span className={`bold`}>defending</span> temtem&apos;s{" "}
-              <span className={`italic`}>types</span> and{" "}
-              <span className={`italic`}>traits</span>.
+              <span className={bold}>defending</span> temtem&apos;s{" "}
+              <span className={italic}>types</span> and{" "}
+              <span className={italic}>traits</span>.
             </p>
-            <p className={`pg`}>
+            <p className={pg}>
               If an attack type is not shown then it does neutral damage
-              <span className={`bold`}> (x1)</span>.
+              <span className={bold}> (x1)</span>.
             </p>
-            <p className={`pg`}>
-              <span className={`asteriskLabel`}>&#42;</span>A red asterisk
+            <p className={pg}>
+              <span className={asteriskLabel}>&#42;</span>A red asterisk
               indicates a trait that alters the type effectiveness.
             </p>
           </motion.div>

@@ -1,10 +1,10 @@
-// import {
-//   contentRow,
-//   traitContainer,
-//   traitLabel,
-//   traitEffect,
-//   traitDescBox,
-// } from "./TraitView.css";
+import {
+  contentRow,
+  traitContainer,
+  traitLabel,
+  traitEffect,
+  traitDescBox,
+} from "./TraitView.css";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -80,14 +80,14 @@ export const TraitView = ({ traits, descriptionLimit = 70 }: TraitsProps) => {
   else if (isError1 || isError2) return <>ERROR</>;
 
   return (
-    <div className={`traitContainer`}>
-      <dl className={`traitDescBox`}>
-        <dt className={`traitLabel`}>{trait1.ogName}</dt>
-        <dd className={`traitEffect`}>{trait1.strippedEffect}</dd>
+    <div className={traitContainer}>
+      <dl className={traitDescBox}>
+        <dt className={traitLabel}>{trait1.ogName}</dt>
+        <dd className={traitEffect}>{trait1.strippedEffect}</dd>
       </dl>
-      <dl className={`traitDescBox`}>
-        <dt className={`traitLabel`}>{trait2.ogName}</dt>
-        <dd className={`traitEffect`}>{trait2.strippedEffect}</dd>
+      <dl className={traitDescBox}>
+        <dt className={traitLabel}>{trait2.ogName}</dt>
+        <dd className={traitEffect}>{trait2.strippedEffect}</dd>
       </dl>
     </div>
   );
