@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useMemo } from "react";
-// import { listContainer, listItem, tab, itemButton } from "./Tabber.css";
+import { listContainer, listItem, tab, itemButton } from "./Tabber.css";
 import { CardTab } from "../TemCard/TemCard.component";
 
 interface TabsProps {
@@ -20,20 +20,20 @@ export const Tabber = ({ uid, tabSelected, setTabSelected }: TabsProps) => {
       // // animated version
       // <motion.span
       //   layoutId={tab_uid}
-      //   className={"tab"}
+      //   className={tab}
       //   transition={{ duration: 0.2 }}
       // />
       // static version:
-      <span id={tab_uid} className={"tab"} />
+      <span id={tab_uid} className={tab} />
     ),
     [tab_uid]
   );
 
   return (
-    <ul className={"listContainer"}>
-      <li className={"listItem"}>
+    <ul className={listContainer}>
+      <li className={listItem}>
         <button
-          className={"itemButton[statsSelected ? selected : default]"}
+          className={itemButton[statsSelected ? "selected" : "default"]}
           type="button"
           onClick={() => setTabSelected("stats")}
         >
@@ -41,9 +41,9 @@ export const Tabber = ({ uid, tabSelected, setTabSelected }: TabsProps) => {
         </button>
         {statsSelected && TabLine}
       </li>
-      <li className={"listItem"}>
+      <li className={listItem}>
         <button
-          className={"itemButton[traitsSelected ? selected : default]"}
+          className={itemButton[traitsSelected ? "selected" : "default"]}
           type="button"
           onClick={() => setTabSelected("traits")}
         >
@@ -51,9 +51,9 @@ export const Tabber = ({ uid, tabSelected, setTabSelected }: TabsProps) => {
         </button>
         {traitsSelected && TabLine}
       </li>
-      <li className={"listItem"}>
+      <li className={listItem}>
         <button
-          className={`itemButton[matchupsSelected ? "selected" : "default"]`}
+          className={itemButton[matchupsSelected ? "selected" : "default"]}
           type="button"
           onClick={() => setTabSelected("matchups")}
         >

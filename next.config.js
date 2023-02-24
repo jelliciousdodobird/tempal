@@ -1,10 +1,11 @@
+const { createVanillaExtractPlugin } = require("@vanilla-extract/next-plugin");
+const withVanillaExtract = createVanillaExtractPlugin();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  experimental: {
-    appDir: true,
-  },
+  pageExtensions: ["page.tsx", "page.ts", "page.jsx", "page.js"],
   images: {
     domains: ["temtem-api.mael.tech", "temtem.wiki.gg"],
   },
@@ -16,6 +17,15 @@ const nextConfig = {
 
     return config;
   },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/temdex",
+        permanent: true,
+      },
+    ];
+  },
 };
 
-module.exports = nextConfig;
+module.exports = withVanillaExtract(nextConfig);

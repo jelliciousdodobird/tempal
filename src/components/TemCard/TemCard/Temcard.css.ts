@@ -1,307 +1,306 @@
-// import {
-//   globalKeyframes,
-//   globalStyle,
-//   style,
-//   styleVariants,
-// } from "@vanilla-extract/css";
-// import { flexCenter, loadingShimmer } from "../../../styles/utility-styles.css";
-// import { hsla } from "../../../styles/theme.util";
-// import { theme, lightTheme, darkTheme } from "../../../styles/themes.css";
-// import { temTypes } from "../../../utils/data";
+import {
+  globalKeyframes,
+  globalStyle,
+  style,
+  styleVariants,
+} from "@vanilla-extract/css";
+import { flexCenter, loadingShimmer } from "../../../styles/utility-styles.css";
+import { hsla } from "../../../styles/theme.util";
+import { theme, lightTheme, darkTheme } from "../../../styles/themes.css";
+import { temTypes } from "../../../utils/data";
 
-// export const baseElementType = style({
-//   padding: "3px 6px",
-//   borderRadius: 4,
+export const baseElementType = style({
+  padding: "3px 6px",
+  borderRadius: 4,
 
-//   textTransform: "capitalize",
-//   fontWeight: 600,
-//   fontSize: "12px",
-// });
+  textTransform: "capitalize",
+  fontWeight: 600,
+  fontSize: "12px",
+});
 
-// export const elementTypeLabel = styleVariants(temTypes, (elementColor) => [
-//   baseElementType,
-//   { color: elementColor.colors.dark, background: elementColor.colors.base },
-// ]);
+export const elementTypeLabel = styleVariants(temTypes, (elementColor) => [
+  baseElementType,
+  { color: elementColor.colors.dark, background: elementColor.colors.base },
+]);
 
-// export const container = style({
-//   // border: "1px dashed gray",
+export const container = style({
+  // border: "1px dashed gray",
 
-//   // borderRadius: 10,
-//   // outline: `5px solid ${hsla(theme.colors.antiSurface[5])}`,
-//   // outlineOffset: 4,
+  // borderRadius: 10,
+  // outline: `5px solid ${hsla(theme.colors.antiSurface[5])}`,
+  // outlineOffset: 4,
 
-//   position: "relative",
+  position: "relative",
 
-//   width: "100%",
-//   minHeight: "26rem",
-//   maxHeight: "26rem",
+  width: "100%",
+  minHeight: "26rem",
+  maxHeight: "26rem",
 
-//   marginTop: "4rem",
+  marginTop: "4rem",
 
-//   display: "flex",
-//   flexDirection: "column",
+  display: "flex",
+  flexDirection: "column",
 
-//   // ":hover": {
-//   //   outline: `2px solid ${hsla(theme.colors.antiSurface[5])}`,
-//   // },
-// });
+  // ":hover": {
+  //   outline: `2px solid ${hsla(theme.colors.antiSurface[5])}`,
+  // },
+});
 
-// export const cardBackground = style({
-//   // border: "1px dashed gray",
+export const cardBackground = style({
+  // border: "1px dashed gray",
 
-//   zIndex: -1,
-//   position: "absolute",
-//   overflow: "hidden",
+  zIndex: -1,
+  position: "absolute",
+  overflow: "hidden",
 
-//   height: "100%",
-//   width: "100%",
+  height: "100%",
+  width: "100%",
 
-//   display: "flex",
-//   justifyContent: "center",
-// });
+  display: "flex",
+  justifyContent: "center",
+});
 
-// export const backgroundImageContainer = style([
-//   flexCenter,
-//   {
-//     // border: "1px dashed transparent",
-//     position: "relative",
-//     overflow: "hidden",
+export const backgroundImageContainer = style([
+  flexCenter,
+  {
+    // border: "1px dashed transparent",
+    position: "relative",
+    overflow: "hidden",
 
-//     background: hsla(theme.colors.surface[6]),
+    background: hsla(theme.colors.surface[6]),
 
-//     borderRadius: 12,
+    borderRadius: 12,
 
-//     width: "100%",
-//     height: "100%",
+    width: "100%",
+    height: "100%",
 
-//     selectors: {
-//       [`${lightTheme} &`]: {
-//         background: hsla(theme.colors.onAntiSurface[0]),
-//       },
-//     },
+    selectors: {
+      [`${lightTheme} &`]: {
+        background: hsla(theme.colors.onAntiSurface[0]),
+      },
+    },
 
-//     ":hover": {},
+    ":hover": {},
+  },
+]);
+
+// const rotate = "rotate-bg-image";
+
+// globalKeyframes(rotate, {
+//   from: {
+//     transform: "scale(6) rotate(0deg)",
 //   },
-// ]);
-
-// // const rotate = "rotate-bg-image";
-
-// // globalKeyframes(rotate, {
-// //   from: {
-// //     transform: "scale(6) rotate(0deg)",
-// //   },
-// //   to: {
-// //     transform: "scale(6) rotate(360deg)",
-// //   },
-// // });
-
-// export const backgroundBlur = style({
-//   userSelect: "none",
-
-//   width: "100%",
-//   height: "100%",
-
-//   objectFit: "none",
-
-//   filter: "blur(5px) opacity(0.5)",
-//   transform: "scale(6)",
-
-//   transition: "filter 150ms linear",
-
-//   // animation: `${rotate} 20s linear infinite normal`,
-//   // animationPlayState: "paused",
-// });
-
-// globalStyle(`${container}:hover ${backgroundBlur}`, {
-//   // animationPlayState: "running",
-//   filter: "blur(5px) opacity(0.6) saturate(225%)",
-// });
-
-// export const specieImageContainer = style({
-//   // outline: "1px solid red",
-//   position: "absolute",
-//   bottom: 0,
-//   right: 0,
-//   // right: 0,
-//   // margin: "0 auto", // centers a position: absolute element
-
-//   width: 128,
-//   height: 128,
-
-//   display: "flex",
-// });
-
-// export const specieImage = style({
-//   position: "relative",
-//   userSelect: "none",
-
-//   width: "100%",
-//   height: "100%",
-
-//   objectFit: "contain",
-
-//   // this media query is a fix for images that load on iOS with a white border
-//   "@media": {
-//     ["not all and (min-resolution:.001dpcm)"]: {
-//       selectors: {
-//         [`&[loading="lazy"]`]: {
-//           clipPath: "inset(0.5px)",
-//         },
-//       },
-//     },
+//   to: {
+//     transform: "scale(6) rotate(360deg)",
 //   },
 // });
 
-// export const buttonContainer = style({
-//   position: "absolute",
+export const backgroundBlur = style({
+  userSelect: "none",
 
-//   bottom: "-0.5rem",
-//   right: 0,
+  width: "100%",
+  height: "100%",
 
-//   border: `1px solid ${hsla(theme.colors.white[0], 0.1)}`,
+  objectFit: "none",
 
-//   borderRadius: 8,
+  filter: "blur(5px) opacity(0.5)",
+  transform: "scale(6)",
 
-//   padding: "0 3px",
-//   background: hsla(theme.colors.white[0], 0.1),
-//   backdropFilter: "blur(5px)",
+  transition: "filter 150ms linear",
 
-//   display: "flex",
-// });
+  // animation: `${rotate} 20s linear infinite normal`,
+  // animationPlayState: "paused",
+});
 
-// export const toggleImgButton = style([
-//   flexCenter,
-//   {
-//     // border: "1px solid blue",
+globalStyle(`${container}:hover ${backgroundBlur}`, {
+  // animationPlayState: "running",
+  filter: "blur(5px) opacity(0.6) saturate(225%)",
+});
 
-//     cursor: "pointer",
+export const specieImageContainer = style({
+  // outline: "1px solid red",
+  position: "absolute",
+  bottom: 0,
+  right: 0,
+  // right: 0,
+  // margin: "0 auto", // centers a position: absolute element
 
-//     width: "1.5rem",
-//     height: "1.5rem",
+  width: 128,
+  height: 128,
 
-//     background: "transparent",
-//   },
-// ]);
+  display: "flex",
+});
 
-// export const contentContainer = style({
-//   // border: "1px solid blue",
+export const specieImage = style({
+  position: "relative",
+  userSelect: "none",
 
-//   position: "relative",
-//   padding: "1.5rem",
-//   height: "100%",
+  width: "100%",
+  height: "100%",
 
-//   flex: 1,
+  objectFit: "contain",
 
-//   display: "flex",
-//   flexDirection: "column",
-//   alignItems: "center",
-//   gap: "1rem",
-// });
+  // this media query is a fix for images that load on iOS with a white border
+  "@media": {
+    ["not all and (min-resolution:.001dpcm)"]: {
+      selectors: {
+        [`&[loading="lazy"]`]: {
+          clipPath: "inset(0.5px)",
+        },
+      },
+    },
+  },
+});
 
-// const edgeSize = 50;
-// export const headerContent = style({
-//   // outline: "1px dashed gold",
-//   position: "relative",
+export const buttonContainer = style({
+  position: "absolute",
 
-//   width: "100%",
-//   height: edgeSize,
-//   maxHeight: edgeSize,
-//   minHeight: edgeSize,
+  bottom: "-0.5rem",
+  right: 0,
 
-//   display: "flex",
-//   flexDirection: "column",
-//   alignItems: "flex-start",
-//   gap: 5,
-// });
+  border: `1px solid ${hsla(theme.colors.white[0], 0.1)}`,
 
-// export const cardTitle = style({
-//   position: "absolute",
-//   top: "-3.5rem",
-//   left: "-1rem",
+  borderRadius: 8,
 
-//   // width: "100%",
-//   gap: "0.5rem",
+  padding: "0 3px",
+  background: hsla(theme.colors.white[0], 0.1),
+  backdropFilter: "blur(5px)",
 
-//   display: "flex",
+  display: "flex",
+});
 
-//   ":hover": {
-//     zIndex: 1000,
-//   },
-// });
+export const toggleImgButton = style([
+  flexCenter,
+  {
+    // border: "1px solid blue",
 
-// export const nameTextStyle = style([
-//   flexCenter,
-//   {
-//     // userSelect: "none",
-//     fontWeight: 700,
-//     fontSize: "18px",
-//     whiteSpace: "nowrap",
-//   },
-// ]);
+    cursor: "pointer",
 
-// export const numberTextStyle = style([
-//   flexCenter,
-//   {
-//     fontFamily: "Fira Code",
-//     fontWeight: 600,
-//     fontSize: "18px",
-//     color: hsla(theme.colors.onSurface[5], 0.4),
+    width: "1.5rem",
+    height: "1.5rem",
 
-//     selectors: {
-//       [`${lightTheme} &`]: {
-//         color: hsla(theme.colors.onSurface[5], 0.7),
-//       },
-//     },
-//   },
-// ]);
+    background: "transparent",
+  },
+]);
 
-// export const elementRow = style({
-//   display: "flex",
-//   gap: 5,
-// });
+export const contentContainer = style({
+  // border: "1px solid blue",
 
-// export const lumaImgIcon = style({
-//   ":hover": {
-//     cursor: "pointer",
-//     filter: "invert(100%)",
-//   },
-// });
+  position: "relative",
+  padding: "1.5rem",
+  height: "100%",
 
-// export const mainContent = style({
-//   // border: "1px dashed red",
+  flex: 1,
 
-//   // borderRadius: 16,
-//   borderRadius: 8,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "1rem",
+});
 
-//   backgroundColor: "hsl(0, 0%, 100%)",
-//   width: "100%",
-//   height: "100%",
+const edgeSize = 50;
+export const headerContent = style({
+  // outline: "1px dashed gold",
+  position: "relative",
 
-//   flex: 1,
+  width: "100%",
+  height: edgeSize,
+  maxHeight: edgeSize,
+  minHeight: edgeSize,
 
-//   display: "flex",
-//   flexDirection: "column",
-// });
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  gap: 5,
+});
 
-// export const tabContent = style({
-//   // border: "1px dashed blue",
+export const cardTitle = style({
+  position: "absolute",
+  top: "-3.5rem",
+  left: "-1rem",
 
-//   padding: "1rem",
-//   height: "100%",
+  // width: "100%",
+  gap: "0.5rem",
 
-//   color: hsla(theme.colors.black[5]),
+  display: "flex",
 
-//   display: "flex",
-//   flexDirection: "column",
-// });
+  ":hover": {
+    zIndex: 1000,
+  },
+});
 
-// export const loadingContainer = style([
-//   flexCenter,
-//   loadingShimmer,
-//   {
-//     // border: "1px solid red",
-//     position: "absolute",
-//     borderRadius: 12,
-//   },
-// ]);
-export {};
+export const nameTextStyle = style([
+  flexCenter,
+  {
+    // userSelect: "none",
+    fontWeight: 700,
+    fontSize: "18px",
+    whiteSpace: "nowrap",
+  },
+]);
+
+export const numberTextStyle = style([
+  flexCenter,
+  {
+    fontFamily: "Fira Code",
+    fontWeight: 600,
+    fontSize: "18px",
+    color: hsla(theme.colors.onSurface[5], 0.4),
+
+    selectors: {
+      [`${lightTheme} &`]: {
+        color: hsla(theme.colors.onSurface[5], 0.7),
+      },
+    },
+  },
+]);
+
+export const elementRow = style({
+  display: "flex",
+  gap: 5,
+});
+
+export const lumaImgIcon = style({
+  ":hover": {
+    cursor: "pointer",
+    filter: "invert(100%)",
+  },
+});
+
+export const mainContent = style({
+  // border: "1px dashed red",
+
+  // borderRadius: 16,
+  borderRadius: 8,
+
+  backgroundColor: "hsl(0, 0%, 100%)",
+  width: "100%",
+  height: "100%",
+
+  flex: 1,
+
+  display: "flex",
+  flexDirection: "column",
+});
+
+export const tabContent = style({
+  // border: "1px dashed blue",
+
+  padding: "1rem",
+  height: "100%",
+
+  color: hsla(theme.colors.black[5]),
+
+  display: "flex",
+  flexDirection: "column",
+});
+
+export const loadingContainer = style([
+  flexCenter,
+  loadingShimmer,
+  {
+    // border: "1px solid red",
+    position: "absolute",
+    borderRadius: 12,
+  },
+]);
