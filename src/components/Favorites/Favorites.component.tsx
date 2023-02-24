@@ -1,13 +1,6 @@
 "use client";
 import Image from "next/image";
-import {
-  forwardRef,
-  Fragment,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { forwardRef, Fragment, useEffect, useRef, useState } from "react";
 import { useHasMounted } from "../../hooks/useHasMounted";
 import { useFavoritesStore } from "../../store/favorites-store";
 import { MinTemtem } from "../../app/species/layout";
@@ -18,45 +11,66 @@ import { useUrlQuery } from "../SpecieList/useUrlQuery";
 import Link from "next/link";
 import useVirtualScroll from "../../hooks/useVirtualScroll";
 import { useFetchTemQuery } from "../../hooks/useFetchTemQuery";
+import { IconTrash } from "@tabler/icons-react";
+import React from "react";
 
-type SpecieParam = {
-  name: string;
-};
-
-type FavoritesTemsProps = {
-  params: SpecieParam;
-};
-
-export const Favorites = forwardRef<HTMLDivElement>(({ ...props }, ref) => {
+export default function Favorites() {
   const mounted = useHasMounted();
 
-  const { favoriteTems, addToFavorites, removeFromFavorites } =
-    useFavoritesStore();
-  const [data, setData] = useState<MinTemtem[]>([]);
+  if (!mounted) return <></>;
 
-  const updateData = (temtem: MinTemtem) => {};
+  return (
+    <div className="">
+      <FavoritesComponent />
+    </div>
+  );
+}
+
+const FavoritesComponent = forwardRef<HTMLDivElement>(({ ...props }, ref) => {
+  const { favoriteTems, addToFavorites, removeFromFavorites, clearFavorites } =
+    useFavoritesStore();
+
+  const [hasXFavorites, setHasXFavorites] = useState(false);
+
+  useEffect(() => {
+    favoriteTems.length > 0 ? setHasXFavorites(true) : setHasXFavorites(false);
+  }, [favoriteTems]);
+
+  const clearAll = () => {
+    clearFavorites();
+  };
 
   const scrollRef = useRef<HTMLDivElement>(null!);
 
-  const { blankHeight, listHeight, renderList } = useVirtualScroll<MinTemtem>({
+  const { blankHeight, listHeight, renderList } = useVirtualScroll<string>({
     scrollContainerRef: scrollRef,
-    list: data,
+    list: favoriteTems,
     itemHeight: 80,
-    itemGutter: 14,
+    itemGutter: 16,
     overscan: 2,
   });
 
-  if (!mounted) return <>skeleton</>;
-
   return (
-    <div>
-      Favorites<div>{favoriteTems}</div>
-      <div
-        onClick={() => {
-          console.log(data);
-        }}
-      >
-        uwu
+    <>
+      <div className="grid place-items-center gap-2">
+        <h3 className="relative min-h-[3rem] grid place-items-center w-full text-neutral-500 rounded-lg text-base bg-neutral-800">
+          {"Explore your favorite Temtems."}
+        </h3>
+        <div className="relative w-full z-10">
+          <button
+            className={clsx(
+              "absolute rounded-lg h-8 font-bold text-xs w-full text-red-500 bg-red-800/50",
+              "flex justify-center items-center gap-2",
+              "outline-none appearance-none focus-visible:ring-1 ring-white ring-inset"
+            )}
+            onClick={() => {
+              clearAll();
+            }}
+          >
+            <IconTrash size={20} />
+            <span className="uppercase">{"clear all"}</span>
+          </button>
+        </div>
       </div>
       <div
         ref={ref}
@@ -71,14 +85,26 @@ export const Favorites = forwardRef<HTMLDivElement>(({ ...props }, ref) => {
             "flex flex-col gap-4 py-8 custom-scrollbar-tiny overflow-y-auto overflow-x-hidden",
             "outline-none appearance-none"
           )}
-        />
-        <ul className="relative flex flex-col gap-4 h-auto">
-          {favoriteTems.map((temtem, index) => (
-            <SpecieData temtem={temtem} key={index} />
-          ))}
-        </ul>
+        >
+          <ul
+            className="relative flex flex-col gap-4"
+            style={{
+              minHeight: hasXFavorites ? `${listHeight}px` : "auto",
+            }}
+          >
+            <li
+              style={{ height: hasXFavorites ? `${blankHeight}px` : "auto" }}
+            />
+            {renderList.map((temtem, index) => (
+              <SpecieData temtem={temtem} key={index} />
+            ))}
+          </ul>
+        </div>
+        {hasXFavorites && (
+          <div className="absolute inset-0 pointer-events-none [background-image:linear-gradient(180deg,#171717,transparent_4rem,transparent_calc(100%-4rem),#171717_100%),linear-gradient(180deg,#171717,transparent_4rem,transparent_calc(100%-4rem),#171717_100%),linear-gradient(180deg,#171717,transparent_4rem,transparent_calc(100%-4rem),#171717_100%),linear-gradient(180deg,#171717,transparent_4rem,transparent_calc(100%-4rem),#171717_100%)]" />
+        )}
       </div>
-    </div>
+    </>
   );
 });
 
@@ -92,42 +118,48 @@ const SpecieData = ({ temtem }: SpecieProps) => {
 
   const { data, isLoading, isError, isPaused } = useFetchTemQuery(temtem);
 
-  if (!data || isLoading || isError || isPaused) return <Fragment />;
-  if (data.length < 1) return <Fragment />;
+  if (!data || isLoading || isError || isPaused) {
+    return <Fragment />;
+  }
+  if (data.length < 1) {
+    return <Fragment />;
+  }
 
   const specie = data[0];
 
   return (
-    <Link
-      tabIndex={-1}
-      href={getUrl(specie)}
-      className={clsx(
-        "flex items-center gap-4 pl-2 pr-4 min-h-[5rem] rounded-lg cursor-pointer whitespace-nowrap text-sm",
-        "outline-none appearance-none hover:bg-neutral-800/80"
-      )}
-    >
-      <div className="flex w-16 h-16">
-        <Image
-          alt={specie.name + " image"}
-          src={specie.wikiRenderStaticUrl}
-          height={64}
-          width={64}
-          quality={100}
-          className="flex object-contain w-full h-full"
-        />
-      </div>
-      <span className="flex flex-col flex-1">
-        <span className="flex text-base font-bold">
-          <span className="relative top-[-1px] text-[18px] [line-height:1.5rem] text-neutral-600 font-extrabold font-mono pr-1">
-            {zeroPad(specie.number, 3)}
+    <li>
+      <Link
+        tabIndex={-1}
+        href={getUrl(specie)}
+        className={clsx(
+          "flex items-center gap-4 pl-2 pr-4 min-h-[5rem] rounded-lg cursor-pointer whitespace-nowrap text-sm",
+          "outline-none appearance-none hover:bg-neutral-800/80"
+        )}
+      >
+        <div className="flex w-16 h-16">
+          <Image
+            alt={specie.name + " image"}
+            src={specie.wikiRenderStaticUrl}
+            height={64}
+            width={64}
+            quality={100}
+            className="flex object-contain w-full h-full"
+          />
+        </div>
+        <span className="flex flex-col flex-1">
+          <span className="flex text-base font-bold">
+            <span className="relative top-[-1px] text-[18px] [line-height:1.5rem] text-neutral-600 font-extrabold font-mono pr-1">
+              {zeroPad(specie.number, 3)}
+            </span>
+            <span className="text">{formatTemName(specie.name)}</span>
           </span>
-          <span className="text">{formatTemName(specie.name)}</span>
+          <span className="flex gap-2">
+            {specie.types[0] && <ElementTypeLabel type={specie.types[0]} />}
+            {specie.types[1] && <ElementTypeLabel type={specie.types[1]} />}
+          </span>
         </span>
-        <span className="flex gap-2">
-          {specie.types[0] && <ElementTypeLabel type={specie.types[0]} />}
-          {specie.types[1] && <ElementTypeLabel type={specie.types[1]} />}
-        </span>
-      </span>
-    </Link>
+      </Link>
+    </li>
   );
 };
