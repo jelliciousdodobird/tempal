@@ -2,7 +2,7 @@
 
 import Fuse from "fuse.js";
 import { useMemo } from "react";
-import { MinTemtem } from "../../app/species/layout";
+import { MinTemtem } from "../../app/(explore)/layout";
 import { FilterType } from "./SpecieList.types";
 import { getComparator } from "./SpecieList.utils";
 import { useUrlQuery } from "./useUrlQuery";

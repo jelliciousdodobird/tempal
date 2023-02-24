@@ -1,5 +1,5 @@
 import { useSearchParams } from "next/navigation";
-import { MinTemtem } from "../../app/species/layout";
+import { MinTemtem } from "../../app/(explore)/layout";
 import Fuse from "fuse.js";
 
 export const validFilterTypes = [

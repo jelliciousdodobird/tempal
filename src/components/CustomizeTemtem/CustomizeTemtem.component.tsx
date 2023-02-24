@@ -1,25 +1,106 @@
 "use client";
+import clsx from "clsx";
 import Image from "next/image";
 import { useFetchTemQuery } from "../../hooks/useFetchTemQuery";
 import { CustomTem } from "../../store/temteam-store";
-import { Temtem } from "../../utils/augmented-types/temtems";
+import { formatTemName } from "../../utils/utils";
 import { ElementTypeLabel } from "../ElementTypeLabel/ElementTypeLabel";
 
 type CustomizeTemtemProps = { customTem: CustomTem };
+
+const NULL_TRAIT = "-";
+const NULL_GEAR = "-";
+const NULL_TECH = "-";
+const NULL_NAME = "Empty Slot";
 
 export const CustomizeTemtem = ({ customTem }: CustomizeTemtemProps) => {
   const { data, isLoading, isError, isPaused } = useFetchTemQuery(
     customTem.name
   );
 
-  if (!data || isLoading || isError || isPaused) return <>skeleton</>;
+  if (!data || isLoading || isError || isPaused)
+    return (
+      <button
+        type="button"
+        className={clsx(
+          "group flex flex-col gap-4 p-4 py-6 rounded-xl bg-gradient-to-b from-neutral-800 to-neutral-900 cursor-pointer",
+          "ring-inset ring-neutral-700/50 hover:ring-1 focus-visible:ring-1",
+          "outline-none appearance-none"
+        )}
+      >
+        <div className="grid grid-cols-2 gap-2 w-full">
+          <div className="relative flex w-[100px] h-[100px] self-center justify-self-center">
+            <div className="absolute inset-0 rounded-full w-full aspect-square scale-75 overflow-hidden bg-neutral-700/50" />
+          </div>
+          <div className="flex flex-col gap-2 justify-between">
+            <div className="flex flex-col">
+              <div className="text-left text-base font-bold">
+                {customTem.name || NULL_NAME}
+              </div>
+            </div>
+
+            <div className="relative flex justify-between gap-1 rounded-lg text-sm h-8 whitespace-nowrap text-neutral-300 bg-neutral-800">
+              <span className="flex items-center text-xs text-neutral-500 font-bold px-2 text-center">
+                Level
+              </span>
+              <span className="flex items-center px-3 font-bold font-mono">
+                {customTem.level}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4 w-full">
+          <div className="grid grid-cols-2 gap-2">
+            <div className="relative inline-flex flex-col gap-1">
+              <span className="text-left text-xs text-neutral-500 font-bold">
+                Trait
+              </span>
+              <span className="flex items-center px-3 w-full rounded-lg text-sm h-8 whitespace-nowrap text-neutral-500 bg-neutral-800">
+                {customTem.trait || NULL_TRAIT}
+              </span>
+            </div>
+            <div className="relative inline-flex flex-col gap-1">
+              <span className="text-left text-xs text-neutral-500 font-bold">
+                Gear
+              </span>
+              <span className="flex items-center px-3 w-full rounded-lg text-sm h-8 whitespace-nowrap text-neutral-500 bg-neutral-800">
+                {customTem.gear || NULL_GEAR}
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <span className="text-left text-xs text-neutral-500 font-bold">
+              Techniques
+            </span>
+            <div className="grid grid-cols-2 w-full gap-2">
+              {customTem.techniques.map((tech, i) => (
+                <div
+                  key={tech + i}
+                  className="flex items-center px-3 w-full rounded-lg text-sm h-8 whitespace-nowrap text-neutral-500 bg-neutral-800"
+                >
+                  {tech || NULL_TECH}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </button>
+    );
 
   const temData = data[0];
 
   return (
-    <div className="flex flex-col gap-4 p-4 rounded-xl bg-neutral-800/20">
-      <div className="grid grid-cols-2 gap-2">
-        <div className="relative flex w-[100px] h-[100px]">
+    <button
+      type="button"
+      className={clsx(
+        "group flex flex-col gap-4 p-4 py-6 rounded-xl bg-gradient-to-b from-neutral-800 to-neutral-900 cursor-pointer",
+        "ring-inset ring-neutral-700/50 hover:ring-1 focus-visible:ring-1",
+        "outline-none appearance-none"
+      )}
+    >
+      <div className="grid grid-cols-2 gap-2 w-full">
+        <div className="relative flex w-[100px] h-[100px] self-center justify-self-center">
           <div className="absolute inset-0 rounded-full w-full aspect-square scale-75 overflow-hidden">
             <Image
               alt={"background circle image for " + customTem.name}
@@ -27,8 +108,8 @@ export const CustomizeTemtem = ({ customTem }: CustomizeTemtemProps) => {
               height={100}
               width={100}
               quality={50}
-              className="relative flex object-contain w-full h-full scale-125 blur-lg"
-            ></Image>
+              className="relative flex object-contain w-full h-full scale-[250%] blur-sm grayscale-[50%]"
+            />
           </div>
           <Image
             alt={"image for custom temtem " + customTem.name}
@@ -36,69 +117,66 @@ export const CustomizeTemtem = ({ customTem }: CustomizeTemtemProps) => {
             height={100}
             width={100}
             quality={100}
-            className="relative flex object-contain w-full h-full"
+            className="relative flex object-contain w-full h-full group-hover:animate-bounce-origin group-focus-visible:animate-bounce-origin"
           />
         </div>
-        <div className="flex flex-col gap-1">
-          <div className="">
-            <span className="inline-flex items-center gap-2 bg-black/20 rounded-lg px-2 h-6">
-              <span className="text-[8px] font-mono uppercase">lvl</span>
-              <span className="text-sm font-mono font-bold">
-                {customTem.level}
-              </span>
-            </span>
-            {/* <ElementTypeLabel type={temData.types[0]} />
-            {temData.types[1] && <ElementTypeLabel type={temData.types[1]} />} */}
+        <div className="flex flex-col gap-2 justify-between">
+          <div className="flex flex-col">
+            <div className="text-left text-base font-bold">
+              {formatTemName(temData.name)}
+            </div>
+            <div className="flex gap-2">
+              <ElementTypeLabel type={temData.types[0]} />
+              {temData.types[1] && <ElementTypeLabel type={temData.types[1]} />}
+            </div>
           </div>
-          {/* <div className="relative inline-flex items-center gap-2 bg-black/20 rounded-lg px-2 pb-2 pt-4">
-            <span className="absolute top-1 left-2 text-[8px] font-mono uppercase">
-              trait
+
+          <div className="relative flex justify-between gap-1 rounded-lg text-sm h-8 whitespace-nowrap text-neutral-300 bg-neutral-800">
+            <span className="flex items-center text-xs text-neutral-500 font-bold px-2 text-center">
+              Level
             </span>
-            <span className="text-sm font-bold whitespace-nowrap">
-              {customTem.trait || "Common Factor"}
+            <span className="flex items-center px-3 font-bold font-mono">
+              {customTem.level}
             </span>
           </div>
-          <div className="relative inline-flex items-center gap-2 bg-black/20 rounded-lg px-2 pb-2 pt-4">
-            <span className="absolute top-1 left-2 text-[8px] font-mono uppercase">
-              gear
-            </span>
-            <span className="text-sm font-bold whitespace-nowrap">
-              {customTem.gear || "Energy Drink"}
-            </span>
-          </div> */}
         </div>
       </div>
-      <div className="">
-        <div className="grid grid-cols-2 w-full gap-2">
-          <div className="relative inline-flex items-center gap-2 bg-black/20 rounded-lg px-2 pb-2 pt-4">
-            <span className="absolute top-1 left-2 text-[8px] font-mono uppercase">
-              trait
+      <div className="flex flex-col gap-4 w-full">
+        <div className="grid grid-cols-2 gap-2">
+          <div className="relative inline-flex flex-col gap-1">
+            <span className="text-left text-xs text-neutral-500 font-bold">
+              Trait
             </span>
-            <span className="text-sm font-bold whitespace-nowrap">
-              {customTem.trait || "Common Factor"}
+            <span className="flex items-center px-3 w-full rounded-lg text-sm h-8 whitespace-nowrap text-neutral-500 bg-neutral-800">
+              {customTem.trait || NULL_TRAIT}
             </span>
           </div>
-          <div className="relative inline-flex items-center gap-2 bg-black/20 rounded-lg px-2 pb-2 pt-4">
-            <span className="absolute top-1 left-2 text-[8px] font-mono uppercase">
-              gear
+          <div className="relative inline-flex flex-col gap-1">
+            <span className="text-left text-xs text-neutral-500 font-bold">
+              Gear
             </span>
-            <span className="text-sm font-bold whitespace-nowrap">
-              {customTem.gear || "Energy Drink"}
+            <span className="flex items-center px-3 w-full rounded-lg text-sm h-8 whitespace-nowrap text-neutral-500 bg-neutral-800">
+              {customTem.gear || NULL_GEAR}
             </span>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 w-full gap-2">
-          {customTem.techniques.map((tech, i) => (
-            <div
-              key={tech + i}
-              className="flex items-center px-3 w-full rounded-lg text-sm h-8 whitespace-nowrap text-neutral-500 bg-neutral-800/50"
-            >
-              {tech || "Mechanical Heat"}
-            </div>
-          ))}
+        <div className="flex flex-col gap-1">
+          <span className="text-left text-xs text-neutral-500 font-bold">
+            Techniques
+          </span>
+          <div className="grid grid-cols-2 w-full gap-2">
+            {customTem.techniques.map((tech, i) => (
+              <div
+                key={tech + i}
+                className="flex items-center px-3 w-full rounded-lg text-sm h-8 whitespace-nowrap text-neutral-500 bg-neutral-800"
+              >
+                {tech || NULL_TECH}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </button>
   );
 };

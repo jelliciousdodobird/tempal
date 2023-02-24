@@ -4,6 +4,6 @@ export const metadata = {
 
 export default async function SpeciesPage() {
   return (
-    <div className="relative flex flex-col gap-8 min-h-full pb-8">hello</div>
+    <div className="relative flex flex-col gap-8 min-h-full pb-8">Specie</div>
   );
 }

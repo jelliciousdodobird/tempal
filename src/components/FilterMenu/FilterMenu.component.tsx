@@ -30,7 +30,7 @@ export const FilterMenu = ({
       <Listbox.Options
         as="div"
         className={clsx(
-          "z-10 absolute flex flex-col left-0 top-[1rem]zz mt-4zz w-full rounded-md overflow-hidden backdrop-blur-md shadow-lg bg-neutral-800/90",
+          "z-10 absolute flex flex-col left-0 w-full rounded-md overflow-hidden backdrop-blur-md shadow-lg bg-neutral-800/90",
           "outline-none appearance-none"
         )}
       >

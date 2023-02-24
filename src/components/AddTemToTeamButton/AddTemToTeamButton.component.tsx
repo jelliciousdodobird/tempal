@@ -1,8 +1,8 @@
 "use client";
 
+import clsx from "clsx";
 import { Dialog, RadioGroup } from "@headlessui/react";
 import { IconChevronsUp, IconPlus } from "@tabler/icons-react";
-import clsx from "clsx";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useHasMounted } from "../../hooks/useHasMounted";
@@ -54,7 +54,7 @@ export const AddTemToTeamButton = ({ temName }: AddTemProps) => {
         <div className="fixed inset-0 pt-8 grid place-items-center">
           <Dialog.Panel
             className={clsx(
-              "relative flex flex-col gap-6 bg-neutral-800/60 backdrop-blur-md rounded-xl overflow-hiddenzz p-6",
+              "relative flex flex-col gap-6 bg-neutral-800/60 backdrop-blur-md rounded-xl p-6",
               "min-w-[20rem] h-min"
             )}
           >
