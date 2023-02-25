@@ -142,8 +142,6 @@ const SpecieData = ({ temtem }: SpecieProps) => {
 
   const specie = data[0];
 
-  const id = getSpecieLinkId(specie.name);
-
   return (
     <li>
       <Link
