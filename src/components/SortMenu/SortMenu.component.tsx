@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { Menu, Switch } from "@headlessui/react";
+import { Popover } from "@headlessui/react";
 import {
   IconArrowsSort,
   IconArrowUp,
@@ -20,6 +21,7 @@ import {
   SORT_TYPE_MAP,
   sortOrderDescription,
 } from "../SpecieList/SpecieList.utils";
+import { ScrollShadow } from "../ScrollShadow/ScrollShadow.component";
 
 type SortMenuProps = {};
 
@@ -34,44 +36,49 @@ export const SortMenu = ({}: SortMenuProps) => {
   };
 
   return (
-    <Menu>
-      <Menu.Button
+    <Popover className="w-full">
+      <Popover.Button
         className={clsx(
           "flex items-center gap-2 rounded-lg h-8 px-2 flex-1 font-bold text-xs",
           "outline-none appearance-none focus-visible:ring-1 ring-white ring-inset",
+          "w-full",
           sortOrder === "asc"
             ? "text-red-400 bg-red-800/50"
             : "text-green-500 bg-green-800/50"
         )}
       >
         <IconSortAscending2 size={20} />
-        <span className="">{SORT_LABELS[sortType]}</span>
-        <span className="">{`(${sortOrderDesc.desc})`}</span>
-      </Menu.Button>
+        <div className="flex-1 flex justify-between">
+          <span className="uppercase">{SORT_LABELS[sortType]}</span>
+          <span className="">{`(${sortOrderDesc.desc})`}</span>
+        </div>
+      </Popover.Button>
 
-      <Menu.Items
+      <Popover.Panel
         as="ul"
         className={clsx(
           "outline-none appearance-none",
-          "absolute z-10 w-full max-h-[15rem] rounded-lg",
+          "absolute left-0 w-full max-h-[15rem]zz rounded-md",
           "overflow-y-auto overflow-x-hidden custom-scrollbar-tiny",
-          "bg-black/50 backdrop-blur-md"
+          "backdrop-blur-md shadow-lg bg-neutral-800/90",
+          "flex flex-col gap-2 pb-2"
         )}
       >
-        <li className="sticky top-0">
-          How would you like to sort the results?
+        <li className="sticky top-0 w-full text-center pt-4  bg-gradient-to-b from-neutral-900 to-transparent">
+          {/* How would you like to sort the results? */}
+          Sort Options & Order:
         </li>
-        <li className="">
+        <li className="flex flex-col gap-2 px-3">
           <span className="">Keys</span>
-          <ul>
+          <ul className="flex flex-row flex-wrap gap-2">
             <SortItem {...props} sortKey={SORT_TYPE_MAP["relevance"]} />
             <SortItem {...props} sortKey={SORT_TYPE_MAP["name"]} />
             <SortItem {...props} sortKey={SORT_TYPE_MAP["number"]} />
           </ul>
         </li>
-        <li className="">
+        <li className="flex flex-col gap-2 px-3">
           <span className="">Base Stats</span>
-          <ul>
+          <ul className="flex flex-row flex-wrap gap-2">
             <SortItem {...props} sortKey={SORT_TYPE_MAP["base HP"]} />
             <SortItem {...props} sortKey={SORT_TYPE_MAP["base stamina"]} />
             <SortItem {...props} sortKey={SORT_TYPE_MAP["base speed"]} />
@@ -81,9 +88,9 @@ export const SortMenu = ({}: SortMenuProps) => {
             <SortItem {...props} sortKey={SORT_TYPE_MAP["base sp. defense"]} />
           </ul>
         </li>
-        <li className="">
+        <li className="flex flex-col gap-2 px-3">
           <span className="">Training Values</span>
-          <ul>
+          <ul className="flex flex-row flex-wrap gap-2">
             <SortItem {...props} sortKey={SORT_TYPE_MAP["HP TVs"]} />
             <SortItem {...props} sortKey={SORT_TYPE_MAP["stamina TVs"]} />
             <SortItem {...props} sortKey={SORT_TYPE_MAP["speed TVs"]} />
@@ -93,8 +100,8 @@ export const SortMenu = ({}: SortMenuProps) => {
             <SortItem {...props} sortKey={SORT_TYPE_MAP["sp. defense TVs"]} />
           </ul>
         </li>
-      </Menu.Items>
-    </Menu>
+      </Popover.Panel>
+    </Popover>
   );
 };
 
@@ -126,41 +133,46 @@ export const SortItem = ({
   };
 
   return (
-    <li>
-      <Menu.Item>
-        {({ active }) => (
-          <button
-            type="button"
-            className={clsx(
-              "flex items-center w-full h-10 px-8",
-              active ? "bg-neutral-900/50" : ""
-            )}
-            onClick={toggleItem}
-          >
-            <span className="" data-selected={itemSelected}>
-              {label}
-            </span>
-            <span className="">
-              {itemSelected && (
-                <IconArrowUp
-                  className={clsx(
-                    "transition-[transform]",
-                    selectedSortOrder === "asc" ? "rotate-0" : "rotate-180"
-                  )}
-                />
-              )}
-            </span>
-          </button>
+    <Popover.Button as="li" className="w-max">
+      <button
+        type="button"
+        className={clsx(
+          // "flex items-center w-full h-10 px-8",
+          "flex flex-row items-center px-3 py-1",
+          "rounded-md text-xs",
+          itemSelected
+            ? selectedSortOrder === "asc"
+              ? "text-red-400 bg-red-800/50 font-bold"
+              : "text-green-500 bg-green-800/50 font-bold"
+            : "bg-neutral-700 text-neutral-200 "
         )}
-      </Menu.Item>
-    </li>
+        onClick={toggleItem}
+      >
+        <span className="" data-selected={itemSelected}>
+          {SORT_LABELS[sortKey.value]}
+        </span>
+        <span className={itemSelected ? "pl-2" : ""}>
+          {itemSelected && (
+            <IconArrowUp
+              className={clsx(
+                "transition-[transform]",
+                selectedSortOrder === "asc" ? "rotate-0" : "rotate-180",
+                // "animate-bounce"
+                "animate-pulse"
+              )}
+              size={16}
+            />
+          )}
+        </span>
+      </button>
+    </Popover.Button>
   );
 };
 
 export const SORT_LABELS: Record<SortType, string> = {
-  relevance: "RELEVANCE",
-  number: "NUMBER",
-  name: "NAME",
+  relevance: "Relevance",
+  number: "Num",
+  name: "Name",
   "base HP": "HP",
   "base stamina": "STA",
   "base speed": "SPD",
