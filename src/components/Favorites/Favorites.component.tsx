@@ -58,7 +58,6 @@ const FavoritesComponent = forwardRef<HTMLDivElement>(
     };
 
     const scrollRef = useRef<HTMLDivElement>(null!);
-    const ignoreBlur = useRef(false);
 
     const { blankHeight, listHeight, renderList } = useVirtualScroll<string>({
       scrollContainerRef: scrollRef,
@@ -111,13 +110,7 @@ const FavoritesComponent = forwardRef<HTMLDivElement>(
                 style={{ height: hasXFavorites ? `${blankHeight}px` : "100%" }}
               />
               {renderList.map((temtem, index) => (
-                <SpecieData
-                  key={index}
-                  temtem={temtem}
-                  ignoreBlur={ignoreBlur}
-                  active={getSpecieLinkId(temtem) === activeItemId}
-                  setActiveItemId={setActiveItemId}
-                />
+                <SpecieData key={index} temtem={temtem} />
               ))}
             </ul>
           </div>
@@ -132,27 +125,13 @@ const FavoritesComponent = forwardRef<HTMLDivElement>(
 
 type SpecieProps = {
   temtem: string;
-  ignoreBlur: MutableRefObject<boolean>;
-  active: boolean;
-  setActiveItemId: Dispatch<SetStateAction<string>>;
 };
 
-const SpecieData = ({
-  temtem,
-  ignoreBlur,
-  active,
-  setActiveItemId,
-}: SpecieProps) => {
+const SpecieData = ({ temtem }: SpecieProps) => {
   const { minimalQueryUrl } = useUrlQuery();
   const getUrl = (tem: MinTemtem) => "/species/" + tem.name + minimalQueryUrl;
 
   const { data, isLoading, isError, isPaused } = useFetchTemQuery(temtem);
-
-  useEffect(() => {
-    if (active) {
-      ignoreBlur.current = false;
-    }
-  }, [active]);
 
   if (!data || isLoading || isError || isPaused) {
     return <Fragment />;
@@ -163,9 +142,6 @@ const SpecieData = ({
 
   const specie = data[0];
 
-  const id = getSpecieLinkId(specie.name);
-  const activateSelf = () => setActiveItemId(id);
-
   return (
     <li>
       <Link
@@ -173,10 +149,8 @@ const SpecieData = ({
         href={getUrl(specie)}
         className={clsx(
           "group/tem-link flex items-center gap-4 pl-2 pr-4 min-h-[6rem] rounded-lg cursor-pointer whitespace-nowrap text-sm",
-          "outline-none appearance-none hover:bg-neutral-800/80",
-          active ? "bg-neutral-800/80" : ""
+          "outline-none appearance-none hover:bg-neutral-800/80"
         )}
-        onMouseEnter={activateSelf}
       >
         <div className="flex w-16 h-16">
           <Image
@@ -203,8 +177,7 @@ const SpecieData = ({
         <div
           className={clsx(
             "flex rounded-xl text-neutral-600",
-            "group-hover/tem-link:animate-bounce-origin-right group-focus-visible/tem-link:animate-bounce-origin-right",
-            active && "animate-bounce-origin-right"
+            "group-hover/tem-link:animate-bounce-origin-right group-focus-visible/tem-link:animate-bounce-origin-right"
           )}
         >
           <IconChevronRight />
