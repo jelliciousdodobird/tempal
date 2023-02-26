@@ -13,7 +13,7 @@
 
 @layer utilities {
   .pack-content {
-    @apply mx-auto max-w-[100rem] px-4 w-full;
+    @apply mx-auto max-w-[90rem] px-4 w-full;
   }
   .custom-scrollbar-tiny {
     @apply scrollbar-thin scrollbar-thumb-neutral-600/50 hover:scrollbar-track-neutral-800/20 hover:scrollbar-thumb-neutral-500;

@@ -3,6 +3,7 @@ import clsx from "clsx";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useFetchTemQuery } from "../../hooks/useFetchTemQuery";
+import { useSidebarUpdate } from "../../hooks/useSidebarUpdate";
 import { CustomTem, useTemTeamsStore } from "../../store/temteam-store";
 import { formatTemName } from "../../utils/utils";
 import { ElementTypeLabel } from "../ElementTypeLabel/ElementTypeLabel";
@@ -16,6 +17,8 @@ const NULL_NAME = "Empty Slot";
 const NULL_LEVEL = "-";
 
 export const CustomizeTemtem = ({ customTem, link }: CustomizeTemtemProps) => {
+  const { goToPageContent } = useSidebarUpdate();
+
   const { data, isLoading, isError, isPaused } = useFetchTemQuery(
     customTem.name
   );
@@ -31,6 +34,7 @@ export const CustomizeTemtem = ({ customTem, link }: CustomizeTemtemProps) => {
           "ring-inset ring-neutral-700/50 hover:ring-1 focus-visible:ring-1",
           "outline-none appearance-none"
         )}
+        onClick={goToPageContent}
       >
         <div className="grid grid-cols-2 gap-2 w-full">
           <div className="relative flex w-[100px] h-[100px] self-center justify-self-center">
@@ -92,6 +96,7 @@ export const CustomizeTemtem = ({ customTem, link }: CustomizeTemtemProps) => {
 
   const temData = data[0];
   const activate = () => {
+    goToPageContent();
     router.push(link);
   };
 

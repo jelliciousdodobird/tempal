@@ -41,12 +41,6 @@ const parseTarget = (str: string): Targeting => {
   return isTargeting(s) ? s : "others";
 };
 
-// const parseClass = (str: string) => return ""
-// type TechDescription = {
-//   effectText: string;
-//   synergyText: string;
-// };
-
 const parseData = (data: TEM_WIKI_TechniqueData): TechniqueData => ({
   name: data.name ?? "",
   type: parseTypeElement(data.type ?? ""),
@@ -117,7 +111,10 @@ const fetchTechniqueDataFromTemWiki = async (name: string) => {
   return data[0];
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function techniqueAPI(
+  req: NextApiRequest,
+  res: NextApiResponse<FullTechnique | null>
+) {
   const { name } = req.query;
   const query = typeof name === "string" ? name : "";
 
@@ -126,9 +123,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     fetchTechniqueDataFromTemWiki(query),
   ]);
 
-  // const technique: FullTechnique = { desc};
-
-  if (!tech || !desc) res.status(200).json(null);
+  if (!tech || !desc) return res.status(200).json(null);
 
   return res.status(200).json({ ...tech, ...desc });
-};
+}

@@ -13,6 +13,7 @@ export type CustomTem = {
   order: number;
   name: string;
   nickname: string;
+  luma: boolean;
   trait: string;
   level: number;
   gear: string;
@@ -29,6 +30,9 @@ export type TemTeam = {
   team: CustomTem[];
 };
 
+export type UpdateTem = AtLeast<CustomTem, "id">;
+export type UpdateTemTeam = AtLeast<TemTeam, "id">;
+
 export type TemTeamsState = {
   activeTeamId: string;
   // activeCustomTemId: string;
@@ -40,12 +44,15 @@ export type TemTeamsState = {
   // manipulates the TemTeam list
   addTemTeam: (toTop?: boolean) => void;
   removeTemTeam: (teamId: string) => void;
+  updateTemTeam: (updatedTemTeam: UpdateTemTeam) => void;
 
   // manipulates individual tems relative to the active TemTeam
   addToTeam: (temToAdd: string) => void;
   removeFromTeam: (temId: string) => void;
-  updateCustomTem: (updatedTem: AtLeast<CustomTem, "id">) => void;
+  updateCustomTem: (updatedTem: UpdateTem) => void;
   addToTeamOnSlot: (temToAdd: string, slot: number) => void;
+
+  updateCustomTemFromTeam: (teamId: string, u: UpdateTem) => void;
 };
 
 export const useTemTeamsStore = create<TemTeamsState>()(
@@ -63,9 +70,6 @@ export const useTemTeamsStore = create<TemTeamsState>()(
             activeCustomTemId: temTeam.team[0].id, // set first tem in list to active
           };
         }),
-      // activeCustomTemId: "",
-      // setActiveCustomTemId: (temId) =>
-      //   set((state) => ({ activeCustomTemId: temId })),
 
       teams: createEmptyTeams(3),
       addTemTeam: (toTop = false) =>
@@ -96,6 +100,25 @@ export const useTemTeamsStore = create<TemTeamsState>()(
             activeTeamId: updatedActiveId,
             teams: updatedTeams,
           };
+        }),
+      updateTemTeam: (updatedTemTeam) =>
+        set((state) => {
+          const { teams } = state;
+          const [temTeam, i] = getItemAndIndex(teams, updatedTemTeam.id);
+          if (!temTeam) return state;
+
+          return {
+            teams: [
+              ...teams.slice(0, i),
+              { ...temTeam, ...updatedTemTeam },
+              ...teams.slice(i + 1),
+            ],
+          };
+
+          // return {
+          //   activeTeamId: updatedActiveId,
+          //   teams: updatedTeams,
+          // };
         }),
       addToTeam: (temToAdd) =>
         set((state) => {
@@ -191,6 +214,33 @@ export const useTemTeamsStore = create<TemTeamsState>()(
             ],
           };
         }),
+      updateCustomTemFromTeam: (teamId: string, updatedTem: UpdateTem) =>
+        set((state) => {
+          const { teams } = state;
+          const [temTeam, i] = getItemAndIndex(teams, teamId);
+          if (!temTeam) return state;
+
+          const { team } = temTeam;
+          const [tem, j] = getItemAndIndex(team, updatedTem.id);
+          if (!tem) return state;
+
+          const updatedTemTeam = {
+            ...temTeam,
+            team: [
+              ...temTeam.team.slice(0, j),
+              { ...tem, ...updatedTem },
+              ...temTeam.team.slice(j + 1),
+            ],
+          };
+
+          return {
+            teams: [
+              ...teams.slice(0, i),
+              updatedTemTeam,
+              ...teams.slice(i + 1),
+            ],
+          };
+        }),
     }),
     { name: "my-teams", version: 1 }
   )
@@ -226,6 +276,7 @@ export function createCustomTem(nameOfTem: string, order = 0): CustomTem {
     order: order,
     name: nameOfTem,
     nickname: "",
+    luma: false,
     trait: "",
     gear: "",
     level: 100,

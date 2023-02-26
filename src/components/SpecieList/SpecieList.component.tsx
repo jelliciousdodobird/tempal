@@ -24,6 +24,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useSidebarUpdate } from "../../hooks/useSidebarUpdate";
 
 type Props = {
   species: MinTemtem[];
@@ -137,6 +138,7 @@ const SpecieItemLink = ({
   active,
   setActiveItemId,
 }: ItemProps) => {
+  const { goToPageContent } = useSidebarUpdate();
   const showSortData =
     show !== "relevance" && show !== "name" && show !== "number";
 
@@ -166,6 +168,7 @@ const SpecieItemLink = ({
         "outline-none appearance-none hover:bg-neutral-800/80",
         active ? "bg-neutral-800/80" : ""
       )}
+      onClick={goToPageContent}
       onMouseEnter={activateSelf}
     >
       <div className="flex w-16 h-16">

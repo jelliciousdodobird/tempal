@@ -19,15 +19,6 @@ export const VALID_TECHNIQUE_DATA_FIELDS = [
   "synergy effects",
 ] as const;
 
-export const VALID_PRIORITIES = [
-  "verylow",
-  "normal",
-  "low",
-  "high",
-  "ultra",
-  "veryhigh",
-] as const;
-
 export const VALID_CLASSES = ["status", "special", "physical"] as const;
 export const VALID_SYN_TYPES = [
   "damage",
@@ -48,15 +39,12 @@ export const VALID_TARGETS = [
 ] as const;
 
 export type TechniqueDataField = typeof VALID_TECHNIQUE_DATA_FIELDS[number];
-export type Priority = typeof VALID_PRIORITIES[number];
 export type Class = typeof VALID_CLASSES[number];
 export type SynType = typeof VALID_SYN_TYPES[number];
 export type Targeting = typeof VALID_TARGETS[number];
 
 export const isTechniqueDataField = (str: any): str is TechniqueDataField =>
   VALID_TECHNIQUE_DATA_FIELDS.some((field) => field === str);
-export const isPriority = (str: any): str is Priority =>
-  VALID_PRIORITIES.some((priority) => priority === str);
 export const isClass = (str: any): str is Class =>
   VALID_CLASSES.some((c) => c === str);
 export const isSynType = (str: any): str is SynType =>

@@ -1,10 +1,10 @@
 "use client";
 
+import clsx from "clsx";
 import Image from "next/image";
 import { Combobox } from "@headlessui/react";
-import { IconCheck, IconCircleCheckFilled } from "@tabler/icons-react";
-import clsx from "clsx";
-import { Fragment, useRef, useState } from "react";
+import { IconPlus } from "@tabler/icons-react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useFetchTechniqueData } from "../../hooks/useFetchTechniqueData";
 import { isTypeElement } from "../../utils/augmented-types/temtems";
 import {
@@ -42,63 +42,45 @@ export const TechniqueMenu = ({
 
   const resetQuery = () => {
     setQuery("");
-
-    if (inputRef != null && typeof inputRef !== "function")
+    if (inputRef !== null && typeof inputRef !== "function")
       inputRef?.current?.focus();
   };
-  const clickButton = (opened: boolean) =>
-    !opened && buttonRef.current?.click();
+
+  // const clickButton = (opened: boolean) =>
+  //   !opened && buttonRef.current?.click();
 
   return (
-    <Combobox value={value} onChange={setValue} by="techName">
+    <Combobox
+      value={value}
+      onChange={setValue}
+      by="techName"
+      as="div"
+      className=""
+    >
       {({ open }) => (
         <>
-          <div className="relative w-min">
-            <Combobox.Input
-              ref={inputRef}
-              autoComplete="off"
-              // placeholder={placeholder}
-              className={clsx(
-                "relative z-0 flex justify-between px-3 h-8 rounded-md text-base font-mono font-semibold caret-black disabled:cursor-not-allowed bg-neutral-800",
-                ` placeholder:text-base placeholder:uppercase appearance-none outline-none`
-              )}
-              displayValue={(dept: TechOption) =>
-                open ? query : dept.techName
-              }
-              onChange={(e) => setQuery(e.target.value)}
-              onFocus={() => clickButton(open)}
-              required
-            />
-            {/* 
-                Taking advantage of this button in TWO ways:
-                1. as a graphic element to let the user know they must fill in the input field (red dot)
-                2. as a way to force headless-ui to open the options menu when the input is clicked (using refs)
-            */}
-            <Combobox.Button
-              className="z-10 absolute top-[5px] right-[5px] flex h-1 w-1 text-red-500 pointer-events-none"
-              ref={buttonRef}
-              disabled
-            >
-              {value.techName === "" && (
-                <>
-                  <span className="absolute rounded-full h-2 w-2 -top-[0.125rem] -left-[0.125rem] animate-ping-slow bg-red-500/75" />
-                  <span className="relative rounded-full h-full w-full bg-red-500" />
-                </>
-              )}
-            </Combobox.Button>
-          </div>
+          <Combobox.Input
+            ref={inputRef}
+            autoComplete="off"
+            placeholder="Select a technique"
+            className={clsx(
+              "flex justify-between px-3 h-8 rounded-md text-base font-bold caret-white disabled:cursor-not-allowed bg-neutral-800",
+              "placeholder:text-base placeholder:text-neutral-700 appearance-none outline-none"
+            )}
+            displayValue={(dept: TechOption) => (open ? query : dept.techName)}
+            onChange={(e) => setQuery(e.target.value)}
+            // onClick={() => clickButton(open)}
+            required
+          />
 
           <Combobox.Options
-            // as="div"
+            static
             className={clsx(
-              "absolute z-20 top-0 left-0 flex flex-col gap-[1px] max-h-[calc(10*2.5rem+4px)]",
-              "bg-neutral-800 rounded-lg w-full sm:w-min min-w-[18rem] mb-32",
-              "appearance-none outline-none shadow-lg ring-1 ring-white/5",
-              "custom-scrollbar-tiny overflow-y-auto overflow-x-hidden",
-              "  "
+              "flex flex-col py-4",
+              "bg-neutral-800zz rounded-lg w-full",
+              "appearance-none outline-none"
             )}
           >
-            {/* <ul className="flex flex-col gap-[1px] custom-scrollbar-tiny overflow-y-auto overflow-x-hidden max-h-[calc(5*2.5rem+4px)] pr-3"> */}
             {filteredOptions.length === 0 && (
               <li className="w-full">
                 <button
@@ -113,7 +95,6 @@ export const TechniqueMenu = ({
             {filteredOptions.map((option) => (
               <TechniqueItem key={option.techName} option={option} />
             ))}
-            {/* </ul> */}
           </Combobox.Options>
         </>
       )}
@@ -154,31 +135,42 @@ export const TechniqueItem = ({ option }: { option: TechOption }) => {
       </li>
     );
 
-  // console.log(tech);
+  const synType = tech["synergy type"];
+  const synDamage = tech["synergy damage"];
+  const synHold = tech["synergy hold"];
+  const synPriority = tech["synergy priority"];
+  const synCost = tech["synergy sta"];
+  const synTarget = tech["synergy targeting"];
 
   const typeIcon = isTypeElement(tech.type) ? typeElementIcons[tech.type] : "";
   const classIcon = TECH_CLASS_ICON_URLS[tech.class];
   const priorityIcon = PRIORITY_ICON_URLS[tech.priority];
+  const synPriorityIcon = synPriority ? PRIORITY_ICON_URLS[synPriority] : "";
   const effectText = formatEffectText(tech.name, tech.effectText);
+
+  const synergyTypeIcon = isTypeElement(synType)
+    ? typeElementIcons[synType]
+    : "";
 
   return (
     <Combobox.Option value={option} as={Fragment}>
       {({ active, selected }) => (
         <li
           className={clsx(
-            "flex flex-col gap-2 px-4 py-4 min-w-[320px] cursor-pointer whitespace-nowrap",
-            active ? "bg-neutral-700/30" : ""
+            "flex flex-col gap-2 px-4 py-5 min-w-[320px] cursor-pointer whitespace-nowrap",
+            active ? "bg-neutral-800/30" : ""
           )}
-          onClick={() => console.log(tech)}
         >
           <span className="flex gap-2 font-bold text-neutral-100">
             {tech.name}
             {option.alreadySelected && (
-              <IconCircleCheckFilled size={24} className="text-emerald-500" />
+              <span className="grid place-items-center px-2 rounded-full text-xs bg-green-900/50 text-green-500">
+                selected
+              </span>
             )}
           </span>
           <span className="flex gap-1 items-center">
-            <div className="grid place-content-center w-10 h-10 rounded-md bg-gradient-to-t from-transparent to-neutral-700/30">
+            <div className="grid place-content-center w-10 h-10 rounded-md bg-gradient-to-t from-transparent to-neutral-700/40">
               <figure className="flex w-8 h-8">
                 <Image
                   alt={"attack type icon for " + tech.type}
@@ -190,7 +182,7 @@ export const TechniqueItem = ({ option }: { option: TechOption }) => {
                 />
               </figure>
             </div>
-            <div className="grid place-content-center w-10 h-10 rounded-md bg-gradient-to-t from-transparent to-neutral-700/30">
+            <div className="grid place-content-center w-10 h-10 rounded-md bg-gradient-to-t from-transparent to-neutral-700/40">
               <figure className="flex w-7 h-7">
                 <Image
                   alt={"attack class icon for " + tech.class}
@@ -202,7 +194,7 @@ export const TechniqueItem = ({ option }: { option: TechOption }) => {
                 />
               </figure>
             </div>
-            <div className="grid place-content-center w-10 h-10 rounded-md bg-gradient-to-t from-transparent to-neutral-700/30">
+            <div className="grid place-content-center w-10 h-10 rounded-md bg-gradient-to-t from-transparent to-neutral-700/40">
               <figure className="flex h-5">
                 <Image
                   alt={"priority icon for " + tech.priority}
@@ -241,10 +233,92 @@ export const TechniqueItem = ({ option }: { option: TechOption }) => {
               </div>
             </dl>
           </span>
-
-          <p className="max-w-sm font-medium whitespace-pre-wrap text-sm text-neutral-500">
+          <p className="max-w-sm whitespace-pre-wrap text-sm text-neutral-500">
             {effectText}
           </p>
+
+          {synType && (
+            <>
+              <span className="flex gap-2 font-bold text-neutral-300 text-sm pt-4">
+                Synergy
+              </span>
+              <div className="flex flex-col">
+                <span className="flex gap-1">
+                  <div className="grid place-content-center w-10 h-10 rounded-full bg-neutral-700/40">
+                    <figure className="flex w-8 h-8">
+                      <Image
+                        alt={"synergy type icon for " + synType}
+                        src={synergyTypeIcon}
+                        width={50}
+                        height={50}
+                        quality={100}
+                        className="flex object-contain w-full h-full"
+                      />
+                    </figure>
+                  </div>
+                  <div className="grid place-content-center w-10 h-10 rounded-md">
+                    <IconPlus stroke={2} className="text-neutral-500" />
+                  </div>
+                  <div className="grid place-content-center w-10 h-10 rounded-md bg-gradient-to-t from-transparent to-neutral-700/40">
+                    <figure className="flex h-5">
+                      <Image
+                        alt={"synergy priority icon for " + synPriority}
+                        src={synPriorityIcon || priorityIcon}
+                        width={100}
+                        height={46}
+                        quality={100}
+                        className="flex object-contain w-full h-full"
+                      />
+                    </figure>
+
+                    {/* {synPriority ? (
+                      <figure className="flex h-5">
+                        <Image
+                          alt={"synergy priority icon for " + synPriority}
+                          src={synPriorityIcon}
+                          width={100}
+                          height={46}
+                          quality={100}
+                          className="flex object-contain w-full h-full"
+                        />
+                      </figure>
+                    ) : (
+                      "-"
+                    )} */}
+                  </div>
+                  <dl className="flex gap-1">
+                    <div className="flex flex-col justify-center w-10 h-10 rounded-md bg-gradient-to-b from-transparent to-red-900/50 text-red-500">
+                      <dt className=" w-full text-[10px] text-center font-bold uppercase">
+                        dmg
+                      </dt>
+                      <dd className="grid place-items-center flex-1 w-full rounded-md text-sm font-bold font-mono text-center">
+                        {synDamage ?? tech.damage}
+                      </dd>
+                    </div>
+                    <div className="flex flex-col justify-center w-10 h-10 rounded-md bg-gradient-to-b from-transparent to-sky-900/50 text-sky-500">
+                      <dt className=" w-full text-[10px] text-center font-bold uppercase">
+                        sta
+                      </dt>
+                      <dd className="grid place-items-center flex-1 w-full rounded-md text-sm font-bold font-mono text-center">
+                        {synCost ?? tech.cost}
+                      </dd>
+                    </div>
+                    <div className="flex flex-col justify-center w-10 h-10 rounded-md bg-gradient-to-b from-transparent to-yellow-900/50 text-yellow-500">
+                      <dt className=" w-full text-[10px] text-center font-bold uppercase">
+                        hold
+                      </dt>
+                      <dd className="grid place-items-center flex-1 w-full rounded-md text-sm font-bold font-mono text-center">
+                        {synHold ?? tech.hold}
+                      </dd>
+                    </div>
+                  </dl>
+                </span>
+              </div>
+              <p className="max-w-sm whitespace-pre-wrap text-sm text-neutral-500">
+                {tech.synergyText}
+              </p>
+            </>
+          )}
         </li>
       )}
     </Combobox.Option>
