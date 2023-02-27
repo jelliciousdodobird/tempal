@@ -1,4 +1,5 @@
 "use client";
+
 import { nanoid } from "nanoid";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -27,6 +28,7 @@ export type TemTeam = {
   id: string;
   order: number;
   teamName: string;
+  notes: string;
   team: CustomTem[];
 };
 
@@ -114,11 +116,6 @@ export const useTemTeamsStore = create<TemTeamsState>()(
               ...teams.slice(i + 1),
             ],
           };
-
-          // return {
-          //   activeTeamId: updatedActiveId,
-          //   teams: updatedTeams,
-          // };
         }),
       addToTeam: (temToAdd) =>
         set((state) => {
@@ -293,6 +290,7 @@ export function createTemTeam(teamName = ""): TemTeam {
     order: 0,
     teamName,
     team: [],
+    notes: "",
   };
 }
 

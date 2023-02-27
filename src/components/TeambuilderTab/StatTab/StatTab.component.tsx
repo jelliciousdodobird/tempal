@@ -1,10 +1,12 @@
 "use client";
 
+import clsx from "clsx";
 import { Tab } from "@headlessui/react";
 import { CustomTem } from "../../../store/temteam-store";
 import { Stats, StatsWithTotal } from "../../../utils/augmented-types/temtems";
 import { calcHP, calcSTA, calcStat } from "../../../utils/stat-calcs";
 import { TabHighlight } from "../../TabHighlight/TabHighlight.component";
+import { TeambuilderTabLabel } from "../../TeambuilderTabLabel/TeambuilderTabLabel.component";
 
 export type StatTabProps = {
   customTem: CustomTem;
@@ -29,11 +31,11 @@ export const StatTab = ({ customTem, baseStats }: StatTabProps) => {
 
   const hp = calcHP(lvl, base.hp, sv.hp, tv.hp);
   return (
-    <Tab className="isolate relative flex flex-col gap-2 px-1 min-w-[14rem] outline-none appearance-none">
+    <Tab className="isolate relative flex flex-col gap-2 min-w-[14rem] outline-none appearance-none">
       {({ selected }) => (
         <>
-          <span className="isolate relative text-left text-xs font-bold">
-            Stats
+          <span className="isolate relative text-left text-xs font-bold w-full">
+            <TeambuilderTabLabel label="Stats" selected={selected} />
             {selected && <TabHighlight />}
           </span>
           <div className="flex flex-col w-full">
@@ -71,10 +73,10 @@ const Statline = ({ statLabel, base, sv, tv }: StatlineProps) => {
 
   return (
     <span className="flex items-center gap-2 w-full">
-      <span className="text-xs font-bold text-left whitespace-nowrap text-neutral-500">
+      <span className="text-[10px] font-bold text-left whitespace-nowrap text-white/30">
         {statLabel}
       </span>
-      <span className="flex w-full h-1 bg-neutral-800/30">
+      <span className="flex w-full h-1 bg-white/5">
         <span
           className="flex h-full bg-primary-500"
           style={{ width: baseWidth }}

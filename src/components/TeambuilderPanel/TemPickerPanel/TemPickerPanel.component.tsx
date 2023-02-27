@@ -2,13 +2,13 @@
 
 import { Tab } from "@headlessui/react";
 import { useQuery } from "@tanstack/react-query";
+import { Fields, Temtem } from "../../../utils/augmented-types/temtems";
+import { fetchTemtem } from "../../../utils/fetch-temtem";
 import {
   createCustomTem,
   CustomTem,
   UpdateTem,
 } from "../../../store/temteam-store";
-import { Fields, Temtem } from "../../../utils/augmented-types/temtems";
-import { fetchTemtem } from "../../../utils/fetch-temtem";
 
 export type TemPickerPanelProps = {
   customTem: CustomTem;
@@ -71,9 +71,18 @@ export const TemPickerPanel = ({
     updateCustomTem({ ...freshTem, id: customTem.id }); // we still want to keep the same id
   };
 
+  const clearTem = () => updateToFreshTem("");
+
   return (
     <Tab.Panel className="flex flex-col gap-4">
       <span className="font-bold">TemPickerPanel</span>
+      <button
+        type="button"
+        className="rounded-xl w-min whitespace-nowrap px-2 text-sm font-bold h-8 bg-red-900/50 text-red-500"
+        onClick={clearTem}
+      >
+        CLEAR
+      </button>
       <ul className="flex flex-col">
         {temList.map((tem) => (
           <li
