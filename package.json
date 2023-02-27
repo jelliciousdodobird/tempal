@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "quicktype-temtems": "quicktype https://temtem-api.mael.tech/api/temtems -l ts --no-runtime-typecheck --prefer-unions --prefer-types | sed 's/export //g' > ./src/utils/generated-types/temtems.ts && echo export {} >> ./src/utils/generated-types/temtems.ts",
+    "quicktype-traits": "quicktype https://temtem-api.mael.tech/api/traits -l ts --no-runtime-typecheck --prefer-unions --prefer-types | sed 's/export //g' > ./src/utils/generated-types/traits.ts && echo export {} >> ./src/utils/generated-types/traits.ts",
+    "quicktype-gear": "quicktype https://temtem-api.mael.tech/api/gear -l ts --no-runtime-typecheck --prefer-unions --prefer-types | sed 's/export //g' > ./src/utils/generated-types/gear.ts && echo export {} >> ./src/utils/generated-types/gear.ts",
     "quicktype-techniques": "quicktype http://localhost:3000/api/techniques -l ts --no-runtime-typecheck --prefer-unions --prefer-types > ./src/utils/generated-types/techniques.ts"
   },
   "dependencies": {

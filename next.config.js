@@ -6,7 +6,11 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ["temtem-api.mael.tech", "temtem.wiki.gg"],
+    domains: [
+      "temtem-api.mael.tech",
+      "temtem.wiki.gg",
+      "static.wikia.nocookie.net",
+    ],
   },
   webpack(config, options) {
     config.module.rules.push({
