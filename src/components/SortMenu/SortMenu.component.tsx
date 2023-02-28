@@ -21,7 +21,6 @@ import {
   SORT_TYPE_MAP,
   sortOrderDescription,
 } from "../SpecieList/SpecieList.utils";
-import { ScrollShadow } from "../ScrollShadow/ScrollShadow.component";
 
 type SortMenuProps = {};
 
@@ -58,27 +57,33 @@ export const SortMenu = ({}: SortMenuProps) => {
         as="ul"
         className={clsx(
           "outline-none appearance-none",
-          "absolute left-0 w-full max-h-[15rem]zz rounded-md",
+          "absolute left-0 top-0 w-full max-h-[15rem]zz rounded-md",
           "overflow-y-auto overflow-x-hidden custom-scrollbar-tiny",
           "backdrop-blur-md shadow-lg bg-neutral-800/90",
-          "flex flex-col gap-2 pb-2"
+          "flex flex-col gap-2 pb-2 pt-6zz mt-2zz"
         )}
       >
-        <li className="sticky top-0 w-full text-center pt-4  bg-gradient-to-b from-neutral-900 to-transparent">
-          {/* How would you like to sort the results? */}
-          Sort Options & Order:
+        <li className="w-full h-6 flex justify-end p-2 mb-4">
+          <div className="w-full h-8 rounded-md flex items-center p-3 bg-neutral-700/30zz text-neutral-200 text-lg uppercasezz font-extrabold tracking-wide">
+            <IconSortAscending2 size={20} />
+            <span className="pl-2">Sort Options & Order</span>
+          </div>
         </li>
         <li className="flex flex-col gap-2 px-3">
-          <span className="">Keys</span>
-          <ul className="flex flex-row flex-wrap gap-2">
+          <span className="absolute ml-2 flex justify-center items-center w-auto text-sm text-neutral-800/80zz text-neutral-300 font-extrabold rounded-lg px-2 py-1">
+            Keys
+          </span>
+          <ul className="flex flex-row flex-wrap gap-2 border border-neutral-700/50 rounded-lg px-2 pt-[1.1rem] pb-2 mt-[1rem]">
             <SortItem {...props} sortKey={SORT_TYPE_MAP["relevance"]} />
             <SortItem {...props} sortKey={SORT_TYPE_MAP["name"]} />
             <SortItem {...props} sortKey={SORT_TYPE_MAP["number"]} />
           </ul>
         </li>
         <li className="flex flex-col gap-2 px-3">
-          <span className="">Base Stats</span>
-          <ul className="flex flex-row flex-wrap gap-2">
+          <span className="absolute left-[10%]zz ml-2 flex justify-center items-center w-auto text-sm text-neutral-300 font-extrabold rounded-lg px-2 py-1">
+            Base Stats
+          </span>
+          <ul className="flex flex-row flex-wrap gap-2 border border-neutral-700/50 rounded-lg px-2 pt-[1.1rem] pb-2 mt-[1rem]">
             <SortItem {...props} sortKey={SORT_TYPE_MAP["base HP"]} />
             <SortItem {...props} sortKey={SORT_TYPE_MAP["base stamina"]} />
             <SortItem {...props} sortKey={SORT_TYPE_MAP["base speed"]} />
@@ -89,8 +94,10 @@ export const SortMenu = ({}: SortMenuProps) => {
           </ul>
         </li>
         <li className="flex flex-col gap-2 px-3">
-          <span className="">Training Values</span>
-          <ul className="flex flex-row flex-wrap gap-2">
+          <span className="absolute left-[10%]zz ml-2 flex justify-center items-center w-auto text-sm text-neutral-300 font-extrabold rounded-lg px-2 py-1">
+            Training Values
+          </span>
+          <ul className="flex flex-row flex-wrap gap-2 border border-neutral-700/50 rounded-lg px-2 pt-[1.1rem] pb-2 mt-[1rem]">
             <SortItem {...props} sortKey={SORT_TYPE_MAP["HP TVs"]} />
             <SortItem {...props} sortKey={SORT_TYPE_MAP["stamina TVs"]} />
             <SortItem {...props} sortKey={SORT_TYPE_MAP["speed TVs"]} />
@@ -130,6 +137,7 @@ export const SortItem = ({
         sortOrder: selectedSortOrder === "asc" ? "des" : "asc",
       });
     else setQuery({ sortOrder: "des", sortType: value });
+    console.log(selectedSortOrder);
   };
 
   return (
@@ -137,19 +145,19 @@ export const SortItem = ({
       <button
         type="button"
         className={clsx(
-          // "flex items-center w-full h-10 px-8",
           "flex flex-row items-center px-3 py-1",
           "rounded-md text-xs",
+          "hover:scale-110",
           itemSelected
             ? selectedSortOrder === "asc"
               ? "text-red-400 bg-red-800/50 font-bold"
               : "text-green-500 bg-green-800/50 font-bold"
-            : "bg-neutral-700 text-neutral-200 "
+            : "bg-neutral-700/30 text-neutral-300/70 "
         )}
         onClick={toggleItem}
       >
         <span className="" data-selected={itemSelected}>
-          {SORT_LABELS[sortKey.value]}
+          {sortKey.shortLabel}
         </span>
         <span className={itemSelected ? "pl-2" : ""}>
           {itemSelected && (
@@ -157,7 +165,6 @@ export const SortItem = ({
               className={clsx(
                 "transition-[transform]",
                 selectedSortOrder === "asc" ? "rotate-0" : "rotate-180",
-                // "animate-bounce"
                 "animate-pulse"
               )}
               size={16}
