@@ -4,13 +4,15 @@ import { Tab } from "@headlessui/react";
 import { ChangeEventHandler } from "react";
 import { CustomTem, UpdateTem } from "../../../store/temteam-store";
 import { Stats } from "../../../utils/augmented-types/temtems";
+import { EmptyPanel } from "../EmptyPanel/EmptyPanel.component";
 
-export type StatPanelProps = {
+type StatPanelProps = {
   customTem: CustomTem;
   updateCustomTem: (updatedTem: UpdateTem) => void;
 };
 
 export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
+  const { name } = customTem;
   const udpateSV = (stat: keyof Stats, value: number) => {
     const currentStats = customTem.svSpread;
     const updatedStats = { ...currentStats, [stat]: value };
@@ -37,6 +39,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
     } catch (error) {}
   };
 
+  if (name === "") return <EmptyPanel />;
   return (
     <Tab.Panel className="flex flex-col gap-4">
       <span className="font-bold">StatPanel</span>

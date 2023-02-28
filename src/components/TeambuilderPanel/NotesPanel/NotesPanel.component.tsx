@@ -2,17 +2,20 @@
 
 import { Tab } from "@headlessui/react";
 import { CustomTem, UpdateTem } from "../../../store/temteam-store";
+import { EmptyPanel } from "../EmptyPanel/EmptyPanel.component";
 
 const LIMIT = 300;
 
-export type NotesPanelProps = {
+type NotesPanelProps = {
   customTem: CustomTem;
   updateCustomTem: (updatedTem: UpdateTem) => void;
 };
 
 export const NotesPanel = ({ customTem, updateCustomTem }: NotesPanelProps) => {
-  const { id, notes } = customTem;
+  const { id, notes, name } = customTem;
   const updateNotes = (value: string) => updateCustomTem({ id, notes: value });
+
+  if (name === "") return <EmptyPanel />;
   return (
     <Tab.Panel className="flex flex-col gap-4">
       <span className="font-bold">Notes Panel</span>

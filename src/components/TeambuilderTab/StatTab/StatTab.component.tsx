@@ -8,7 +8,7 @@ import { calcHP, calcSTA, calcStat } from "../../../utils/stat-calcs";
 import { TabHighlight } from "../../TabHighlight/TabHighlight.component";
 import { TeambuilderTabLabel } from "../../TeambuilderTabLabel/TeambuilderTabLabel.component";
 
-export type StatTabProps = {
+type StatTabProps = {
   customTem: CustomTem;
   baseStats: StatsWithTotal | null;
 };

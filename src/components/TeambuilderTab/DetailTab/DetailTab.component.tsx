@@ -6,7 +6,7 @@ import { CustomTem } from "../../../store/temteam-store";
 import { TabHighlight } from "../../TabHighlight/TabHighlight.component";
 import { TeambuilderTabLabel } from "../../TeambuilderTabLabel/TeambuilderTabLabel.component";
 
-export type DetailTabProps = {
+type DetailTabProps = {
   customTem: CustomTem;
 };
 

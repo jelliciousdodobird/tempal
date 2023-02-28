@@ -9,7 +9,7 @@ import { TeambuilderTabLabel } from "../../TeambuilderTabLabel/TeambuilderTabLab
 import { formatTemName } from "../../../utils/utils";
 import { typeElementIcons } from "../../../utils/data";
 
-export type TemPortaitTabProps = {
+type TemPortaitTabProps = {
   customTem: CustomTem;
   temData: Temtem | null;
 };

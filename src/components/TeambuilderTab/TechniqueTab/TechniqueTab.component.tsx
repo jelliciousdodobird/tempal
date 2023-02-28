@@ -7,8 +7,9 @@ import { useFetchTechniqueData } from "../../../hooks/useFetchTechniqueData";
 import { CustomTem } from "../../../store/temteam-store";
 import { typeElementIcons } from "../../../utils/data";
 import { TabHighlight } from "../../TabHighlight/TabHighlight.component";
+import { TeambuilderTabLabel } from "../../TeambuilderTabLabel/TeambuilderTabLabel.component";
 
-export type TechniqueTabProps = { customTem: CustomTem; slot: number };
+type TechniqueTabProps = { customTem: CustomTem; slot: number };
 
 export const TechniqueTab = ({ customTem, slot }: TechniqueTabProps) => {
   const techName = customTem.techniques[slot];
@@ -17,6 +18,9 @@ export const TechniqueTab = ({ customTem, slot }: TechniqueTabProps) => {
     <Tab className="isolate relative flex items-center outline-none appearance-none cursor-pointer min-w-[176px]">
       {({ selected }) => (
         <>
+          <span className="absolute -left-6">
+            <TeambuilderTabLabel label="" selected={selected} />
+          </span>
           <div
             className={clsx(
               "flex items-center rounded-md w-full h-8 text-sm text-neutral-400 bg-white/10 shadow-md whitespace-nowrap",

@@ -10,7 +10,7 @@ import {
   UpdateTem,
 } from "../../../store/temteam-store";
 
-export type TemPickerPanelProps = {
+type TemPickerPanelProps = {
   customTem: CustomTem;
   updateCustomTem: (updatedTem: UpdateTem) => void;
 };

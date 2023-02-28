@@ -7,12 +7,16 @@ import { motion } from "framer-motion";
 type TeambuilderTabLabelProps = {
   selected: boolean;
   label: string;
+  disabled?: boolean;
 };
 
 export const TeambuilderTabLabel = ({
   label,
   selected,
+  disabled = false,
 }: TeambuilderTabLabelProps) => {
+  const animate = selected && !disabled;
+
   return (
     <span
       className={clsx(
@@ -20,9 +24,9 @@ export const TeambuilderTabLabel = ({
         selected && "pl-1zz"
       )}
     >
-      {selected && (
+      {animate && (
         <motion.span
-          className="mr-1"
+          className="absolute left-0 mr-1"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
         >
@@ -33,7 +37,7 @@ export const TeambuilderTabLabel = ({
           />
         </motion.span>
       )}
-      <motion.span layout className="">
+      <motion.span initial={{ x: 0 }} animate={{ x: animate ? 20 : 0 }}>
         {label}
       </motion.span>
     </span>

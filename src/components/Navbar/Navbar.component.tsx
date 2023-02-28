@@ -15,7 +15,7 @@ export const Navbar = () => {
   return (
     <div
       className={clsx(
-        "h-16 bg-neutral-900/90 backdrop-blur-md",
+        "h-16 bg-neutral-900/20 backdrop-blur",
         "border-b border-white/[7%]"
       )}
     >

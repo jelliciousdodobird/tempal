@@ -2,10 +2,11 @@
 
 import { Tab } from "@headlessui/react";
 import { CustomTem, UpdateTem } from "../../../store/temteam-store";
+import { EmptyPanel } from "../EmptyPanel/EmptyPanel.component";
 
 const LIMIT = 30;
 
-export type DetailPanelProps = {
+type DetailPanelProps = {
   customTem: CustomTem;
   updateCustomTem: (updatedTem: UpdateTem) => void;
 };
@@ -14,10 +15,13 @@ export const DetailPanel = ({
   customTem,
   updateCustomTem,
 }: DetailPanelProps) => {
-  const { id, luma, nickname } = customTem;
+  const { id, luma, nickname, name } = customTem;
   const toggleLuma = () => updateCustomTem({ id, luma: !luma });
   const updateNickname = (value: string) =>
     updateCustomTem({ id, nickname: value });
+
+  if (name === "") return <EmptyPanel />;
+
   return (
     <Tab.Panel className="flex flex-col gap-4">
       <span className="font-bold">Detail Panel</span>

@@ -9,8 +9,9 @@ import {
   TechniqueMenu,
   TechOption,
 } from "../../TechniqueMenu/TechniqueMenu.component";
+import { EmptyPanel } from "../EmptyPanel/EmptyPanel.component";
 
-export type TechniquePanelProps = {
+type TechniquePanelProps = {
   customTem: CustomTem;
   updateCustomTem: (updatedTem: UpdateTem) => void;
   slot: number;
@@ -21,11 +22,13 @@ export const TechniquePanel = ({
   updateCustomTem,
   slot,
 }: TechniquePanelProps) => {
+  const { name } = customTem;
   const { data, isLoading, isError } = useFetchTemQuery(customTem.name);
 
-  const enabledQuery = customTem.name !== "";
+  const enabledQuery = name !== "";
   const isTrueLoading = isLoading && enabledQuery;
 
+  if (name === "") return <EmptyPanel />;
   if (isTrueLoading || isError)
     return (
       <div className="rounded-full w-20 h-20 animate-pulse bg-neutral-700"></div>

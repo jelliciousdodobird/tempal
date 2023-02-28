@@ -4,18 +4,20 @@ import { Tab } from "@headlessui/react";
 import { useFetchTemQuery } from "../../../hooks/useFetchTemQuery";
 import { useFetchTraitsQuery } from "../../../hooks/useFetchTraitsQuery";
 import { CustomTem, UpdateTem } from "../../../store/temteam-store";
+import { EmptyPanel } from "../EmptyPanel/EmptyPanel.component";
 
-export type TraitPanelProps = {
+type TraitPanelProps = {
   customTem: CustomTem;
   updateCustomTem: (updatedTem: UpdateTem) => void;
 };
 
 export const TraitPanel = ({ customTem, updateCustomTem }: TraitPanelProps) => {
-  const temName = customTem.name;
-  const { data, isLoading, isError } = useFetchTemQuery(temName);
-  const enabledQuery = temName !== "";
+  const { name } = customTem;
+  const { data, isLoading, isError } = useFetchTemQuery(name);
+  const enabledQuery = name !== "";
   const isTrueLoading = isLoading && enabledQuery;
 
+  if (name === "") return <EmptyPanel />;
   if (isTrueLoading || isError)
     return (
       <div className="relative flex w-6 h-6 mx-1 rounded-full bg-white/30 animate-pulse" />

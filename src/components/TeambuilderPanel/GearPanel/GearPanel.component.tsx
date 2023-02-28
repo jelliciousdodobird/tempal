@@ -4,14 +4,18 @@ import Image from "next/image";
 import { Tab } from "@headlessui/react";
 import { useFetchAllGears } from "../../../hooks/useFetchGearQuery";
 import { CustomTem, UpdateTem } from "../../../store/temteam-store";
+import { EmptyPanel } from "../EmptyPanel/EmptyPanel.component";
 
-export type GearPanelProps = {
+type GearPanelProps = {
   customTem: CustomTem;
   updateCustomTem: (updatedTem: UpdateTem) => void;
 };
 
 export const GearPanel = ({ customTem, updateCustomTem }: GearPanelProps) => {
   const { data, isLoading, isError } = useFetchAllGears();
+  const { name } = customTem;
+
+  if (name === "") return <EmptyPanel />;
 
   if (isLoading || isError || !data)
     return (

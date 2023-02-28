@@ -5,7 +5,7 @@ import { CustomTem } from "../../../store/temteam-store";
 import { TabHighlight } from "../../TabHighlight/TabHighlight.component";
 import { TeambuilderTabLabel } from "../../TeambuilderTabLabel/TeambuilderTabLabel.component";
 
-export type GearTabProps = { customTem: CustomTem };
+type GearTabProps = { customTem: CustomTem };
 
 export const GearTab = ({ customTem }: GearTabProps) => {
   return (

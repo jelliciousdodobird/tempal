@@ -39,6 +39,7 @@ import {
   useEffect,
   useState,
 } from "react";
+
 export type TeambuilderPanelBaseProps = {
   customTem: CustomTem;
   updateCustomTem: (updatedTem: UpdateTem) => void;
@@ -92,15 +93,10 @@ const TeamBuilder = ({ teamId }: SpecieParam) => {
           onChange={setTeamName}
           spellCheck={false}
           autoComplete="off"
-          className="flex h-8 px-2 rounded-md outline-none appearance-none bg-transparent hover:bg-white/10 focus:bg-white/10"
+          className="flex h-8 px-2 rounded-md outline-none appearance-none font-bold bg-transparent hover:bg-white/10 focus:bg-white/10"
         />
       </div>
-      <motion.div
-        // layout and layoutRoot fixes layout animations for the children of this sticky container
-        layout
-        layoutRoot
-        className="z-10 sticky top-16 flex flex-col pt-4 backdrop-blur-md bg-neutral-900/80 border-bzzborder-white/5 shadow-lg"
-      >
+      <motion.div className="z-10 sticky top-16 flex flex-col pt-4 backdrop-blur-lg bg-neutral-900/70 border-bzzborder-white/20 shadow-lg touch-none">
         <Tab.Group
           as="div"
           className="z-10 relative pack-content flex flex-col w-full"
@@ -110,14 +106,9 @@ const TeamBuilder = ({ teamId }: SpecieParam) => {
               {temTeam.team.map((tem) => (
                 <CirclePortraitTab key={tem.id} customTem={tem} />
               ))}
-              {/* <span className="flex items-center gap-1 rounded-xl text-xs w-52 bg-white/5 text-white/20">
-                <IconChevronLeft size={24} stroke={2.5} className="w-8 h-8" />
-                <span className="text-left text-xs [line-height:12px]">
-                  You can toggle the drawer with these too
-                </span>
-              </span> */}
             </div>
           </DraggableTabList>
+
           <Tab.Panels as={Fragment}>
             {temTeam.team.map((tem) => (
               <Tab.Panel key={tem.id} as={Fragment}>
@@ -132,7 +123,7 @@ const TeamBuilder = ({ teamId }: SpecieParam) => {
         <ToggleDrawerButton />
         <div
           id="bg-image-glow"
-          className="-z-10 absolute bottom-0 w-full h-[calc(100%+4rem)] overflow-hidden"
+          className="-z-10 absolute bottom-0 w-full h-[calc(100%+6.5rem)] overflow-hidden"
         ></div>
       </motion.div>
 
@@ -148,7 +139,7 @@ const ToggleDrawerButton = () => {
   return (
     <button
       type="button"
-      className="relative z-0 group/drawer-btn grid place-items-center w-full h-4 appearance-none outline-none text-neutral-500 from-transparent to-white/5 hover:bg-gradient-to-b hover:text-white"
+      className="relative z-0 group/drawer-btn grid place-items-center w-full h-4 appearance-none outline-none text-neutral-500 from-transparent to-white/5 border-b border-white/[7%] hover:bg-gradient-to-b hover:text-white hover:border-white/20"
       onClick={toggleIsOpen}
     >
       <IconChevronUp
@@ -178,7 +169,6 @@ const DraggableTabList = forwardRef<HTMLDivElement, { children: ReactNode }>(
           as={motion.div}
           drag="x"
           dragConstraints={containerRef}
-          dragMomentum={false}
         >
           {children}
         </Tab.List>
@@ -188,7 +178,7 @@ const DraggableTabList = forwardRef<HTMLDivElement, { children: ReactNode }>(
 );
 
 const CirclePortraitTab = ({ customTem }: { customTem: CustomTem }) => {
-  const { setIsOpen, toggleIsOpen } = useTeambuilderUIStore();
+  const { toggleIsOpen } = useTeambuilderUIStore();
   const { data, isLoading, isError } = useFetchTemQuery(customTem.name);
   const enabledQuery = customTem.name !== "";
   const isTrueLoading = isLoading && enabledQuery;
@@ -196,35 +186,21 @@ const CirclePortraitTab = ({ customTem }: { customTem: CustomTem }) => {
   if (isTrueLoading || isError)
     return (
       <Tab as={Fragment}>
-        <div className="relative outline-none appearance-none cursor-pointer animate-pulse">
-          <figure className="relative flex w-10 h-10 rounded-full overflow-hidden bg-neutral-800"></figure>
+        <div className="relative outline-none appearance-none cursor-pointer">
+          <figure className="relative flex w-10 h-10 rounded-full overflow-hidden shadow-md bg-white/10"></figure>
         </div>
       </Tab>
     );
 
-  if (!data || !data[0])
-    return (
-      <Tab as={Fragment}>
-        {({ selected }) => (
-          <div className="relative outline-none appearance-none cursor-pointer">
-            <figure className="relative flex w-10 h-10 rounded-full overflow-hidden bg-white/10 shadow-md"></figure>
-            {selected && (
-              <div className="absolute rounded-full -inset-1 border-2 border-neutral-500"></div>
-            )}
-          </div>
-        )}
-      </Tab>
-    );
+  const tem = data ? data[0] : null;
+  const name = tem?.name || "";
 
-  const tem = data[0];
-
+  const portraitUrl = tem ? tem.portraitWikiUrl : "";
   const staticImg = tem ? tem.wikiRenderStaticUrl : "";
-  const animatedImg = tem ? tem.wikiRenderAnimatedUrl : "";
   const staticImgLuma = tem ? tem.wikiRenderStaticLumaUrl : "";
-  const animatedImgLuma = tem ? tem.wikiRenderAnimatedLumaUrl : "";
 
   const { luma } = customTem;
-  const mainImg = luma ? staticImgLuma : staticImg;
+  const bgImageUrl = luma ? staticImgLuma : staticImg;
 
   const toggleDrawer = (selected: boolean) => selected && toggleIsOpen();
 
@@ -236,31 +212,36 @@ const CirclePortraitTab = ({ customTem }: { customTem: CustomTem }) => {
           onClick={() => toggleDrawer(selected)}
         >
           <figure className="z-10 relative flex w-10 h-10 rounded-full overflow-hidden shadow-md">
-            <Image
-              alt=""
-              src={tem.portraitWikiUrl}
-              width={100}
-              height={100}
-              quality={100}
-              className="z-0 absolute flex object-contain w-full h-full scale-150 blur-md"
-            />
-            <Image
-              alt={"Tem image for " + tem.name}
-              src={tem.portraitWikiUrl}
-              width={100}
-              height={100}
-              quality={100}
-              className="z-10 relative flex object-contain w-full h-full"
-            />
+            {portraitUrl && (
+              <Image
+                alt=""
+                src={portraitUrl}
+                width={100}
+                height={100}
+                quality={100}
+                className="z-0 absolute flex object-contain w-full h-full scale-150 blur-md"
+              />
+            )}
+            {portraitUrl && (
+              <Image
+                alt={"Tem image for " + name}
+                src={portraitUrl}
+                width={100}
+                height={100}
+                quality={100}
+                className="z-10 relative flex object-contain w-full h-full"
+              />
+            )}
+            {!tem && <span className="absolute inset-0 bg-white/10" />}
           </figure>
           {selected && (
-            <div className="z-0 absolute rounded-full -inset-1 overflow-hidden border-2 border-white/40 animate-pulse"></div>
+            <div className="z-0 absolute rounded-full -inset-1 overflow-hidden border-2 border-emerald-500 animate-pulse"></div>
           )}
-          {selected && (
+          {selected && bgImageUrl && (
             <Portal portalToId="bg-image-glow">
               <Image
                 alt=""
-                src={mainImg}
+                src={bgImageUrl}
                 width={100}
                 height={100}
                 quality={20}
@@ -321,7 +302,11 @@ const CustomTemDrawer = ({
           <GearTab customTem={customTem} />
         </div>
         <div className="flex flex-col gap-2 min-w-[10rem]">
-          <TeambuilderTabLabel label={techniqueLabel} selected={techSelected} />
+          <TeambuilderTabLabel
+            label={techniqueLabel}
+            selected={techSelected}
+            disabled
+          />
           <TechniqueTab customTem={customTem} slot={0} />
           <TechniqueTab customTem={customTem} slot={1} />
           <TechniqueTab customTem={customTem} slot={2} />
@@ -375,7 +360,11 @@ const EditSelectorTabGroup = forwardRef<
   HTMLDivElement,
   TeambuilderPanelBaseProps
 >(function EditSelectorTabGroup({ customTem, updateCustomTem }, ref) {
-  const startingIndex = customTem.name === "" ? 0 : 1;
+  const { name } = customTem;
+  const emptySlot = name === "";
+  const startingIndex = emptySlot ? 0 : 1;
+  const baseProps = { customTem, updateCustomTem };
+
   return (
     <Tab.Group defaultIndex={startingIndex}>
       {({ selectedIndex }) => (
@@ -388,50 +377,16 @@ const EditSelectorTabGroup = forwardRef<
           </DraggableTabList>
           <Portal portalToId="teambuilder-editing-panel">
             <Tab.Panels className="">
-              <TemPickerPanel
-                customTem={customTem}
-                updateCustomTem={updateCustomTem}
-              />
-              <DetailPanel
-                customTem={customTem}
-                updateCustomTem={updateCustomTem}
-              />
-              <TraitPanel
-                customTem={customTem}
-                updateCustomTem={updateCustomTem}
-              />
-              <GearPanel
-                customTem={customTem}
-                updateCustomTem={updateCustomTem}
-              />
-              <TechniquePanel
-                customTem={customTem}
-                updateCustomTem={updateCustomTem}
-                slot={0}
-              />
-              <TechniquePanel
-                customTem={customTem}
-                updateCustomTem={updateCustomTem}
-                slot={1}
-              />
-              <TechniquePanel
-                customTem={customTem}
-                updateCustomTem={updateCustomTem}
-                slot={2}
-              />
-              <TechniquePanel
-                customTem={customTem}
-                updateCustomTem={updateCustomTem}
-                slot={3}
-              />
-              <StatPanel
-                customTem={customTem}
-                updateCustomTem={updateCustomTem}
-              />
-              <NotesPanel
-                customTem={customTem}
-                updateCustomTem={updateCustomTem}
-              />
+              <TemPickerPanel {...baseProps} />
+              <DetailPanel {...baseProps} />
+              <TraitPanel {...baseProps} />
+              <GearPanel {...baseProps} />
+              <TechniquePanel {...baseProps} slot={0} />
+              <TechniquePanel {...baseProps} slot={1} />
+              <TechniquePanel {...baseProps} slot={2} />
+              <TechniquePanel {...baseProps} slot={3} />
+              <StatPanel {...baseProps} />
+              <NotesPanel {...baseProps} />
             </Tab.Panels>
           </Portal>
         </>
