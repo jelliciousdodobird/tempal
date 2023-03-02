@@ -57,20 +57,20 @@ export const SortMenu = ({}: SortMenuProps) => {
         as="ul"
         className={clsx(
           "outline-none appearance-none",
-          "absolute left-0 top-0 w-full max-h-[15rem]zz rounded-md",
+          "absolute left-0 top-0 w-full rounded-md",
           "overflow-y-auto overflow-x-hidden custom-scrollbar-tiny",
           "backdrop-blur-md shadow-lg bg-neutral-800/90",
-          "flex flex-col gap-2 pb-2 pt-6zz mt-2zz"
+          "flex flex-col gap-2 pb-2"
         )}
       >
-        <li className="w-full h-6 flex justify-end p-2 mb-4">
-          <div className="w-full h-8 rounded-md flex items-center p-3 bg-neutral-700/30zz text-neutral-200 text-lg uppercasezz font-extrabold tracking-wide">
+        <li className="w-full flex px-2 pb-2 pt-3">
+          <div className="w-full h-8 rounded-md flex items-center p-3 text-neutral-200 text-lg font-extrabold tracking-wide">
             <IconSortAscending2 size={20} />
             <span className="pl-2">Sort Options & Order</span>
           </div>
         </li>
         <li className="flex flex-col gap-2 px-3">
-          <span className="absolute ml-2 flex justify-center items-center w-auto text-sm text-neutral-800/80zz text-neutral-300 font-extrabold rounded-lg px-2 py-1">
+          <span className="absolute ml-2 flex justify-center items-center w-auto text-sm text-neutral-300 font-extrabold rounded-lg px-2 py-1">
             Keys
           </span>
           <ul className="flex flex-row flex-wrap gap-2 border border-neutral-700/50 rounded-lg px-2 pt-[1.1rem] pb-2 mt-[1rem]">
@@ -80,7 +80,7 @@ export const SortMenu = ({}: SortMenuProps) => {
           </ul>
         </li>
         <li className="flex flex-col gap-2 px-3">
-          <span className="absolute left-[10%]zz ml-2 flex justify-center items-center w-auto text-sm text-neutral-300 font-extrabold rounded-lg px-2 py-1">
+          <span className="absolute ml-2 flex justify-center items-center w-auto text-sm text-neutral-300 font-extrabold rounded-lg px-2 py-1">
             Base Stats
           </span>
           <ul className="flex flex-row flex-wrap gap-2 border border-neutral-700/50 rounded-lg px-2 pt-[1.1rem] pb-2 mt-[1rem]">
@@ -94,7 +94,7 @@ export const SortMenu = ({}: SortMenuProps) => {
           </ul>
         </li>
         <li className="flex flex-col gap-2 px-3">
-          <span className="absolute left-[10%]zz ml-2 flex justify-center items-center w-auto text-sm text-neutral-300 font-extrabold rounded-lg px-2 py-1">
+          <span className="absolute ml-2 flex justify-center items-center w-auto text-sm text-neutral-300 font-extrabold rounded-lg px-2 py-1">
             Training Values
           </span>
           <ul className="flex flex-row flex-wrap gap-2 border border-neutral-700/50 rounded-lg px-2 pt-[1.1rem] pb-2 mt-[1rem]">

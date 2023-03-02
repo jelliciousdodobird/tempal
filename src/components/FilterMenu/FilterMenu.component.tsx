@@ -34,7 +34,8 @@ export const FilterMenu = ({
           "outline-none appearance-none"
         )}
       >
-        <Listbox.Label className="w-min whitespace-nowrap m-2 px-3 py-1 rounded uppercase text-sm font-bold bg-neutral-700 text-neutral-200">
+        <Listbox.Label className="flex flex-row items-center gap-2 whitespace-nowrap capitalize m-2 px-3 py-1 rounded-md text-lg font-extrabold tracking-wide text-neutral-200">
+          <IconFilter size={20} />
           filter
         </Listbox.Label>
         <ul className="">
@@ -43,15 +44,15 @@ export const FilterMenu = ({
               {({ active, selected }) => (
                 <li
                   className={clsx(
-                    "flex justify-between items-center w-full h-12 px-6 capitalize cursor-pointer",
+                    "flex justify-between items-center w-full h-9 px-6 capitalize cursor-pointer text-sm",
                     active ? "bg-neutral-700/40" : "transparent",
                     active ? "text-neutral-100" : "text-neutral-400"
                   )}
                 >
-                  {filter}
+                  <span className="hover:scale-110">{filter}</span>
                   {selected && (
                     <span className="flex">
-                      <IconCheck />
+                      <IconCheck size={20} />
                     </span>
                   )}
                 </li>
