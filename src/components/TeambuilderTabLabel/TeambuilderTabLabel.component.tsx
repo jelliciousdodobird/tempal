@@ -18,12 +18,7 @@ export const TeambuilderTabLabel = ({
   const animate = selected && !disabled;
 
   return (
-    <span
-      className={clsx(
-        "flex gap items-center text-left text-xs font-bold transition-[padding]",
-        selected && "pl-1zz"
-      )}
-    >
+    <span className="flex gap items-center text-left text-xs font-bold transition-[padding]">
       {animate && (
         <motion.span
           className="absolute left-0 mr-1"

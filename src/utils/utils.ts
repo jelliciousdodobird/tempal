@@ -12,6 +12,9 @@ export const formatTemName = (name: string) => {
   return formattedName;
 };
 
+export const fuzzy = (term: string, filter: string) =>
+  term.toLowerCase().includes(filter.toLowerCase());
+
 export const getRandomIntInclusive = (min: number, max: number) => {
   min = Math.ceil(min);
   max = Math.floor(max);

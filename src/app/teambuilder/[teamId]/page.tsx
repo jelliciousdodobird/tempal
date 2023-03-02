@@ -38,6 +38,7 @@ import {
   useRef,
   useEffect,
   useState,
+  KeyboardEventHandler,
 } from "react";
 
 export type TeambuilderPanelBaseProps = {
@@ -135,22 +136,14 @@ const TeamBuilder = ({ teamId }: SpecieParam) => {
 };
 
 const ToggleDrawerButton = () => {
-  const { toggleIsOpen, isOpen } = useTeambuilderUIStore();
+  const { toggleIsOpen } = useTeambuilderUIStore();
   return (
     <button
+      tabIndex={-1}
       type="button"
-      className="relative z-0 group/drawer-btn grid place-items-center w-full h-4 appearance-none outline-none text-neutral-500 from-transparent to-white/5 border-b border-white/[7%] hover:bg-gradient-to-b hover:text-white hover:border-white/20"
+      className="relative z-0 group/drawer-btn grid place-items-center w-full h-4 cursor-row-resize appearance-none outline-none text-neutral-500 from-transparent to-white/5 border-b border-white/[7%] hover:bg-gradient-to-b hover:text-white hover:border-white/20"
       onClick={toggleIsOpen}
-    >
-      <IconChevronUp
-        size={16}
-        className={clsx(
-          "transition-[transform] rounded-sm",
-          isOpen ? "rotate-0" : "rotate-180",
-          "group-focus-visible/drawer-btn:ring-1 ring-white "
-        )}
-      />
-    </button>
+    ></button>
   );
 };
 
@@ -178,7 +171,7 @@ const DraggableTabList = forwardRef<HTMLDivElement, { children: ReactNode }>(
 );
 
 const CirclePortraitTab = ({ customTem }: { customTem: CustomTem }) => {
-  const { toggleIsOpen } = useTeambuilderUIStore();
+  const { isOpen, toggleIsOpen } = useTeambuilderUIStore();
   const { data, isLoading, isError } = useFetchTemQuery(customTem.name);
   const enabledQuery = customTem.name !== "";
   const isTrueLoading = isLoading && enabledQuery;
@@ -201,15 +194,18 @@ const CirclePortraitTab = ({ customTem }: { customTem: CustomTem }) => {
 
   const { luma } = customTem;
   const bgImageUrl = luma ? staticImgLuma : staticImg;
-
   const toggleDrawer = (selected: boolean) => selected && toggleIsOpen();
 
   return (
     <Tab as={Fragment}>
       {({ selected }) => (
-        <div
-          className="relative outline-none appearance-none cursor-pointer"
+        <button
+          type="button"
+          className="group/circle-tem relative outline-none appearance-none cursor-pointer [&>*]:pointer-events-none"
           onClick={() => toggleDrawer(selected)}
+          onKeyDown={({ key }) => {
+            if (key === "Enter" || key === " ") toggleDrawer(selected);
+          }}
         >
           <figure className="z-10 relative flex w-10 h-10 rounded-full overflow-hidden shadow-md">
             {portraitUrl && (
@@ -235,7 +231,18 @@ const CirclePortraitTab = ({ customTem }: { customTem: CustomTem }) => {
             {!tem && <span className="absolute inset-0 bg-white/10" />}
           </figure>
           {selected && (
-            <div className="z-0 absolute rounded-full -inset-1 overflow-hidden border-2 border-emerald-500 animate-pulse"></div>
+            <div
+              className={clsx(
+                "z-0 absolute rounded-full -inset-1 border-2 border-emerald-500 transition-[transform] duration-200 ease-linear",
+                isOpen ? "rotate-0" : "rotate-180"
+              )}
+            >
+              <IconChevronUp
+                className={clsx("absolute -top-[15px] w-full text-white/30")}
+                size={16}
+                stroke={3}
+              />
+            </div>
           )}
           {selected && bgImageUrl && (
             <Portal portalToId="bg-image-glow">
@@ -249,7 +256,7 @@ const CirclePortraitTab = ({ customTem }: { customTem: CustomTem }) => {
               />
             </Portal>
           )}
-        </div>
+        </button>
       )}
     </Tab>
   );

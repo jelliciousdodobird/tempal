@@ -57,7 +57,7 @@ export const TemPortraitTab = ({ customTem, temData }: TemPortaitTabProps) => {
               )}
             </span>
           )}
-          <figure className="relative flex w-full h-fullzz aspect-square overflow-hidden pointer-events-none">
+          <figure className="relative flex w-full aspect-square overflow-hidden pointer-events-none">
             {temData ? (
               <Image
                 alt={altDesc}

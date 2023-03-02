@@ -13,7 +13,7 @@ export const GearTab = ({ customTem }: GearTabProps) => {
       {({ selected }) => (
         <>
           <TeambuilderTabLabel label="Gear" selected={selected} />
-          <div className="flex items-center gap-2 rounded-md px-2 w-full h-8 text-sm text-neutral-400 bg-white/10 shadow-md">
+          <div className="flex items-center gap-2 rounded-md px-2 w-full h-8 text-sm text-neutral-400 bg-white/10 shadow-md whitespace-nowrap">
             {customTem.gear || "-"}
           </div>
           {selected && <TabHighlight />}

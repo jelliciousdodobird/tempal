@@ -46,25 +46,29 @@ export const TemPickerPanel = ({
   customTem,
   updateCustomTem,
 }: TemPickerPanelProps) => {
-  const enableQuery = customTem.name !== "";
+  // const enableQuery = customTem.name !== "";
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["fetchTemtem", fields.join()],
+  const {
+    data = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["fetchAllTemtems"],
     queryFn: () => fetchTemtem({ fields }),
-    enabled: enableQuery,
+    // enabled: enableQuery,
     staleTime,
   });
 
-  const isTrueLoading = isLoading && enableQuery;
+  // const isTrueLoading = isLoading && enableQuery;
 
-  if (isTrueLoading || isError)
+  if (isLoading || isError)
     return (
       <Tab.Panel className="flex flex-col gap-4">
         <span className="font-bold">Loading</span>
       </Tab.Panel>
     );
 
-  const temList: TemItem[] = data ?? [];
+  const temList: TemItem[] = data;
 
   const updateToFreshTem = (name: string) => {
     const freshTem = createCustomTem(name);
@@ -74,7 +78,7 @@ export const TemPickerPanel = ({
   const clearTem = () => updateToFreshTem("");
 
   return (
-    <Tab.Panel className="flex flex-col gap-4">
+    <Tab.Panel className="flex flex-col gap-4" tabIndex={-1}>
       <span className="font-bold">TemPickerPanel</span>
       <button
         type="button"

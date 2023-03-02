@@ -41,7 +41,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
 
   if (name === "") return <EmptyPanel />;
   return (
-    <Tab.Panel className="flex flex-col gap-4">
+    <Tab.Panel className="flex flex-col gap-4" tabIndex={-1}>
       <span className="font-bold">StatPanel</span>
       <div className="flex flex-col">
         <input

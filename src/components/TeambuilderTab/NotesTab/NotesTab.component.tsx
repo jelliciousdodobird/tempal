@@ -19,7 +19,7 @@ export const NotesTab = ({ customTem }: NotesTabProps) => {
             <TeambuilderTabLabel label="Notes" selected={selected} />
             {selected && <TabHighlight />}
           </span>
-          <p className="rounded-md text-left line-clamp-6 w-full h-full px-1 text-sm text-white/50 bg-white/[0.01]zz">
+          <p className="rounded-md text-left line-clamp-6 w-full h-full px-1 text-sm text-white/50">
             {notes || "No notes written."}
           </p>
         </>

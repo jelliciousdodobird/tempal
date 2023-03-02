@@ -3,12 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-// import Tem from "../(explore)/species/[name]/page";
-import { PageModal } from "../../components/PageModal/PageModal.component";
-import {
-  TechniqueMenu,
-  TechOption,
-} from "../../components/TechniqueMenu/TechniqueMenu.component";
 import { useFetchTemQuery } from "../../hooks/useFetchTemQuery";
 import { useHasMounted } from "../../hooks/useHasMounted";
 import {
