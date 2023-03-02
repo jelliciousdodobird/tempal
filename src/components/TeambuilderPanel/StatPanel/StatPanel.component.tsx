@@ -25,6 +25,26 @@ const DEFAULT_BASE_STATS: Stats = {
   spdef: 0,
 };
 
+const DEFAULT_TV_STATS: Stats = {
+  hp: 0,
+  sta: 0,
+  spd: 0,
+  atk: 0,
+  def: 0,
+  spatk: 0,
+  spdef: 0,
+};
+
+const DEFAULT_SV_STATS: Stats = {
+  hp: 1,
+  sta: 1,
+  spd: 1,
+  atk: 1,
+  def: 1,
+  spatk: 1,
+  spdef: 1,
+};
+
 const SV_MIN = 1;
 const SV_MAX = 50;
 const TV_MIN = 0;
@@ -83,9 +103,19 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
     updateCustomTem({ id: customTem.id, svSpread: updatedStats });
   };
 
+  const resetSV = () => {
+    const updatedStats = { ...DEFAULT_SV_STATS };
+    updateCustomTem({ id: customTem.id, svSpread: updatedStats });
+  };
+
   const updateTV = (stat: keyof Stats, value: number) => {
     const currentStats = customTem.tvSpread;
     const updatedStats = { ...currentStats, [stat]: value };
+    updateCustomTem({ id: customTem.id, tvSpread: updatedStats });
+  };
+
+  const resetTV = () => {
+    const updatedStats = { ...DEFAULT_TV_STATS };
     updateCustomTem({ id: customTem.id, tvSpread: updatedStats });
   };
 
@@ -157,10 +187,10 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
     );
 
   return (
-    <Tab.Panel className="flex flex-col gap-4" tabIndex={-1}>
+    <Tab.Panel className="relative flex flex-col gap-4" tabIndex={-1}>
       <table
         // ref={containerRef}
-        className="w-[30rem]zz text-center border-separate border-spacing-2 backdrop-blur-md shadow-lg bg-neutral-800/90 rounded-lg"
+        className="w-[30rem]zz text-center border-separate border-spacing-2 border-transparent backdrop-blur-md shadow-lg bg-neutral-800/20 rounded-md"
       >
         <caption className="font-bold text-lg capitalize w-fullzz text-left p-4">
           stats panel
@@ -229,7 +259,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -266,7 +296,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -309,7 +339,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full  w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -346,7 +376,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full  w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -389,7 +419,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full  w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -426,7 +456,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full  w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -469,7 +499,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full  w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -506,7 +536,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full  w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -549,7 +579,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full  w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -586,7 +616,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full  w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -629,7 +659,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full  w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -666,7 +696,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full  w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -709,7 +739,7 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full  w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
@@ -746,23 +776,47 @@ export const StatPanel = ({ customTem, updateCustomTem }: StatPanelProps) => {
                   <Slider.Track className="rounded-full h-1 w-full bg-white/5">
                     <Slider.Range className="h-full bg-blue-500/50" />
                   </Slider.Track>
-                  <Slider.Thumb className="outline-none appearance-none flex rounded-full w-6 h-6 bg-white focus:ring-4 ring-white/20" />
+                  <Slider.Thumb className="outline-none appearance-none flex rounded-full  w-3 h-3 bg-white focus:ring-4 ring-white/20" />
                 </Slider.Root>
               </div>
             </td>
             <td className="p-2">{spdefTotal}</td>
           </tr>
         </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan={5}>
+              <div className="flex justify-between items-center py-2 px-4 text-xs font-bold tracking-wide h-auto">
+                <span className="flex flex-row items-center gap-3">
+                  <span className="uppercase">Applied TVs:</span>
+                  <span className="flex justify-center items-center p-2 backdrop-blur-md shadow-lg bg-neutral-800/90 rounded-lg w-[5rem]">
+                    {tvTotal}
+                  </span>
+                </span>
+                <span className="flex flex-row items-center gap-3">
+                  <span className="uppercase">Remaining TVs:</span>
+                  <span className="flex justify-center items-center p-2 backdrop-blur-md shadow-lg bg-neutral-800/90 rounded-lg w-[5rem]">
+                    {TOTAL_TV_MAX - tvTotal}
+                  </span>
+                </span>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
       </table>
-      <div>Applied TVs: {tvTotal}</div>
-      <div>Remaining TVs: {TOTAL_TV_MAX - tvTotal}</div>
-      <div>
-        <span>sv</span>
-        <span>{JSON.stringify(customTem.svSpread)}</span>
-      </div>
-      <div>
-        <span>tv</span>
-        <span>{JSON.stringify(customTem.tvSpread)}</span>
+      <div className="absolute top-4 right-0 flex flex-row flex-nowrap justify-center items-center gap-3">
+        <button
+          className="capitalize text-xs tracking-wider flex whitespace-nowrap justify-center items-center py-2 px-4 rounded-md text-red-400 bg-red-800/50 outline-none appearance-none"
+          onClick={resetTV}
+        >
+          reset TVs
+        </button>
+        <button
+          className="capitalize text-xs tracking-wider flex whitespace-nowrap justify-center items-center py-2 px-4 rounded-md text-red-400 bg-red-800/50 outline-none appearance-none"
+          onClick={resetSV}
+        >
+          reset SVs
+        </button>
       </div>
     </Tab.Panel>
   );
