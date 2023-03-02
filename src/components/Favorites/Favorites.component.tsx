@@ -24,7 +24,7 @@ import { IconChevronRight, IconTrash } from "@tabler/icons-react";
 import React from "react";
 import { getSpecieLinkId } from "../SpecieList/SpecieList.component";
 
-export default forwardRef<HTMLDivElement>(function Favorites(
+export const Favorites = forwardRef<HTMLDivElement>(function Favorites(
   props,
   ref: React.ForwardedRef<HTMLDivElement>
 ) {
